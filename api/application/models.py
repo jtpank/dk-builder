@@ -8,28 +8,108 @@ import json
 #     db.Column('contestID', db.Integer, db.ForeignKey('contest.id'))
 # )
 
-#User and Schema
-class Users(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(30))
-    email = db.Column(db.String(30), unique=True)
-    password = db.Column(db.String(120))
+#Entry Model and Schema
+class Entry(db.Model):
+    id = db.Column(db.BigInteger, primary_key=True)
+    entry_id = db.Column(db.BigInteger, unique=True)
+    contest_name = db.Column(db.String(50))
+    contest_id = db.Column(db.BigInteger)
+    entry_fee = db.Column(db.Integer)
+    captain = db.Column(db.String(25))
+    util_1 = db.Column(db.String(25))
+    util_2 = db.Column(db.String(25))
+    util_3 = db.Column(db.String(25))
+    util_4 = db.Column(db.String(25))
+    util_5 = db.Column(db.String(25))
 
     def __repr__(self):
-        return '<USERS {}>'.format(self.username)
-    def __init__(self, username, email, password):
-        self.username =     username
-        self.email =        email
-        self.password =     generate_password_hash(password)
+        return '<Entry {}>'.format(self.entry_id)
 
-class UserSchema():
+class EntrySchema():
     resource_fields = {
-        "id": fields.Integer,
-        "username": fields.String,
-        "email": fields.String,
+        "id": fields.Integer(
+                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
+                        min=0 
+        ),
+        "entry_id": fields.Integer(
+                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
+                        min=0
+        ),
+        "contest_name": fields.String,
+        "contest_id": fields.Integer(
+                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
+                        min=0
+        ),
+        "entry_fee": fields.Integer,
+        "captain": fields.String,
+        "util_1": fields.String,
+        "util_2": fields.String,
+        "util_3": fields.String,
+        "util_4": fields.String,
+        "util_5": fields.String,
     }
     args_field = reqparse.RequestParser()
-    args_field.add_argument("username", type=str,help="username is required", required=True)
-    args_field.add_argument("email", type=str,help="email is required", required=True)
-    args_field.add_argument("password", type=str,help="password of user is required", required=True)
+    args_field.add_argument("entry_id", type=int,help="entry id is required", required=True)
+    args_field.add_argument("contest_name", type=str,help="contest name is required", required=True)
+    args_field.add_argument("contest_id", type=int,help="contest id is required", required=True)
+    args_field.add_argument("entry_fee", type=int,help="entry fee is required", required=True)
 
+#Salaries Model and Schema
+#note for this purpose, we need the contest id to be associated,
+# even though it is not a part of the salaries csv
+class Salaries(db.Model):
+    id = db.Column(db.BigInteger, primary_key=True)
+    contest_id = db.Column(db.BigInteger)
+    player_name = db.Column(db.String(25))
+    player_id = db.Column(db.BigInteger)
+    roster_position = db.Column(db.String(5))
+    salary = db.Column(db.Integer),
+    team_abbr = db.Column(db.String(3))
+    opp_team_abbr = db.Column(db.String(3))
+    game_location = db.Column(db.String(3))
+    datetime = db.Column(db.DateTime, format='%Y-%m-%d %H:%M:%S')
+    avg_pts = db.Column(db.Float)
+    def __repr__(self):
+        return '<Name: {}, PlayerID: {}, ContestID {}'.format(self.player_name, self.player_id, self.contest_id)
+class SalariesSchema:
+    resource_fields = {
+        "id": fields.Integer(
+                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
+                        min=0
+        ),
+        "contest_id": fields.Integer(
+                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
+                        min=0
+        ),
+        "player_name": fields.String,
+        "player_id": fields.Integer(
+                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
+                        min=0
+        ),
+        "roster_position": fields.String,
+        "salary": fields.Integer,
+        "team_abbr": fields.String,
+        "opp_team_abbr": fields.String,
+        "game_location": fields.String,
+        "datetime": fields.DateTime(dt_format='iso8601'),
+        "avg_pts": fields.Float,
+    }
+    args_field = reqparse.RequestParser()
+    args_field.add_argument("contest_id", type=int, required=True, help="contest_id is required")
+    args_field.add_argument("player_name", type=str, required=True, help="player_name is required")
+    args_field.add_argument("player_id", type=int, required=True, help="player_id is required")
+
+
+
+#DK Salaries CSV Schema
+#Position,Name + ID,Name,ID,
+# Roster Position,Salary,
+# Game Info,TeamAbbrev,AvgPointsPerGame
+#
+#DK Entries Example
+#Entry ID,Contest Name,Contest ID,Entry Fee,
+# CPT,UTIL,UTIL,UTIL,UTIL,UTIL,,Instructions
+#
+#DK Outputs Example
+# Entry ID,Contest Name,Contest ID,Entry Fee,
+# CPT,UTIL,UTIL,UTIL,UTIL,UTIL,,Instructions
