@@ -1,0 +1,64 @@
+:root {
+    /* Shades of dark purple */
+    /* --primary-color: #6B3A8D; */
+    /* --secondary-color: #5E366E; */
+    /* --tertiary-color: #4F2B5F; */
+    /* --quaternary-color: #3E1F4F; */
+    /* --quinary-color: #2D123F; */
+  
+    /* Lighter shades of purple for accent */
+    /* --accent-color-1: #8B5DA7; */
+    /* --accent-color-2: #B889C8; */
+    /* --accent-color-3: #E2C6E9; */
+  
+    /* --primary-color: #1d1e3d; rgb(29, 30, 61) */
+    /* --secondary-color: #242747; rgb(36, 39, 71); */
+    /* --tertiary-color: #24283b; rgb(36, 40, 59) */
+    /* --quaternary-color: #192230; rgb(25, 34, 48) */
+    /* --quinary-color: #030f27; rgb(3, 15, 39) */
+  
+    --primary-color: #1d1d1d; /* rgb(29, 29, 29) */
+    --secondary-color: #333333; /* rgb(51, 51, 51) */
+    --tertiary-color: #4d4d4d; /* rgb(77, 77, 77) */
+    --quaternary-color: #666666; /* rgb(102, 102, 102) */
+    --quinary-color: #808080; /* rgb(128, 128, 128) */
+  
+    --standard-border: border: solid 1px rgba(0, 214, 252, 1);
+    --background: #e74c3c;
+    --select-color: #fff;
+    --select-background: #c0392b;
+    --select-width: 220px;
+    --select-height: 40px; 
+    /* --primary-color: #1a237e;
+    --secondary-color: #303f9f;
+    --tertiary-color: #17548a;
+    --quaternary-color: #105091;
+    --quinary-color: #081c3b; */
+    
+    --accent-color-1: #8B5DA7;
+    --accent-color-2: #5E366E;
+    --accent-color-3: #2D123F;
+  
+  
+  }
+  
+  html, body {
+    text-decoration: none;
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-weight: normal;
+    letter-spacing: 1.8px;
+    /* background: linear-gradient(to bottom right,
+    var(--primary-color),
+    var(--secondary-color),
+    var(--tertiary-color),
+    var(--quaternary-color),
+    var(--quinary-color)
+  ); */
+    background-color: #1d1d1d;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    color: white;
+  }
