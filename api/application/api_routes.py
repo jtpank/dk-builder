@@ -10,7 +10,6 @@ from flask import current_app, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc, and_
 from .models import db
-from .models import Users, UserSchema
 import openpyxl as opx
 import os
 import subprocess
@@ -36,37 +35,37 @@ def abort_if_table_none(data):
     if data is None:
         abort(404, error_message_field="Field: table does not exist")
 
-class exampleRoute(Resource):
-    schema = UserSchema()
-    #get teams
-    #tokenize
-    @marshal_with(schema.resource_fields)
-    def get(self):
-        #query database for the team database -->
-        #TODO: this is an entry for all team names
-        data = db.session.query(UserSchema).all()
-        abort_if_table_none(data)
-        result_dict = {}
-        # Loop through the results and add them to the dictionary
-        for result in data:
-            # Use the `id` attribute of the result as the key
-            key = result.id
-            # Use a dictionary comprehension to create a dictionary of the remaining data
-            value = {column.name: getattr(result, column.name) for column in result.__table__.columns if column.name != 'id'}
-            # Add the key-value pair to the dictionary
-            result_dict[key] = value
-        return data, 200
-    #add/update team
-    #tokenize
-    @marshal_with(schema.resource_fields)
-    def put(self):
-        args = schema.args_field.parse_args()
-        return args, 201
-    #delete lineup
-    #tokenize
-    #TODO: update for team_name delete entry
-    def delete(self):
-        return '', 204
+# class exampleRoute(Resource):
+#     schema = UserSchema()
+#     #get teams
+#     #tokenize
+#     @marshal_with(schema.resource_fields)
+#     def get(self):
+#         #query database for the team database -->
+#         #TODO: this is an entry for all team names
+#         data = db.session.query(UserSchema).all()
+#         abort_if_table_none(data)
+#         result_dict = {}
+#         # Loop through the results and add them to the dictionary
+#         for result in data:
+#             # Use the `id` attribute of the result as the key
+#             key = result.id
+#             # Use a dictionary comprehension to create a dictionary of the remaining data
+#             value = {column.name: getattr(result, column.name) for column in result.__table__.columns if column.name != 'id'}
+#             # Add the key-value pair to the dictionary
+#             result_dict[key] = value
+#         return data, 200
+#     #add/update team
+#     #tokenize
+#     @marshal_with(schema.resource_fields)
+#     def put(self):
+#         args = schema.args_field.parse_args()
+#         return args, 201
+#     #delete lineup
+#     #tokenize
+#     #TODO: update for team_name delete entry
+#     def delete(self):
+#         return '', 204
 
 
 
@@ -84,4 +83,4 @@ class index_class(Resource):
         return {"api-for-dk" : "index_page"}
 #add resources
 api.add_resource(index_class, '/api')
-api.add_resource(exampleRoute, '/api/example')
+# api.add_resource(exampleRoute, '/api/example')

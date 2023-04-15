@@ -27,19 +27,10 @@ class Entry(db.Model):
 
 class EntrySchema():
     resource_fields = {
-        "id": fields.Integer(
-                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
-                        min=0 
-        ),
-        "entry_id": fields.Integer(
-                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
-                        min=0
-        ),
+        "id": fields.Integer,
+        "entry_id": fields.Integer,
         "contest_name": fields.String,
-        "contest_id": fields.Integer(
-                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
-                        min=0
-        ),
+        "contest_id": fields.Integer,
         "entry_fee": fields.Integer,
         "captain": fields.String,
         "util_1": fields.String,
@@ -63,35 +54,26 @@ class Salaries(db.Model):
     player_name = db.Column(db.String(25))
     player_id = db.Column(db.BigInteger)
     roster_position = db.Column(db.String(5))
-    salary = db.Column(db.Integer),
+    salary = db.Column(db.Integer)
     team_abbr = db.Column(db.String(3))
     opp_team_abbr = db.Column(db.String(3))
     game_location = db.Column(db.String(3))
-    datetime = db.Column(db.DateTime, format='%Y-%m-%d %H:%M:%S')
+    datetime = db.Column(db.String(25))
     avg_pts = db.Column(db.Float)
     def __repr__(self):
-        return '<Name: {}, PlayerID: {}, ContestID {}'.format(self.player_name, self.player_id, self.contest_id)
+        return '<Name: {}, PlayerID: {}, ContestID {}>'.format(self.player_name, self.player_id, self.contest_id)
 class SalariesSchema:
     resource_fields = {
-        "id": fields.Integer(
-                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
-                        min=0
-        ),
-        "contest_id": fields.Integer(
-                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
-                        min=0
-        ),
+        "id": fields.Integer,
+        "contest_id": fields.Integer,
         "player_name": fields.String,
-        "player_id": fields.Integer(
-                        max=9223372036854775807, # Maximum value for a 64-bit signed integer
-                        min=0
-        ),
+        "player_id": fields.Integer,
         "roster_position": fields.String,
         "salary": fields.Integer,
         "team_abbr": fields.String,
         "opp_team_abbr": fields.String,
         "game_location": fields.String,
-        "datetime": fields.DateTime(dt_format='iso8601'),
+        "datetime": fields.String,
         "avg_pts": fields.Float,
     }
     args_field = reqparse.RequestParser()
@@ -99,6 +81,14 @@ class SalariesSchema:
     args_field.add_argument("player_name", type=str, required=True, help="player_name is required")
     args_field.add_argument("player_id", type=int, required=True, help="player_id is required")
 
+#Outputs Model and Schema
+# Dont really need this yet
+# class Outputs(db.Model):
+#     id = db.Column(db.BigInteger, primary_key=True)
+#     entry_id = db.Column(db.BigInteger, unique=True)
+#     contest_name = db.Column(db.String(50))
+#     contest_id = db.Column(db.BigInteger)
+#     entry_fee = db.Column(db.Integer)
 
 
 #DK Salaries CSV Schema
