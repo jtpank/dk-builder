@@ -17,6 +17,7 @@ import csv
 import time
 import numpy as np
 import ast
+from .models import Salaries, SalariesSchema
 
 
 api_main = Blueprint('api', __name__, template_folder='templates')
@@ -34,6 +35,23 @@ def abort_if_none(data, _id):
 def abort_if_table_none(data):
     if data is None:
         abort(404, error_message_field="Field: table does not exist")
+
+class salaries_route(Resource):
+    schema = SalariesSchema()
+    @marshal_with(schema.resource_fields)
+    def get(self):
+        data = {"hit get salaries" : "route"}
+        return data, 200
+    @marshal_with(schema.resource_fields)
+    def put(self):
+        args = schema.args_field.parse_args()
+        return args, 201
+    #delete lineup
+    #tokenize
+    #TODO: update for team_name delete entry
+    def delete(self):
+        return '', 204
+
 
 # class exampleRoute(Resource):
 #     schema = UserSchema()
@@ -83,4 +101,5 @@ class index_class(Resource):
         return {"api-for-dk" : "index_page"}
 #add resources
 api.add_resource(index_class, '/api')
+api.add_resource(salaries_route, '/api/salaries-route')
 # api.add_resource(exampleRoute, '/api/example')
