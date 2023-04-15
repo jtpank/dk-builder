@@ -4,7 +4,7 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
-from werkzeug.security import check_password_hash
+from werkzeug.utils import secure_filename
 from flask_restful import reqparse, abort, Api, Resource, fields, marshal_with
 from flask import current_app, Blueprint
 from flask_sqlalchemy import SQLAlchemy
@@ -22,6 +22,7 @@ from .models import Salaries, SalariesSchema
 
 api_main = Blueprint('api', __name__, template_folder='templates')
 api = Api(api_main)
+app = current_app
 
 
 #404 response if field not existent
@@ -42,10 +43,24 @@ class salaries_route(Resource):
     def get(self):
         data = {"hit get salaries" : "route"}
         return data, 200
-    @marshal_with(schema.resource_fields)
+    # @marshal_with(schema.resource_fields)
     def put(self):
-        args = schema.args_field.parse_args()
-        return args, 201
+        if 'file' not in request.files:
+            return {'message': 'No file found!'}, 400
+        file = request.files['file']
+        # try:
+        #     file = request.files['file']
+        #     if not file.filename.lower().endswith('.csv'):
+        #         return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
+        #     # Parse the CSV file and process the data here
+        #     # ...
+        #     return {'message': 'File uploaded and processed successfully'}, 200
+        # except Exception as e:
+        #     return {'message': 'Failed to upload and process file: {}'.format(str(e))}, 500
+
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return {'message': 'File uploaded and processed successfully'}, 201
     #delete lineup
     #tokenize
     #TODO: update for team_name delete entry
