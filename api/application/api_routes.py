@@ -17,12 +17,20 @@ import csv
 import time
 import numpy as np
 import ast
-from .models import Salaries, SalariesSchema
+from .models import Salaries, SalariesSchema, Entry, EntrySchema
 
 
 api_main = Blueprint('api', __name__, template_folder='templates')
 api = Api(api_main)
 app = current_app
+
+#auxiliary functions
+def parseEntryCsv(filename):
+    with open(filename) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if(row['Entry ID']):
+                print(row['Entry ID'], row['Contest Name'])
 
 
 #404 response if field not existent
@@ -59,8 +67,41 @@ class salaries_route(Resource):
         #     return {'message': 'Failed to upload and process file: {}'.format(str(e))}, 500
 
         filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        return {'message': 'File uploaded and processed successfully'}, 201
+        fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(fullPath)
+        return {'message': 'Salary file uploaded and processed successfully'}, 201
+    #delete lineup
+    #tokenize
+    #TODO: update for team_name delete entry
+    def delete(self):
+        return '', 204
+    
+class entries_route(Resource):
+    schema = EntrySchema()
+    @marshal_with(schema.resource_fields)
+    def get(self):
+        data = {"hit get entries" : "route"}
+        return data, 200
+    # @marshal_with(schema.resource_fields)
+    def put(self):
+        if 'file' not in request.files:
+            return {'message': 'No file found!'}, 400
+        file = request.files['file']
+        # try:
+        #     file = request.files['file']
+        #     if not file.filename.lower().endswith('.csv'):
+        #         return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
+        #     # Parse the CSV file and process the data here
+        #     # ...
+        #     return {'message': 'File uploaded and processed successfully'}, 200
+        # except Exception as e:
+        #     return {'message': 'Failed to upload and process file: {}'.format(str(e))}, 500
+
+        filename = secure_filename(file.filename)
+        fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(fullPath)
+        parseEntryCsv(fullPath)
+        return {'message': 'Entry file uploaded and processed successfully'}, 201
     #delete lineup
     #tokenize
     #TODO: update for team_name delete entry
@@ -117,4 +158,5 @@ class index_class(Resource):
 #add resources
 api.add_resource(index_class, '/api')
 api.add_resource(salaries_route, '/api/salaries-route')
+api.add_resource(entries_route, '/api/entries-route')
 # api.add_resource(exampleRoute, '/api/example')

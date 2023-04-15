@@ -1,27 +1,55 @@
 
+import React from 'react';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import './styles/styles.css';
 import Splash from './routes/Splash';
 import TeamBuilder from './routes/TeamBuilder';
 import Charts from './routes/Charts';
 import Header from './components/Header';
-function App() {
-  return (
-    <BrowserRouter>
-    <div className="App">
-      <header className="App-header">
-        <Header></Header>
-      </header>
-      <div>
-        <Routes>
-          <Route path="/" element={<Splash/>}></Route>
-          <Route path="/team-builder" element={<TeamBuilder></TeamBuilder>} />
-          <Route path="/charts" element={<Charts></Charts>} />
-        </Routes>
+class App extends React.Component {
+  constructor(props){
+    super(props);
+    const {cookies} = props;
+    this.state = {
+     _entries_uploaded: false,
+     _salaries_uploaded: false
+    }
+    this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
+  }
+  handleUploadSuccess = (fileType) => {
+    this.setState({ [`_${fileType}_uploaded`]: true });
+  };
+  render() {
+    return (
+      <BrowserRouter>
+      <div className="App">
+        <header className="App-header">
+          <Header></Header>
+        </header>
+        <div>
+          <Routes>
+            <Route path="/" element={
+            <Splash
+            isEntriesUploaded={this.state._entries_uploaded}
+            isSalariesUploaded={this.state._salaries_uploaded}
+            onUploadSuccess={this.handleUploadSuccess}
+            ></Splash>}></Route>
+            <Route path="/team-builder" element={
+            <TeamBuilder
+            isEntriesUploaded={this.state._entries_uploaded}
+            isSalariesUploaded={this.state._salaries_uploaded}
+            ></TeamBuilder>} />
+            <Route path="/charts" element={<Charts></Charts>} />
+          </Routes>
+        </div>
       </div>
-    </div>
-    </BrowserRouter>
-  );
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
+// static propTypes = {
+//   cookies: instanceOf(Cookies).isRequired
+// };
+

@@ -38,13 +38,17 @@ class FileUpload extends Component {
 
     const formData = new FormData();
     formData.append('file', this.state.selectedFile);
-    const salaries_url ='http://127.0.0.1:5000/api/salaries-route';
-    fetch(salaries_url, {
+    const base_url = 'http://127.0.0.1:5000/api/'
+    const fetch_req = this.props.routeName;
+    const end_url = '-route';
+    const full_url = base_url + fetch_req + end_url;
+    fetch(full_url, {
             method: 'PUT',
             body: formData
         }).then(response => response.json())
         .then(data => {
-            console.log('data: ' + data.message);
+            console.log(data.message);
+            this.props.onUploadSuccess(this.props.routeName);
         }).catch(error => {
             console.error(error);
             alert(error.message);
