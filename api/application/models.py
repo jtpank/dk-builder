@@ -48,7 +48,7 @@ class EntrySchema():
 #Salaries Model and Schema
 #note for this purpose, we need the contest id to be associated,
 # even though it is not a part of the salaries csv
-class Salaries(db.Model):
+class Salary(db.Model):
     id = db.Column(db.BigInteger, primary_key=True)
     contest_id = db.Column(db.BigInteger)
     player_name = db.Column(db.String(25))
@@ -62,7 +62,7 @@ class Salaries(db.Model):
     avg_pts = db.Column(db.Float)
     def __repr__(self):
         return '<Name: {}, PlayerID: {}, ContestID {}>'.format(self.player_name, self.player_id, self.contest_id)
-class SalariesSchema:
+class SalarySchema:
     resource_fields = {
         "id": fields.Integer,
         "contest_id": fields.Integer,

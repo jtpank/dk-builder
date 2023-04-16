@@ -21,32 +21,58 @@ class Splash extends React.Component {
         {
             entries_disp = "Entries GOOD!";
         }
+
+        let viewField = <div>
+                            <div>
+                                <FileUpload
+                                onUploadSuccess={this.props.onUploadSuccess}
+                                onUploadContestId={this.props.onUploadContestId}
+                                contestId={this.props.contestId}
+                                fileName={"Contest Entries"}
+                                routeName={"entries"}
+                                isDisabled={this.props.isDisabled}
+                                >
+                                </FileUpload>
+                            </div>
+                        </div>
+        if(this.props.isEntriesUploaded)
+        {
+            viewField = <div>
+                            <div>
+                                <FileUpload
+                                onUploadSuccess={this.props.onUploadSuccess}
+                                onUploadContestId={this.props.onUploadContestId}
+                                contestId={this.props.contestId}
+                                fileName={"Contest Entries"}
+                                routeName={"entries"}
+                                isDisabled={this.props.isDisabled}
+                                >
+                                </FileUpload>
+                            </div>
+                            <div>
+                                <FileUpload
+                                onUploadSuccess={this.props.onUploadSuccess}
+                                onUploadContestId={this.props.onUploadContestId}
+                                contestId={this.props.contestId}
+                                fileName={"DK Salaries"}
+                                routeName={"salaries"}
+                                isDisabled={this.props.isDisabled}
+                                >
+                                </FileUpload>
+                            </div>
+                        </div>
+        }
         return (
         <div>
             <div>
-                <p>Splash Page</p>
+                <p>Splash Page - Please enter your contests entries and salaries!</p>
             </div>
-            
-            <div>
-                <FileUpload
-                onUploadSuccess={this.props.onUploadSuccess}
-                fileName={"DK Salaries"}
-                routeName={"salaries"}
-                >
-                </FileUpload>
-            </div>
-            <div>
-                <FileUpload
-                onUploadSuccess={this.props.onUploadSuccess}
-                fileName={"Contest Entries"}
-                routeName={"entries"}
-                >
-                </FileUpload>
-            </div>
+            {viewField}
             <div>
                 <div>
-                <p>{salaries_disp}</p>
                 <p>{entries_disp}</p>
+                <p>{salaries_disp}</p>
+                <p>Current Contest Entry: {this.props.contestId}</p>
                 </div>
 
             <Outlet></Outlet>

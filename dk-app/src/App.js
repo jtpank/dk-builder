@@ -12,13 +12,20 @@ class App extends React.Component {
     const {cookies} = props;
     this.state = {
      _entries_uploaded: false,
-     _salaries_uploaded: false
+     _salaries_uploaded: false,
+     _disable_salaries_upload: false,
+     _disable_entries_upload: false,
+     _contestId: -1,
     }
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
+    this.handleContestUpload = this.handleContestUpload.bind(this);
   }
-  handleUploadSuccess = (fileType) => {
-    this.setState({ [`_${fileType}_uploaded`]: true });
+  handleUploadSuccess(fileType){
+    this.setState({ [`_${fileType}_uploaded`]: true , [`disable_${fileType}_uploaded`]: true});
   };
+  handleContestUpload(id){
+    this.setState({_contestId: id})
+  }
   render() {
     return (
       <BrowserRouter>
@@ -33,9 +40,13 @@ class App extends React.Component {
             isEntriesUploaded={this.state._entries_uploaded}
             isSalariesUploaded={this.state._salaries_uploaded}
             onUploadSuccess={this.handleUploadSuccess}
+            onUploadContestId={this.handleContestUpload}
+            contestId={this.state._contestId}
+            isDisabled = {this._disable_salaries_upload}
             ></Splash>}></Route>
             <Route path="/team-builder" element={
             <TeamBuilder
+            contestId={this.state._contestId}
             isEntriesUploaded={this.state._entries_uploaded}
             isSalariesUploaded={this.state._salaries_uploaded}
             ></TeamBuilder>} />

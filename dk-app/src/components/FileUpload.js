@@ -5,7 +5,8 @@ class FileUpload extends Component {
     super(props);
     this.state = { 
         selectedFile: null, 
-        csvHeaders: [] 
+        csvHeaders: [],
+        contestId: -1,
     };
   }
 
@@ -38,6 +39,21 @@ class FileUpload extends Component {
 
     const formData = new FormData();
     formData.append('file', this.state.selectedFile);
+    let obj = {
+      contest_id: -1
+    }
+    if(this.props.contestId != null && this.props.contestId > 0)
+    {
+      obj = {
+        contest_id: this.props.contestId
+      }
+    }
+    let json = JSON.stringify(obj);
+    let blob = new Blob([json], {
+      type: 'application/json'
+    });
+    formData.append("blob", blob);
+  
     const base_url = 'http://127.0.0.1:5000/api/'
     const fetch_req = this.props.routeName;
     const end_url = '-route';
@@ -45,9 +61,18 @@ class FileUpload extends Component {
     fetch(full_url, {
             method: 'PUT',
             body: formData
-        }).then(response => response.json())
+        }).then(response => {
+          if (!response.ok) {
+              throw new Error("HTTP status " + response.status + " / Either wrong Entry.csv file, or server error");
+          }
+          return response.json();
+        })
         .then(data => {
-            console.log(data.message);
+            console.log(data.message + " | " + String(data.contest_id));
+            if(data.contest_id != null && data.contest_id > 0)
+            {
+              this.props.onUploadContestId(data.contest_id);
+            }
             this.props.onUploadSuccess(this.props.routeName);
         }).catch(error => {
             console.error(error);
@@ -61,7 +86,7 @@ class FileUpload extends Component {
     return (
       <div>
         <input type="file" onChange={this.handleFileChange} />
-        <button onClick={this.handleUpload}>Click to upload: {this.props.fileName}</button>
+        <button disabled={this.props.isDisabled} onClick={this.handleUpload}>Click to upload: {this.props.fileName}</button>
         {csvHeaders.length > 0 && <p>Headers: {csvHeaders.join(', ')}</p>}
       </div>
     );

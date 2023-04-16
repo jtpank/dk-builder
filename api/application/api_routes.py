@@ -17,21 +17,79 @@ import csv
 import time
 import numpy as np
 import ast
-from .models import Salaries, SalariesSchema, Entry, EntrySchema
-
+from .models import Salary, SalarySchema, Entry, EntrySchema
+import json
 
 api_main = Blueprint('api', __name__, template_folder='templates')
 api = Api(api_main)
 app = current_app
 
 #auxiliary functions
-def parseEntryCsv(filename):
+def parseEntryCsv(filename, listOfDicts):
+    # "entry_id": fields.Integer,
+    # "contest_name": fields.String,
+    # "contest_id": fields.Integer,
+    # "entry_fee": fields.Integer,
+    # "captain": fields.String,
+    contestId_return = -1
     with open(filename) as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
             if(row['Entry ID']):
-                print(row['Entry ID'], row['Contest Name'])
+                #build the temp dict
+                #then append to listOfDicts
+                contestId_return = (int)(row['Contest ID'])
+                temp_dict = {
+                    "entry_id": (int)( row['Entry ID']),
+                    "contest_name": row['Contest Name'],
+                    "contest_id": (int)(row['Contest ID']),
+                    "entry_fee": (int)(row['Entry Fee'][1:]),
+                }
+                listOfDicts.append(temp_dict)
+    return contestId_return
 
+def parseSalaryCsv(filename, listOfDicts, contestID):
+    # "contest_id": fields.Integer,
+    # "player_name": fields.String,
+    # "player_id": fields.Integer,
+    # "roster_position": fields.String,
+    # "salary": fields.Integer,
+    # "team_abbr": fields.String,
+    # "opp_team_abbr": fields.String,
+    # "game_location": fields.String,
+    # "datetime": fields.String,
+    # "avg_pts": fields.Float,
+    #Position,Name + ID,Name,ID,Roster Position,Salary,Game Info,TeamAbbrev,AvgPointsPerGame
+    with open(filename) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            if(row['Position']):
+                #build the temp dict
+                #then append to listOfDicts
+                strGameInfo = row['Game Info']
+                splitStrGameInfo = strGameInfo.split(' ', 1)
+                teamAtTeam = splitStrGameInfo[0]
+                dateTime = splitStrGameInfo[1]
+                splitTeamAtTeam = teamAtTeam.split('@')
+                awayTeam = splitTeamAtTeam[0]
+                homeTeam = splitTeamAtTeam[1]
+                oppTeam = awayTeam
+                if row['TeamAbbrev'] == awayTeam:
+                    oppTeam = homeTeam
+                temp_dict = {
+                    "contest_id": contestID,
+                    "player_name": row['Name'],
+                    "player_id": (int)(row['ID']),
+                    "roster_position": row['Roster Position'],
+                    "salary": (int)(row['Salary']),
+                    "team_abbr": row['TeamAbbrev'],
+                    "opp_team_abbr": oppTeam,
+                    "game_location": homeTeam,
+                    "datetime": dateTime,
+                    "avg_pts": (float)(row['AvgPointsPerGame'])
+                }
+                # print(temp_dict)
+                listOfDicts.append(temp_dict)
 
 #404 response if field not existent
 def abort_if_field_not_exist(data_field, data):
@@ -46,7 +104,7 @@ def abort_if_table_none(data):
         abort(404, error_message_field="Field: table does not exist")
 
 class salaries_route(Resource):
-    schema = SalariesSchema()
+    schema = SalarySchema()
     @marshal_with(schema.resource_fields)
     def get(self):
         data = {"hit get salaries" : "route"}
@@ -56,20 +114,32 @@ class salaries_route(Resource):
         if 'file' not in request.files:
             return {'message': 'No file found!'}, 400
         file = request.files['file']
-        # try:
-        #     file = request.files['file']
-        #     if not file.filename.lower().endswith('.csv'):
-        #         return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
-        #     # Parse the CSV file and process the data here
-        #     # ...
-        #     return {'message': 'File uploaded and processed successfully'}, 200
-        # except Exception as e:
-        #     return {'message': 'Failed to upload and process file: {}'.format(str(e))}, 500
+        try:
+            file = request.files['file']
+            contest_id = request.files['blob']
+            json_str = contest_id.read().decode('utf-8')
+            data_dict = json.loads(json_str)
+            contest_id_number = data_dict['contest_id']
+            if contest_id_number < 0:
+                return {'message': 'Salary file upload error: cannot use negative contest id', 'contest_id': -1}, 200
+            if not file.filename.lower().endswith('.csv'):
+                return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
+            filename = secure_filename(file.filename)
+            fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(fullPath)
+            listOfDicts = []
 
-        filename = secure_filename(file.filename)
-        fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(fullPath)
-        return {'message': 'Salary file uploaded and processed successfully'}, 201
+            parseSalaryCsv(fullPath,listOfDicts, contest_id_number)
+            for k in listOfDicts:
+                if db.session.query(Salary.id).filter_by(**k).first() is None:
+                  t = Salary(**k)
+                  db.session.add(t)
+                else:
+                    print("salary already exists!")
+            db.session.commit()
+            return {'message': 'Salary file uploaded and processed successfully', 'contest_id': -1}, 200
+        except Exception as e:
+            return {'message': 'Failed to upload and process salary file: {}'.format(str(e))}, 500
     #delete lineup
     #tokenize
     #TODO: update for team_name delete entry
@@ -87,21 +157,28 @@ class entries_route(Resource):
         if 'file' not in request.files:
             return {'message': 'No file found!'}, 400
         file = request.files['file']
-        # try:
-        #     file = request.files['file']
-        #     if not file.filename.lower().endswith('.csv'):
-        #         return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
-        #     # Parse the CSV file and process the data here
-        #     # ...
-        #     return {'message': 'File uploaded and processed successfully'}, 200
-        # except Exception as e:
-        #     return {'message': 'Failed to upload and process file: {}'.format(str(e))}, 500
+        try:
+            file = request.files['file']
+            if not file.filename.lower().endswith('.csv'):
+                return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
+            filename = secure_filename(file.filename)
+            fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(fullPath)
+            listOfDicts = []
+            contestId_return = parseEntryCsv(fullPath,listOfDicts)
+            for k in listOfDicts:
+                if db.session.query(Entry.id).filter_by(**k).first() is None:
+                  print(str(k))
+                  t = Entry(**k)
+                  db.session.add(t)
+                else:
+                    print("entry already exists!")
+            db.session.commit()
+            return {'message': 'Entry file uploaded and processed successfully', 'contest_id': contestId_return}, 200
+        except Exception as e:
+            return {'message': 'Failed to upload and process file: {}'.format(str(e))}, 500
 
-        filename = secure_filename(file.filename)
-        fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-        file.save(fullPath)
-        parseEntryCsv(fullPath)
-        return {'message': 'Entry file uploaded and processed successfully'}, 201
+
     #delete lineup
     #tokenize
     #TODO: update for team_name delete entry
