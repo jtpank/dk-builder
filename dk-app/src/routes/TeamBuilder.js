@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/styles.css';
+import DragAndDrop from '../components/DragAndDrop';
 import EntryField from '../components/EntryField';
 class TeamBuilder extends React.Component {
     constructor(props){
@@ -27,6 +28,9 @@ class TeamBuilder extends React.Component {
                 <p>{entries_disp}</p>
             </div>
             <EntryField></EntryField>
+            <div>
+                <DragAndDrop></DragAndDrop>
+            </div>
         </div>
         );
     }

@@ -62,3 +62,32 @@
     background-size: cover;
     color: white;
   }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 200px;
+  }
+  
+  th {
+    background-color: #333;
+    color: #fff;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #ddd;
+  }
+  
+  tr:nth-child(odd) {
+    background-color: #ccc;
+  }
+  
+  td {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+
+.drag-div {
+    background-color: purple;
+}
