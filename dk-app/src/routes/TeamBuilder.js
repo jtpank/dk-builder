@@ -23,7 +23,7 @@ class TeamBuilder extends React.Component {
         return (
         <div>
             <div>
-                <p>Team Builder Page</p>
+                <p>Team Builder Page -- Contest ID: {this.props.contestId}</p>
                 <p>{salaries_disp}</p>
                 <p>{entries_disp}</p>
             </div>
