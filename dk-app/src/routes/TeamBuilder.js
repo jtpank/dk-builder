@@ -6,7 +6,7 @@ class TeamBuilder extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-        
+            
         }
       }
     render() {
@@ -27,7 +27,10 @@ class TeamBuilder extends React.Component {
                 <p>{salaries_disp}</p>
                 <p>{entries_disp}</p>
             </div>
-            <EntryField></EntryField>
+            <EntryField
+            numEntries={this.props.numEntries}
+            contestId={this.props.contestId}
+            ></EntryField>
             <div>
                 <DragAndDrop></DragAndDrop>
             </div>

@@ -1,38 +1,36 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import EntryTable from './EntryTable';
+import DropdownSelector from './DropdownSelector';
 import '../styles/styles.css';
 class EntryField extends React.Component {
-    render() {
-        return(
-            <div className='splash-header'>
-                <table>
-                <thead>
-                    <tr>
-                    <th>Team</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                    <td>Cpt Row</td>
-                    </tr>
-                    <tr>
-                    <td>Util 1</td>
-                    </tr>
-                    <tr>
-                    <td>Util 2</td>
-                    </tr>
-                    <tr>
-                    <td>Util 3</td>
-                    </tr>
-                    <tr>
-                    <td>Util 4</td>
-                    </tr>
-                    <tr>
-                    <td>Util 5</td>
-                    </tr>
-                </tbody>
-                </table>
+    constructor(props) {
+        super(props);
+        this.state = { selectedName1: null, selectedName2: null };
+        this.handleSelectName1 = this.handleSelectName1.bind(this);
+        this.handleSelectName2 = this.handleSelectName2.bind(this);
+    }
+    handleSelectName1(name) {
+        this.setState({ selectedName1: name });
+      }
+    
+      handleSelectName2(name) {
+        this.setState({ selectedName2: name });
+    }
 
+    render() {
+        let tables = []
+        for(let i = 0; i < 10; ++i)
+        {
+            let row = <div className='teams-table-wrapper'>
+                        <EntryTable
+                        tableIndex={i+1}
+                        ></EntryTable>
+                    </div>
+            tables.push(row);
+        }
+        return(
+            <div className='teams-splash-header'>
+                {tables}
             </div>
     
         );

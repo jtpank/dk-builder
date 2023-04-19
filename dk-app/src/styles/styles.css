@@ -69,18 +69,18 @@
   }
   
   th {
-    background-color: #333;
+    background-color: #b3b2b2;
     color: #fff;
     padding: 8px;
     text-align: left;
   }
   
   tr:nth-child(even) {
-    background-color: #ddd;
+    background-color: #2b2a2a;
   }
   
   tr:nth-child(odd) {
-    background-color: #ccc;
+    background-color: #000000;
   }
   
   td {
@@ -90,4 +90,30 @@
 
 .drag-div {
     background-color: purple;
+}
+
+.teams-splash-header {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.teams-table-wrapper {
+  width: 20%;
+  max-width: 200px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.teams-entry-table {
+  width: 100%;
+  font-size: 0.7em;
+}
+@media only screen and (max-width: 768px) {
+  .teams-table-wrapper {
+    width: 25%;
+    max-width: 150px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+
+  }
 }

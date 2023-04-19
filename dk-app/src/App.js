@@ -16,6 +16,7 @@ class App extends React.Component {
      _disable_salaries_upload: false,
      _disable_entries_upload: false,
      _contestId: -1,
+     _num_entries: 0,
     }
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.handleContestUpload = this.handleContestUpload.bind(this);
@@ -47,6 +48,7 @@ class App extends React.Component {
             <Route path="/team-builder" element={
             <TeamBuilder
             contestId={this.state._contestId}
+            numEntries={this.state._num_entries}
             isEntriesUploaded={this.state._entries_uploaded}
             isSalariesUploaded={this.state._salaries_uploaded}
             ></TeamBuilder>} />
