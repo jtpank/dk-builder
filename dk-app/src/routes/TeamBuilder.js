@@ -35,7 +35,7 @@ class TeamBuilder extends React.Component {
                 ></DropdownSelector>
                 <DropdownSelector
                 contestId={this.props.contestId}
-                awaySalaryDict={this.props.awaySalaryDicts}
+                awaySalaryDict={this.props.awaySalaryDictss}
                 ></DropdownSelector>
             </div>
             <EntryField
