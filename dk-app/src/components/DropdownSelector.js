@@ -11,26 +11,6 @@ class DropdownSelector extends React.Component {
       this.props.onChange(event.target.value);
     }
 
-    // handleLoad(){
-    //   let full_url = 'http://127.0.0.1:5000/api/';
-    //   fetch(full_url, {
-    //       method: 'GET',
-    //       body: formData
-    //     }).then(response => {
-    //       if (!response.ok) {
-    //           throw new Error("HTTP status " + response.status + " / GET error");
-    //       }
-    //       return response.json();
-    //     })
-    //     .then(data => {
-    //         console.log(data.message + " | " + String(data.contest_id));
-
-    //     }).catch(error => {
-    //         console.error(error);
-    //         alert(error.message);
-    //     });
-    // }
-    
   
     render() {
       const options = this.props.names.map((name) => (
