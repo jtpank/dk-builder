@@ -4,18 +4,18 @@ class DropdownSelector extends React.Component {
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
-      this.ha
+      // this.onChange = this.onChange.bind(this);
     }
-  
     handleChange(event) {
-      this.props.onChange(event.target.value);
+      event.preventDefault();
+      console.log(event.target.value)
+      // this.props.onChange(event.target.value);
     }
-
   
     render() {
-      const options = this.props.names.map((name) => (
-        <option key={name} value={name}>
-          {name}
+      const options = this.props.playerDict.values.map((player) => (
+        <option key={Object.keys(player)[0]} value={player[Object.keys(player)[0]].player_name}>
+          {player[Object.keys(player)[0]].player_name}
         </option>
       ));
       return (

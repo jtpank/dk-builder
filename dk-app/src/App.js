@@ -38,6 +38,34 @@ class App extends React.Component {
     })
   }
   render() {
+    let tempHomeDict = {
+      "values" : [
+          {
+            201: {"player_name": "Giannis", "salary": 1000, "roster_position": "UTIL"}
+          },
+          {
+            889: {"player_name": "Giannis cpt", "salary": 2000, "roster_position": "CPT"}
+          }
+        ]
+    };
+
+    let tempAwayDict = {
+      "values" : [
+        {
+          301: {"player_name": "Lebron", "salary": 1200, "roster_position": "UTIL"}
+        },
+        {
+          102: {"player_name": "Lebron cpt", "salary": 3000, "roster_position": "CPT"}
+        },
+        {
+          1332: {"player_name": "Jordan", "salary": 3030, "roster_position": "UTIL"}
+        },
+        {
+          9032: {"player_name": "Jordan cpt", "salary": 9030, "roster_position": "CPT"}
+        }
+      ]
+    };
+
     return (
       <BrowserRouter>
       <div className="App">
@@ -60,8 +88,8 @@ class App extends React.Component {
             <TeamBuilder
             contestId={this.state._contestId}
             numEntries={this.state._num_entries}
-            homeSalaryDict={this.state._home_salary_dict}
-            awaySalaryDict={this.state._away_salary_dict}
+            homeSalaryDict={tempHomeDict}
+            awaySalaryDict={tempAwayDict}
             isEntriesUploaded={this.state._entries_uploaded}
             isSalariesUploaded={this.state._salaries_uploaded}
             ></TeamBuilder>} />

@@ -107,6 +107,12 @@ class salaries_route(Resource):
     schema = SalarySchema()
     # @marshal_with(schema.resource_fields)
     def get(self):
+        data_return = {"Home": {"values" : 
+                                {"ID": {"Name": "n", "Sal": 10}}
+                                },
+                        "Away": {"values"}
+                                }
+        
         data = {"hit get salaries" : "route"}
         return data, 200
     # @marshal_with(schema.resource_fields)
