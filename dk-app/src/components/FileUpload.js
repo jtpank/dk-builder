@@ -74,6 +74,11 @@ class FileUpload extends Component {
               this.props.onUploadContestId(data.contest_id);
             }
             this.props.onUploadSuccess(this.props.routeName);
+            if(this.props.routeName == 'salaries-route')
+            {
+              //here we want to fill the salary dict, as part of the APP state
+              this.props.handleSalaryUpload(data.salary_data);
+            }
         }).catch(error => {
             console.error(error);
             alert(error.message);
