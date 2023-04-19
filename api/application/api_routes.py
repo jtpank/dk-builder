@@ -105,7 +105,7 @@ def abort_if_table_none(data):
 
 class salaries_route(Resource):
     schema = SalarySchema()
-    @marshal_with(schema.resource_fields)
+    # @marshal_with(schema.resource_fields)
     def get(self):
         data = {"hit get salaries" : "route"}
         return data, 200
