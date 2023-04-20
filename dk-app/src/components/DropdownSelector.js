@@ -8,14 +8,24 @@ class DropdownSelector extends React.Component {
     }
     handleChange(event) {
       event.preventDefault();
-      console.log(event.target.value)
-      // this.props.onChange(event.target.value);
+      let player = this.props.playerDict.values.find(
+        (p) => p.player_name === event.target.value
+      );
+      if(this.props.whichRow === "UTIL")
+      {
+        this.props.onSelectUtility(player);
+      }
+      else
+      {
+        this.props.onSelectCaptain(player);
+      }
+      
     }
   
     render() {
       const options = this.props.playerDict.values.map((player) => (
-        <option key={Object.keys(player)[0]} value={player[Object.keys(player)[0]].player_name}>
-          {player[Object.keys(player)[0]].player_name}
+        <option key={player.player_id} value={player.player_name}>
+          {player.player_name}
         </option>
       ));
       return (
@@ -23,6 +33,7 @@ class DropdownSelector extends React.Component {
           <option value="">Select a name</option>
           {options}
         </select>
+
       );
     }
   }

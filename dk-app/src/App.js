@@ -41,28 +41,28 @@ class App extends React.Component {
     let tempCptDict = {
       "values" : [
           {
-            201: {"player_name": "Lebron cpt", "salary": 1000, "roster_position": "CPT"}
+            "player_id":201, "player_name": "Lebron cpt", "salary": 1000, "roster_position": "CPT"
           },
           {
-            889: {"player_name": "Giannis cpt", "salary": 2000, "roster_position": "CPT"}
+            "player_id":889, "player_name": "Giannis cpt", "salary": 2000, "roster_position": "CPT"
           },
-                  {
-          9032: {"player_name": "Jordan cpt", "salary": 9030, "roster_position": "CPT"}
-        }
+          {
+            "player_id":9032, "player_name": "Jordan cpt", "salary": 9030, "roster_position": "CPT"
+          }
         ]
     };
 
     let tempUtilDict = {
       "values" : [
         {
-          301: {"player_name": "Lebron", "salary": 1200, "roster_position": "UTIL"}
+          "player_id":333, "player_name": "Lebron", "salary": 1234, "roster_position": "UTIL"
         },
         {
-          102: {"player_name": "Giannis", "salary": 3000, "roster_position": "UTIL"}
+          "player_id":444, "player_name": "Giannis", "salary": 5553, "roster_position": "UTIL"
         },
         {
-          1332: {"player_name": "Jordan", "salary": 3030, "roster_position": "UTIL"}
-        },
+          "player_id":34233, "player_name": "Jordan", "salary": 2179, "roster_position": "UTIL"
+        }
       ]
     };
 

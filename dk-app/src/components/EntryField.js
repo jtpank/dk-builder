@@ -21,8 +21,10 @@ class EntryField extends React.Component {
         let tables = []
         for(let i = 0; i < 10; ++i)
         {
-            let row = <div className='teams-table-wrapper'>
+            let row = <div key={"_table_"+String(i)} className='teams-table-wrapper'>
                         <EntryTable
+                        captainDict={this.props.captainDict}
+                        utilityDict={this.props.utilityDict}
                         tableIndex={i+1}
                         ></EntryTable>
                     </div>

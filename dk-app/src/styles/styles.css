@@ -99,7 +99,7 @@
 
 .teams-table-wrapper {
   width: 20%;
-  max-width: 200px;
+  max-width: 400px;
   margin-right: 20px;
   margin-bottom: 20px;
 }
@@ -116,4 +116,10 @@
     margin-bottom: 20px;
 
   }
+}
+
+
+.captain-inline-block {
+  display: inline-block;
+  margin-right: 10px;
 }
