@@ -19,6 +19,7 @@ class App extends React.Component {
      _num_entries: 0,
      _cpt_salary_dict: {},
      _util_salary_dict: {},
+     _all_lineups: {},
     }
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.handleContestUpload = this.handleContestUpload.bind(this);
@@ -29,6 +30,23 @@ class App extends React.Component {
   };
   handleContestUpload(id){
     this.setState({_contestId: id})
+    //create dummy lineups
+    //set state of _num_entries
+    //iterate over num_entries and create empty _lineups:
+    // of the form
+    // _lineup: {
+    //     _captain: {},
+    //     _utility: [
+    //         {},
+    //         {},
+    //         {},
+    //         {},
+    //         {},
+    //     ]
+    // }
+    // Then finally remove from the entry table state and 
+    //pass as an indiviudal prop to each entry table component;
+
   }
   handleSalaryUpload(salary_data){
     //split data into home and away

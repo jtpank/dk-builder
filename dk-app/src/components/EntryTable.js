@@ -17,8 +17,6 @@ class EntryTable extends React.Component {
                     {},
                     {},
                 ]
-                // _util_1: {},
-                // _util_2: {},
             }
         }
       }
