@@ -1,16 +1,40 @@
 import React from 'react';
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import { Data } from "../utils/Data.js";
+import { BarChart } from '../components/BarChart';
 import '../styles/styles.css';
 
 class Charts extends React.Component {
-    render() {
+    constructor(props) {
+        super(props);
+    }
+
+    render() 
+    {Chart.register(CategoryScale);
+        const thisData =
+        {
+            labels: Data.map((data) => data.year), 
+            datasets: [
+            {
+                label: "Users Gained ",
+                data: Data.map((data) => data.userGain),
+                backgroundColor: [
+                "rgba(75,192,192,1)",
+                ],
+                borderColor: "black",
+                borderWidth: 2
+            }
+            ]
+        }
         return (
-        <div>
             <div>
-                <p>Charts Page</p>
+                <BarChart chartData={thisData} />
             </div>
-        </div>
         );
     }
 }
 
 export default Charts;
+
+
