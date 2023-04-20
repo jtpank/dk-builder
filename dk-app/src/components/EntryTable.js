@@ -1,4 +1,8 @@
 import React from 'react';
+import EntryTableRowHeader from './EntryTableRowHeader';
+import EntryTableRowCaptain from './EntryTableRowCaptain';
+import EntryTableRowUtility from './EntryTableRowUtility';
+import EntryTableRowFooter from './EntryTableRowFooter';
 import '../styles/styles.css';
 class EntryTable extends React.Component {
     constructor(props) {
@@ -12,46 +16,19 @@ class EntryTable extends React.Component {
       }
     
     render() {
+        let rows = [];
+        for(let i = 0; i < 5; ++i)
+        {
+            rows.push(
+                <EntryTableRowUtility></EntryTableRowUtility>
+            )
+        }
         return(
             <div className='splash-header'>
-                <table className='teams-entry-table'>
-                <thead>
-                    <tr>
-                    <th>Team {this.props.tableIndex}</th>
-                    <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Cpt Name</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 1 Name</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 2</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 3</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 4</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 5</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Total</td>
-                        <td>Sum</td>
-                    </tr>
-                </tbody>
-                </table>
+                <EntryTableRowHeader></EntryTableRowHeader>
+                <EntryTableRowCaptain></EntryTableRowCaptain>
+                {rows}
+                <EntryTableRowFooter></EntryTableRowFooter>
 
             </div>
     
@@ -60,40 +37,3 @@ class EntryTable extends React.Component {
 }
 
 export default EntryTable;
-
-{/* <thead>
-                    <tr>
-                    <th>Team {this.props.tableIndex}</th>
-                    <th>Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Cpt Name</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 1 Name</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 2</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 3</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 4</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Util 5</td>
-                        <td>1000</td>
-                    </tr>
-                    <tr>
-                        <td>Total</td>
-                        <td>Sum</td>
-                    </tr>
-                </tbody> */}

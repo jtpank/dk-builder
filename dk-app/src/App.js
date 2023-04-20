@@ -17,8 +17,8 @@ class App extends React.Component {
      _disable_entries_upload: false,
      _contestId: -1,
      _num_entries: 0,
-     _home_salary_dict: {},
-     _away_salary_dict: {},
+     _cpt_salary_dict: {},
+     _util_salary_dict: {},
     }
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.handleContestUpload = this.handleContestUpload.bind(this);
@@ -33,36 +33,36 @@ class App extends React.Component {
   handleSalaryUpload(salary_data){
     //split data into home and away
     this.setState({
-      _home_salary_dict: salary_data['Home'],
-      _away_salary_dict: salary_data['Away']
+      _cpt_salary_dict: salary_data['Captains'],
+      _util_salary_dict: salary_data['Utility']
     })
   }
   render() {
-    let tempHomeDict = {
+    let tempCptDict = {
       "values" : [
           {
-            201: {"player_name": "Giannis", "salary": 1000, "roster_position": "UTIL"}
+            201: {"player_name": "Lebron cpt", "salary": 1000, "roster_position": "CPT"}
           },
           {
             889: {"player_name": "Giannis cpt", "salary": 2000, "roster_position": "CPT"}
-          }
+          },
+                  {
+          9032: {"player_name": "Jordan cpt", "salary": 9030, "roster_position": "CPT"}
+        }
         ]
     };
 
-    let tempAwayDict = {
+    let tempUtilDict = {
       "values" : [
         {
           301: {"player_name": "Lebron", "salary": 1200, "roster_position": "UTIL"}
         },
         {
-          102: {"player_name": "Lebron cpt", "salary": 3000, "roster_position": "CPT"}
+          102: {"player_name": "Giannis", "salary": 3000, "roster_position": "UTIL"}
         },
         {
           1332: {"player_name": "Jordan", "salary": 3030, "roster_position": "UTIL"}
         },
-        {
-          9032: {"player_name": "Jordan cpt", "salary": 9030, "roster_position": "CPT"}
-        }
       ]
     };
 
@@ -88,8 +88,8 @@ class App extends React.Component {
             <TeamBuilder
             contestId={this.state._contestId}
             numEntries={this.state._num_entries}
-            homeSalaryDict={tempHomeDict}
-            awaySalaryDict={tempAwayDict}
+            cptSalaryDict={tempCptDict}
+            utilSalaryDict={tempUtilDict}
             isEntriesUploaded={this.state._entries_uploaded}
             isSalariesUploaded={this.state._salaries_uploaded}
             ></TeamBuilder>} />
