@@ -6,9 +6,23 @@ class EntryTableRowFooter extends React.Component {
       }
     
     render() {
+        let totalSalary = 0;
+        let cpt = this.props.captain;
+        let util = this.props.utilityArray;
+        if(Object.keys(cpt).length != 0)
+        {
+            totalSalary += cpt.salary;
+        }
+        for(let i = 0; i < util.length; ++i)
+        {
+            if(Object.keys(util[i]).length != 0)
+            {
+                totalSalary += util[i].salary;
+            }
+        }
         return(
             <div className='splash-header'>
-                <p>Footer</p>
+                <p>Total Salary: {totalSalary}</p>
             </div>
     
         );

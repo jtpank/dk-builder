@@ -8,7 +8,7 @@ class EntryTableRowHeader extends React.Component {
     render() {
         return(
             <div className='splash-header'>
-                <p>Header</p>
+                <p>Entry: {this.props.entryNumber}</p>
 
             </div>
     

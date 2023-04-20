@@ -63,14 +63,19 @@ class EntryTable extends React.Component {
         }
         return(
             <div className='splash-header'>
-                <EntryTableRowHeader></EntryTableRowHeader>
+                <EntryTableRowHeader
+                entryNumber={0}
+                ></EntryTableRowHeader>
                 <EntryTableRowCaptain
                 playerDict={this.props.captainDict}
                 onSelectCaptain={(cpt) => this.handleSelectCaptain(cpt)}
                 captain={this.state._lineup._captain}
                 ></EntryTableRowCaptain>
                 {rows}
-                <EntryTableRowFooter></EntryTableRowFooter>
+                <EntryTableRowFooter
+                captain={this.state._lineup._captain}
+                utilityArray={this.state._lineup._utility}
+                ></EntryTableRowFooter>
 
             </div>
     
