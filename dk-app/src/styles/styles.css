@@ -123,3 +123,6 @@
   display: inline-block;
   margin-right: 10px;
 }
+.bar-chart-style {
+  max-width: 800px;
+}

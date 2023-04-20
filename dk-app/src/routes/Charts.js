@@ -28,7 +28,7 @@ class Charts extends React.Component {
             ]
         }
         return (
-            <div>
+            <div className='bar-chart-style'>
                 <BarChart chartData={thisData} />
             </div>
         );
