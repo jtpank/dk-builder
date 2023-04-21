@@ -13,11 +13,11 @@ class DropdownSelector extends React.Component {
       );
       if(this.props.whichRow === "UTIL")
       {
-        this.props.onSelectUtility(player);
+        this.props.handleSelectUtility(player, this.props.lineupIndex, this.props.utilityId-1);
       }
       else
       {
-        this.props.onSelectCaptain(player);
+        this.props.handleSelectCaptain(player, this.props.lineupIndex);
       }
       
     }

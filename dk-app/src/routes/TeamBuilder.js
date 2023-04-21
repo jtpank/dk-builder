@@ -44,6 +44,9 @@ class TeamBuilder extends React.Component {
             contestId={this.props.contestId}
             utilityDict={this.props.utilSalaryDict}
             captainDict={this.props.cptSalaryDict}
+            allLineups={this.props.allLineups}
+            handleSelectCaptain={this.props.handleSelectCaptain}
+            handleSelectUtility={this.props.handleSelectUtility}
             ></EntryField>
             <div>
                 <DragAndDrop></DragAndDrop>

@@ -53,8 +53,10 @@ class EntryTable extends React.Component {
                 <EntryTableRowUtility
                 key={i}
                 playerDict={this.props.utilityDict}
-                onSelectUtility={(player) => this.handleSelectUtility(player, i)}
-                utility={this.state._lineup._utility[i]}
+                // onSelectUtility={(player) => this.handleSelectUtility(player, i)}
+                handleSelectUtility={this.props.handleSelectUtility}
+                utility={this.props.lineup._utility[i]}
+                lineupIndex={this.props.lineupIndex}
                 utilityId={i+1}
                 ></EntryTableRowUtility>
             )
@@ -62,17 +64,19 @@ class EntryTable extends React.Component {
         return(
             <div className='splash-header'>
                 <EntryTableRowHeader
-                entryNumber={0}
+                entryNumber={this.props.lineup._entry_id}
                 ></EntryTableRowHeader>
                 <EntryTableRowCaptain
                 playerDict={this.props.captainDict}
-                onSelectCaptain={(cpt) => this.handleSelectCaptain(cpt)}
-                captain={this.state._lineup._captain}
+                // onSelectCaptain={(cpt) => this.handleSelectCaptain(cpt)}
+                handleSelectCaptain={this.props.handleSelectCaptain}
+                captain={this.props.lineup._captain}
+                lineupIndex={this.props.lineupIndex}
                 ></EntryTableRowCaptain>
                 {rows}
                 <EntryTableRowFooter
-                captain={this.state._lineup._captain}
-                utilityArray={this.state._lineup._utility}
+                captain={this.props.lineup._captain}
+                utilityArray={this.props.lineup._utility}
                 ></EntryTableRowFooter>
 
             </div>

@@ -13,7 +13,9 @@ class EntryTableRowUtility extends React.Component {
                 <DropdownSelector className='captain-inline-block'
                 whichRow={"UTIL"}
                 playerDict={this.props.playerDict}
-                onSelectUtility={this.props.onSelectUtility}
+                handleSelectUtility={this.props.handleSelectUtility}
+                lineupIndex={this.props.lineupIndex}
+                utilityId={this.props.utilityId}
                 ></DropdownSelector>
                 <p className='captain-inline-block'>{this.props.utility.player_name}</p>
                 <p className='captain-inline-block'>{this.props.utility.salary}</p>

@@ -16,14 +16,51 @@ class App extends React.Component {
      _disable_salaries_upload: false,
      _disable_entries_upload: false,
      _contestId: -1,
-     _num_entries: 0,
+     _num_entries: 3,
      _cpt_salary_dict: {},
      _util_salary_dict: {},
-     _all_lineups: {},
+     _all_lineups:
+      [ 
+          {
+              _entry_id: 123,
+              _captain: {},
+              _utility: [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+              ]
+          },
+          {
+              _entry_id: 456,
+              _captain: {},
+              _utility: [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+              ]
+          },
+          {
+              _entry_id: 789,
+              _captain: {},
+              _utility: [
+                  {},
+                  {},
+                  {},
+                  {},
+                  {},
+              ]
+          }
+      ]
     }
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.handleContestUpload = this.handleContestUpload.bind(this);
     this.handleSalaryUpload = this.handleSalaryUpload.bind(this);
+    this.handleSelectCaptain = this.handleSelectCaptain.bind(this);
+    this.handleSelectUtility = this.handleSelectUtility.bind(this);
   }
   handleUploadSuccess(fileType){
     this.setState({ [`_${fileType}_uploaded`]: true , [`disable_${fileType}_uploaded`]: true});
@@ -55,6 +92,34 @@ class App extends React.Component {
       _util_salary_dict: salary_data['Utility']
     })
   }
+  //Lineup specific functions
+  handleSelectCaptain(cpt, lineupIndex) {
+    console.log("handle select captain function: ");
+    console.log(cpt.player_name);
+    console.log(cpt.salary);
+    let allLineups = [...this.state._all_lineups]; // make a copy of the lineup array
+    let lineup = {...allLineups[lineupIndex]}; // make a copy of the lineup object at the specified index
+    lineup._captain = cpt; // set the _captain object for the lineup
+    allLineups[lineupIndex] = lineup; // replace the lineup object at the specified index with the updated copy
+    this.setState({
+      _all_lineups: allLineups // set the state with the updated lineup array
+    });
+  }
+  handleSelectUtility(player, lineupIndex, index) {
+    console.log("handle select utility function");
+    console.log("index: " + String(index))
+    console.log("player: " + player);
+    const allLineups = [...this.state._all_lineups]; // make a copy of the lineup array
+    const lineup = {...allLineups[lineupIndex]}; // make a copy of the lineup object at the specified index
+    const utility = [...lineup._utility]; // make a copy of the _utility array
+    utility[index] = player; // set the player at the specified _utility index
+    lineup._utility = utility; // set the _utility array for the copied lineup object
+    allLineups[lineupIndex] = lineup; // replace the lineup object at the specified index with the updated copy
+    this.setState({
+      _all_lineups: allLineups // set the state with the updated lineup array
+    });
+  }
+
   render() {
     let tempCptDict = {
       "values" : [
@@ -110,8 +175,15 @@ class App extends React.Component {
             utilSalaryDict={tempUtilDict}
             isEntriesUploaded={this.state._entries_uploaded}
             isSalariesUploaded={this.state._salaries_uploaded}
+            allLineups={this.state._all_lineups}
+            handleSelectCaptain={(cpt, lineupIndex) => this.handleSelectCaptain(cpt, lineupIndex)}
+            handleSelectUtility={(player, lineupIndex, idx) => this.handleSelectUtility(player, lineupIndex, idx)}
             ></TeamBuilder>} />
-            <Route path="/charts" element={<Charts></Charts>} />
+            <Route path="/charts" element={
+            <Charts
+            allLineups={this.state._all_lineups}
+            ></Charts>
+            } />
           </Routes>
         </div>
       </div>

@@ -8,10 +8,13 @@ import '../styles/styles.css';
 class Charts extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+        }
     }
 
     render() 
-    {Chart.register(CategoryScale);
+    {
+        Chart.register(CategoryScale);
         const thisData =
         {
             labels: Data.map((data) => data.year), 
