@@ -1,8 +1,6 @@
 import React from 'react';
 import '../styles/styles.css';
-import DragAndDrop from '../components/DragAndDrop';
 import EntryField from '../components/EntryField';
-import DropdownSelector from '../components/DropdownSelector';
 class TeamBuilder extends React.Component {
     constructor(props){
         super(props);
@@ -38,6 +36,16 @@ class TeamBuilder extends React.Component {
                 playerDict={this.props.awaySalaryDict}
                 ></DropdownSelector> */}
             </div>
+            <div>
+                <button>Save and Lint Lineups</button>
+            </div>
+            <div>
+                <button>Download Lineup CSV</button>
+            </div>
+            <div>
+                Upload using this link:
+                <a target="_blank" rel="noopener noreferrer" href="https://www.draftkings.com/entry/upload">Entry Upload!</a>
+            </div>
             <EntryField
             key={"_entry_field_0"}
             numEntries={this.props.numEntries}
@@ -53,7 +61,6 @@ class TeamBuilder extends React.Component {
             isUtilitySet={this.props.isUtilitySet}
             ></EntryField>
             <div>
-                <DragAndDrop></DragAndDrop>
             </div>
         </div>
         );
