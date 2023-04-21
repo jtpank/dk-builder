@@ -19,11 +19,6 @@ class Charts extends React.Component {
             {
                 label: "Users Gained ",
                 data: Data.map((data) => data.userGain),
-                backgroundColor: [
-                "rgba(75,192,192,1)",
-                ],
-                borderColor: "black",
-                borderWidth: 2
             }
             ]
         }
