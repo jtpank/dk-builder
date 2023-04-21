@@ -182,6 +182,7 @@ class App extends React.Component {
             <Route path="/charts" element={
             <Charts
             allLineups={this.state._all_lineups}
+            numEntries={this.state._num_entries}
             ></Charts>
             } />
           </Routes>

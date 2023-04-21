@@ -15,13 +15,36 @@ class Charts extends React.Component {
     render() 
     {
         Chart.register(CategoryScale);
+        let exposureData = [];
+        let maxNumUtils = this.props.numEntries*5; // 5 utility per lineup
+        let captainMap = new Map();
+        let maxNumCaptains = this.props.numEntries; // 1 captain per lineup
+        for(let i = 0; i < maxNumCaptains; ++i)
+        {
+            const captain = this.props.allLineups[i]._captain;
+            if(captain != null && Object.keys(captain).length !== 0)  // captain is not empty and not null
+            {
+                if(captain.player_name != null)  //player name not null
+                {
+                    if(captainMap.has(captain.player_name))
+                    {
+                        let prevVal = captainMap.get(captain.player_name);
+                        captainMap.set(captain.player_name, prevVal + 1);
+                    }
+                    else
+                    {
+                        captainMap.set(captain.player_name,1);
+                    }
+                }
+            }
+        }
         const thisData =
         {
-            labels: Data.map((data) => data.year), 
+            labels: [...captainMap.keys()], 
             datasets: [
             {
-                label: "Users Gained ",
-                data: Data.map((data) => data.userGain),
+                label: "Percent Exposed ",
+                data: [...captainMap.values()].map(val => (val/(maxNumCaptains)).toPrecision(3)),
             }
             ]
         }
