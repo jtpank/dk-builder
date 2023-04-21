@@ -6,6 +6,7 @@ import Splash from './routes/Splash';
 import TeamBuilder from './routes/TeamBuilder';
 import Charts from './routes/Charts';
 import Header from './components/Header';
+import Groups from './routes/Groups';
 class App extends React.Component {
   constructor(props){
     super(props);
@@ -252,6 +253,8 @@ class App extends React.Component {
             numEntries={this.state._num_entries}
             ></Charts>
             } />
+            <Route path="/groups" element={<Groups></Groups>
+            }/>
           </Routes>
         </div>
       </div>
