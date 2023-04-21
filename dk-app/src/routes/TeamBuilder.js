@@ -47,6 +47,8 @@ class TeamBuilder extends React.Component {
             allLineups={this.props.allLineups}
             handleSelectCaptain={this.props.handleSelectCaptain}
             handleSelectUtility={this.props.handleSelectUtility}
+            handleSetEntryTableRowCaptain={this.props.handleSetEntryTableRowCaptain}
+            isCaptainSet={this.props.isCaptainSet}
             ></EntryField>
             <div>
                 <DragAndDrop></DragAndDrop>

@@ -18,6 +18,7 @@ class DropdownSelector extends React.Component {
       else
       {
         this.props.handleSelectCaptain(player, this.props.lineupIndex);
+        this.props.handleSetEntryTableRowCaptain(true, this.props.lineupIndex);
       }
       
     }
@@ -30,7 +31,7 @@ class DropdownSelector extends React.Component {
       ));
       return (
         <select value={this.props.value} onChange={this.handleChange}>
-          <option value="">Select a name</option>
+          <option value="Select" disabled selected>Select a name</option>
           {options}
         </select>
 

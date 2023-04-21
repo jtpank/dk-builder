@@ -62,7 +62,7 @@ class EntryTable extends React.Component {
             )
         }
         return(
-            <div className='splash-header'>
+            <div className='entry-table_container'>
                 <EntryTableRowHeader
                 entryNumber={this.props.lineup._entry_id}
                 ></EntryTableRowHeader>
@@ -70,6 +70,8 @@ class EntryTable extends React.Component {
                 playerDict={this.props.captainDict}
                 // onSelectCaptain={(cpt) => this.handleSelectCaptain(cpt)}
                 handleSelectCaptain={this.props.handleSelectCaptain}
+                handleSetEntryTableRowCaptain={this.props.handleSetEntryTableRowCaptain}
+                isCaptainSet={this.props.isCaptainSet}
                 captain={this.props.lineup._captain}
                 lineupIndex={this.props.lineupIndex}
                 ></EntryTableRowCaptain>

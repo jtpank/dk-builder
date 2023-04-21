@@ -121,8 +121,15 @@
 
 .captain-inline-block {
   display: inline-block;
+  font-size: small;
   margin-right: 10px;
 }
 .bar-chart-style {
-  max-width: 800px;
+  max-width: 500px;
+}
+
+.entry-table_container {
+  font-size: small;
+  border-color: #8B5DA7;
+  border-style: solid;
 }

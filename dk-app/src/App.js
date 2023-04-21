@@ -54,13 +54,19 @@ class App extends React.Component {
                   {},
               ]
           }
-      ]
+      ],
+     _is_captain_set: [
+      false,
+      false,
+      false,
+     ]
     }
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.handleContestUpload = this.handleContestUpload.bind(this);
     this.handleSalaryUpload = this.handleSalaryUpload.bind(this);
     this.handleSelectCaptain = this.handleSelectCaptain.bind(this);
     this.handleSelectUtility = this.handleSelectUtility.bind(this);
+    this.handleSetEntryTableRowCaptain = this.handleSetEntryTableRowCaptain.bind(this);
   }
   handleUploadSuccess(fileType){
     this.setState({ [`_${fileType}_uploaded`]: true , [`disable_${fileType}_uploaded`]: true});
@@ -104,6 +110,27 @@ class App extends React.Component {
     this.setState({
       _all_lineups: allLineups // set the state with the updated lineup array
     });
+  }
+  handleSetEntryTableRowCaptain(val, lineupIndex) {
+    console.log("handle captain set: " + String(val) + " index: " + String(lineupIndex));
+    let setCaptain = [...this.state._is_captain_set]; // make a copy of the lineup array
+    setCaptain[lineupIndex] = val;
+    this.setState({
+      _is_captain_set: setCaptain // set the state with the updated lineup array
+    });
+    if(!val)
+    {
+      //need to clear the field in the state
+      let allLineups = [...this.state._all_lineups]; // make a copy of the lineup array
+      let lineup = {...allLineups[lineupIndex]}; // make a copy of the lineup object at the specified index
+      lineup._captain = {}; // set the _captain object empty
+      allLineups[lineupIndex] = lineup; // replace the lineup object at the specified index with the updated copy
+      this.setState({
+        _all_lineups: allLineups // set the state with the updated lineup array
+      });
+
+    }
+
   }
   handleSelectUtility(player, lineupIndex, index) {
     console.log("handle select utility function");
@@ -187,6 +214,8 @@ class App extends React.Component {
             allLineups={this.state._all_lineups}
             handleSelectCaptain={(cpt, lineupIndex) => this.handleSelectCaptain(cpt, lineupIndex)}
             handleSelectUtility={(player, lineupIndex, idx) => this.handleSelectUtility(player, lineupIndex, idx)}
+            handleSetEntryTableRowCaptain={(val, lineupIndex) => this.handleSetEntryTableRowCaptain(val, lineupIndex)}
+            isCaptainSet={this.state._is_captain_set}
             ></TeamBuilder>} />
             <Route path="/charts" element={
             <Charts
