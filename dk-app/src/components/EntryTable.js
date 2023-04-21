@@ -55,6 +55,8 @@ class EntryTable extends React.Component {
                 playerDict={this.props.utilityDict}
                 // onSelectUtility={(player) => this.handleSelectUtility(player, i)}
                 handleSelectUtility={this.props.handleSelectUtility}
+                handleSetEntryTableRowUtility={this.props.handleSetEntryTableRowUtility}
+                isUtilitySet={this.props.isUtilitySet}
                 utility={this.props.lineup._utility[i]}
                 lineupIndex={this.props.lineupIndex}
                 utilityId={i+1}

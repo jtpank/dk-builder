@@ -59,7 +59,12 @@ class App extends React.Component {
       false,
       false,
       false,
-     ]
+     ],
+     _is_utility_set: [
+      [false,false,false,false,false],
+      [false,false,false,false,false],
+      [false,false,false,false,false]
+    ]
     }
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.handleContestUpload = this.handleContestUpload.bind(this);
@@ -67,6 +72,7 @@ class App extends React.Component {
     this.handleSelectCaptain = this.handleSelectCaptain.bind(this);
     this.handleSelectUtility = this.handleSelectUtility.bind(this);
     this.handleSetEntryTableRowCaptain = this.handleSetEntryTableRowCaptain.bind(this);
+    this.handleSetEntryTableRowUtility = this.handleSetEntryTableRowUtility.bind(this);
   }
   handleUploadSuccess(fileType){
     this.setState({ [`_${fileType}_uploaded`]: true , [`disable_${fileType}_uploaded`]: true});
@@ -146,6 +152,27 @@ class App extends React.Component {
       _all_lineups: allLineups // set the state with the updated lineup array
     });
   }
+  handleSetEntryTableRowUtility(val, lineupIndex, index) {
+    let setUtility = [...this.state._is_utility_set]; // make a copy of the lineup array
+    let utilityArray = setUtility[lineupIndex];
+    utilityArray[index] = val;
+    this.setState({
+      _is_utility_set: setUtility
+    });
+    if(!val)
+    {
+      const allLineups = [...this.state._all_lineups]; // make a copy of the lineup array
+      const lineup = {...allLineups[lineupIndex]}; // make a copy of the lineup object at the specified index
+      const utility = [...lineup._utility]; // make a copy of the _utility array
+      utility[index] = {}; // set the player at the specified _utility index
+      lineup._utility = utility; // set the _utility array for the copied lineup object
+      allLineups[lineupIndex] = lineup; // replace the lineup object at the specified index with the updated copy
+      this.setState({
+        _all_lineups: allLineups // set the state with the updated lineup array
+      });
+
+    }
+  }
 
   render() {
     let tempCptDict = {
@@ -216,6 +243,8 @@ class App extends React.Component {
             handleSelectUtility={(player, lineupIndex, idx) => this.handleSelectUtility(player, lineupIndex, idx)}
             handleSetEntryTableRowCaptain={(val, lineupIndex) => this.handleSetEntryTableRowCaptain(val, lineupIndex)}
             isCaptainSet={this.state._is_captain_set}
+            handleSetEntryTableRowUtility={(val, lineupIndex, index) => this.handleSetEntryTableRowUtility(val, lineupIndex, index)}
+            isUtilitySet={this.state._is_utility_set}
             ></TeamBuilder>} />
             <Route path="/charts" element={
             <Charts

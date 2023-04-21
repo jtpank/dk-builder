@@ -7,18 +7,37 @@ class EntryTableRowUtility extends React.Component {
       }
     
     render() {
-        return(
-            <div className='splash-header'>
-                <p className='captain-inline-block'>Utility {this.props.utilityId}</p>
-                <DropdownSelector className='captain-inline-block'
-                whichRow={"UTIL"}
-                playerDict={this.props.playerDict}
-                handleSelectUtility={this.props.handleSelectUtility}
-                lineupIndex={this.props.lineupIndex}
-                utilityId={this.props.utilityId}
-                ></DropdownSelector>
+        let rows;
+        if(!this.props.isUtilitySet[this.props.lineupIndex][this.props.utilityId-1])
+        {
+            rows = <div>
+            <p className='captain-inline-block'>Utility </p>
+            <DropdownSelector className='captain-inline-block'
+            whichRow={"UTIL"}
+            playerDict={this.props.playerDict}
+            handleSelectUtility={this.props.handleSelectUtility}
+            handleSetEntryTableRowUtility={this.props.handleSetEntryTableRowUtility}
+            isUtilitySet={this.props.isUtilitySet}
+            lineupIndex={this.props.lineupIndex}
+            utilityId={this.props.utilityId}
+            ></DropdownSelector>
+            </div>
+        }
+        else
+        {
+            rows = <div>
+                <button
+                onClick={()=> this.props.handleSetEntryTableRowUtility(false, this.props.lineupIndex, this.props.utilityId-1)}
+                >
+                Clear 
+                </button>
                 <p className='captain-inline-block'>{this.props.utility.player_name}</p>
                 <p className='captain-inline-block'>{this.props.utility.salary}</p>
+            </div>
+        }
+        return(
+            <div className='splash-header'>
+                {rows}
             </div>
     
         );

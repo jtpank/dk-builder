@@ -48,6 +48,8 @@ class EntryField extends React.Component {
                         handleSelectUtility={this.props.handleSelectUtility}
                         handleSetEntryTableRowCaptain={this.props.handleSetEntryTableRowCaptain}
                         isCaptainSet={this.props.isCaptainSet}
+                        handleSetEntryTableRowUtility={this.props.handleSetEntryTableRowUtility}
+                        isUtilitySet={this.props.isUtilitySet}
                         ></EntryTable>
                     </div>
             tables.push(row);

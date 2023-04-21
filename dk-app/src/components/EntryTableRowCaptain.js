@@ -12,7 +12,7 @@ class EntryTableRowCaptain extends React.Component {
         if(!this.props.isCaptainSet[this.props.lineupIndex])
         {
             rows = <div>
-            <p className='captain-inline-block'>Captain</p>
+            <p className='captain-inline-block'>Captain </p>
             <DropdownSelector className='captain-inline-block'
             whichRow={"CPT"}
             playerDict={this.props.playerDict}

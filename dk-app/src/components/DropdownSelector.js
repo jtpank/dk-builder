@@ -14,6 +14,7 @@ class DropdownSelector extends React.Component {
       if(this.props.whichRow === "UTIL")
       {
         this.props.handleSelectUtility(player, this.props.lineupIndex, this.props.utilityId-1);
+        this.props.handleSetEntryTableRowUtility(true,  this.props.lineupIndex, this.props.utilityId-1);
       }
       else
       {
