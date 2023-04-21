@@ -124,13 +124,13 @@ class App extends React.Component {
     let tempCptDict = {
       "values" : [
           {
-            "player_id":201, "player_name": "Lebron cpt", "salary": 1000, "roster_position": "CPT"
+            "player_id":201, "player_name": "Lebron", "salary": 1000, "roster_position": "CPT"
           },
           {
-            "player_id":889, "player_name": "Giannis cpt", "salary": 2000, "roster_position": "CPT"
+            "player_id":889, "player_name": "Giannis", "salary": 2000, "roster_position": "CPT"
           },
           {
-            "player_id":9032, "player_name": "Jordan cpt", "salary": 9030, "roster_position": "CPT"
+            "player_id":9032, "player_name": "Jordan", "salary": 9030, "roster_position": "CPT"
           }
         ]
     };
@@ -138,13 +138,22 @@ class App extends React.Component {
     let tempUtilDict = {
       "values" : [
         {
-          "player_id":333, "player_name": "Lebron", "salary": 1234, "roster_position": "UTIL"
+          "player_id":333, "player_name": "Lebron", "salary": 2000, "roster_position": "UTIL"
         },
         {
-          "player_id":444, "player_name": "Giannis", "salary": 5553, "roster_position": "UTIL"
+          "player_id":444, "player_name": "Giannis", "salary": 4000, "roster_position": "UTIL"
         },
         {
-          "player_id":34233, "player_name": "Jordan", "salary": 2179, "roster_position": "UTIL"
+          "player_id":34233, "player_name": "Jordan", "salary": 3300, "roster_position": "UTIL"
+        },
+        {
+          "player_id":33366, "player_name": "Jokic", "salary": 2200, "roster_position": "UTIL"
+        },
+        {
+          "player_id":2354234, "player_name": "Norman", "salary": 1100, "roster_position": "UTIL"
+        },
+        {
+          "player_id":981, "player_name": "Blake", "salary": 9000, "roster_position": "UTIL"
         }
       ]
     };

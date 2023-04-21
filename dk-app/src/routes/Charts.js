@@ -16,8 +16,8 @@ class Charts extends React.Component {
     {
         Chart.register(CategoryScale);
         let captainMap = new Map();
-        let maxNumCaptains = this.props.numEntries; // 1 captain per lineup
-        for(let i = 0; i < maxNumCaptains; ++i)
+        let entries = this.props.numEntries; // 1 captain per lineup
+        for(let i = 0; i < entries; ++i)
         {
             const captain = this.props.allLineups[i]._captain;
             if(captain != null && Object.keys(captain).length !== 0)  // captain is not empty and not null
@@ -42,71 +42,70 @@ class Charts extends React.Component {
             datasets: [
             {
                 label: "Percent Exposed ",
-                data: [...captainMap.values()].map(val => (val/(maxNumCaptains)).toPrecision(2)),
+                data: [...captainMap.values()].map(val => (val/(entries)).toPrecision(2)),
             }
             ]
         }
 
 
-        let utilityMap = new Map();
-        let maxNumUtilities = this.props.numEntries*5; // 5 utils per lineup
-        for(let i = 0; i < maxNumUtilities; ++i)
+        let totalPlayerMap = new Map();
+        for(let i = 0; i < entries; ++i)
         {
             const lineup = this.props.allLineups[i];
-            if(lineup && lineup._utility)
+            if(lineup)
             {
-                const utilArray = lineup._utility;
-                for(let j = 0; j < 5; ++j)
-                {
-                    const utilPlayer = utilArray[j];
-                    if(utilPlayer != null && Object.keys(utilPlayer).length != 0)
+                    if(lineup._utility)
                     {
-                        if(utilPlayer.player_name != null)
+                        const utilArray = lineup._utility;
+                        for(let j = 0; j < 5; ++j)
                         {
-                            if(utilityMap.has(utilPlayer.player_name))
+                            const utilPlayer = utilArray[j];
+                            if(utilPlayer != null && Object.keys(utilPlayer).length != 0)
                             {
-                                let prevVal = utilityMap.get(utilPlayer.player_name);
-                                utilityMap.set(utilPlayer.player_name, prevVal + 1);
-                            }
-                            else
-                            {
-                                utilityMap.set(utilPlayer.player_name,1);
+                                if(utilPlayer.player_name != null)
+                                {
+                                    if(totalPlayerMap.has(utilPlayer.player_name))
+                                    {
+                                        let prevVal = totalPlayerMap.get(utilPlayer.player_name);
+                                        totalPlayerMap.set(utilPlayer.player_name, prevVal + 1);
+                                    }
+                                    else
+                                    {
+                                        totalPlayerMap.set(utilPlayer.player_name,1);
+                                    }
+                                }
                             }
                         }
                     }
-                }
+                    if(lineup._captain)
+                    {
+                        const captain = this.props.allLineups[i]._captain;
+                        if(captain != null && Object.keys(captain).length !== 0)  // captain is not empty and not null
+                        {
+                            if(captain.player_name != null)  //player name not null
+                            {
+                                if(totalPlayerMap.has(captain.player_name))
+                                {
+                                    let prevVal = totalPlayerMap.get(captain.player_name);
+                                    totalPlayerMap.set(captain.player_name, prevVal + 1);
+                                }
+                                else
+                                {
+                                    totalPlayerMap.set(captain.player_name,1);
+                                }
+                            }
+                        }
+                    }
+
             }
-            // const utilArray = this.props.allLineups[i]._utility;
-            // if(utilArray != null)
-            // {
-            //     for(let j = 0; j < 5; ++j)
-            //     {
-            //         const utilPlayer = utilArray[j];
-            //         if(utilPlayer != null && Object.keys(utilPlayer).length != 0)
-            //         {
-            //             if(utilPlayer.player_name != null)
-            //             {
-            //                 if(utilityMap.has(utilPlayer.player_name))
-            //                 {
-            //                     let prevVal = utilityMap.get(utilPlayer.player_name);
-            //                     utilityMap.set(utilPlayer.player_name, prevVal + 1);
-            //                 }
-            //                 else
-            //                 {
-            //                     utilityMap.set(utilPlayer.player_name,1);
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
         }
         const utilityData =
         {
-            labels: [...utilityMap.keys()], 
+            labels: [...totalPlayerMap.keys()], 
             datasets: [
             {
                 label: "Percent Exposed ",
-                data: [...utilityMap.values()].map(val => (val/(maxNumUtilities)).toPrecision(2)),
+                data: [...totalPlayerMap.values()].map(val => (val/(entries)).toPrecision(2)),
             }
             ]
         }
@@ -118,7 +117,7 @@ class Charts extends React.Component {
 
                 <BarChart 
                 chartData={utilityData}
-                labelName={"Utility"} 
+                labelName={"Total"} 
                 />
             </div>
         );
