@@ -15,8 +15,6 @@ class Charts extends React.Component {
     render() 
     {
         Chart.register(CategoryScale);
-        let exposureData = [];
-        let maxNumUtils = this.props.numEntries*5; // 5 utility per lineup
         let captainMap = new Map();
         let maxNumCaptains = this.props.numEntries; // 1 captain per lineup
         for(let i = 0; i < maxNumCaptains; ++i)
@@ -38,19 +36,90 @@ class Charts extends React.Component {
                 }
             }
         }
-        const thisData =
+        const captainData =
         {
             labels: [...captainMap.keys()], 
             datasets: [
             {
                 label: "Percent Exposed ",
-                data: [...captainMap.values()].map(val => (val/(maxNumCaptains)).toPrecision(3)),
+                data: [...captainMap.values()].map(val => (val/(maxNumCaptains)).toPrecision(2)),
+            }
+            ]
+        }
+
+
+        let utilityMap = new Map();
+        let maxNumUtilities = this.props.numEntries*5; // 5 utils per lineup
+        for(let i = 0; i < maxNumUtilities; ++i)
+        {
+            const lineup = this.props.allLineups[i];
+            if(lineup && lineup._utility)
+            {
+                const utilArray = lineup._utility;
+                for(let j = 0; j < 5; ++j)
+                {
+                    const utilPlayer = utilArray[j];
+                    if(utilPlayer != null && Object.keys(utilPlayer).length != 0)
+                    {
+                        if(utilPlayer.player_name != null)
+                        {
+                            if(utilityMap.has(utilPlayer.player_name))
+                            {
+                                let prevVal = utilityMap.get(utilPlayer.player_name);
+                                utilityMap.set(utilPlayer.player_name, prevVal + 1);
+                            }
+                            else
+                            {
+                                utilityMap.set(utilPlayer.player_name,1);
+                            }
+                        }
+                    }
+                }
+            }
+            // const utilArray = this.props.allLineups[i]._utility;
+            // if(utilArray != null)
+            // {
+            //     for(let j = 0; j < 5; ++j)
+            //     {
+            //         const utilPlayer = utilArray[j];
+            //         if(utilPlayer != null && Object.keys(utilPlayer).length != 0)
+            //         {
+            //             if(utilPlayer.player_name != null)
+            //             {
+            //                 if(utilityMap.has(utilPlayer.player_name))
+            //                 {
+            //                     let prevVal = utilityMap.get(utilPlayer.player_name);
+            //                     utilityMap.set(utilPlayer.player_name, prevVal + 1);
+            //                 }
+            //                 else
+            //                 {
+            //                     utilityMap.set(utilPlayer.player_name,1);
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+        }
+        const utilityData =
+        {
+            labels: [...utilityMap.keys()], 
+            datasets: [
+            {
+                label: "Percent Exposed ",
+                data: [...utilityMap.values()].map(val => (val/(maxNumUtilities)).toPrecision(2)),
             }
             ]
         }
         return (
             <div className='bar-chart-style'>
-                <BarChart chartData={thisData} />
+                <BarChart 
+                chartData={captainData} 
+                labelName={"Captain"}/>
+
+                <BarChart 
+                chartData={utilityData}
+                labelName={"Utility"} 
+                />
             </div>
         );
     }
