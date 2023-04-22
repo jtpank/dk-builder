@@ -140,3 +140,9 @@
 .error-class-text {
   color: red;
 }
+.uploaded {
+  color: green;
+}
+.not-uploaded {
+  color: red;
+}

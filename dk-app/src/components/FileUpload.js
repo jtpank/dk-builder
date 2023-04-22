@@ -116,7 +116,7 @@ class FileUpload extends Component {
       <div>
         <input type="file" onChange={this.handleFileChange} />
         <button disabled={this.props.isDisabled} onClick={this.handleUpload}>Click to upload: {this.props.fileName}</button>
-        {csvHeaders.length > 0 && <p>Headers: {csvHeaders.join(', ')}</p>}
+        {/* {csvHeaders.length > 0 && <p>Headers: {csvHeaders.join(', ')}</p>} */}
       </div>
     );
   }

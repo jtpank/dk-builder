@@ -34,9 +34,9 @@ class Entry(db.Model):
     id = db.Column(db.BigInteger, primary_key=True)
     email = db.Column(db.String(30))
     entry_id = db.Column(db.BigInteger, unique=True)
-    contest_name = db.Column(db.String(50))
+    contest_name = db.Column(db.String(75))
     contest_id = db.Column(db.BigInteger)
-    entry_fee = db.Column(db.Integer)
+    entry_fee = db.Column(db.Float)
     captain =   db.Column(db.BigInteger)
     util_1 =    db.Column(db.BigInteger)
     util_2 =    db.Column(db.BigInteger)
@@ -54,7 +54,7 @@ class EntrySchema():
         "entry_id": fields.Integer,
         "contest_name": fields.String,
         "contest_id": fields.Integer,
-        "entry_fee": fields.Integer,
+        "entry_fee": fields.Float,
         "captain":  fields.Integer,
         "util_1":   fields.Integer,
         "util_2":   fields.Integer,
@@ -67,7 +67,7 @@ class EntrySchema():
     args_field.add_argument("email", type=str,help="email is required", required=True)
     args_field.add_argument("contest_name", type=str,help="contest name is required", required=True)
     args_field.add_argument("contest_id", type=int,help="contest id is required", required=True)
-    args_field.add_argument("entry_fee", type=int,help="entry fee is required", required=True)
+    args_field.add_argument("entry_fee", type=float,help="entry fee is required", required=True)
 
 #Salaries Model and Schema
 #note for this purpose, we need the contest id to be associated,

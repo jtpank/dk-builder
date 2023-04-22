@@ -34,12 +34,14 @@ class TeamBuilder extends React.Component {
                 corresponding email-entry id combinations */}
                 <button
                 onClick={this.props.handleSaveLintLineups}
-                >TODO: Save and Lint Lineups</button>
+                >Save and Lint Lineups</button>
             </div>
             <div> 
                 {/* Probably easiest to make this browser side... 
                 Can only be performed AFTER save and linted*/}
-                <button>TODO: Download Lineup CSV</button>
+                <button
+                onClick={this.props.handleDownloadLineupCsv}
+                >TODO: Download Lineup CSV</button>
             </div>
             <div>
                 {/* Fetch get request to load current lineups 

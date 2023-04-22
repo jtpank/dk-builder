@@ -50,6 +50,7 @@ class App extends React.Component {
     this.handleSetEntryTableRowUtility = this.handleSetEntryTableRowUtility.bind(this);
 
     this.handleSaveLintLineups = this.handleSaveLintLineups.bind(this);
+    this.handleDownloadLineupCsv = this.handleDownloadLineupCsv.bind(this);
   }
 
   handleCookiesUpdate(data) {
@@ -83,8 +84,11 @@ class App extends React.Component {
     return false;
   }
 
+  handleDownloadLineupCsv(){
+    console.log("fire handle download")
+  }
 
-  async handleSaveLintLineups() {
+ handleSaveLintLineups() {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
@@ -94,7 +98,7 @@ class App extends React.Component {
     const full_url = base_url + fetch_req + end_url;
     //this is a list of objects
     const bodyData = JSON.stringify({lineupData: this.state._all_lineups});
-    const myData = await fetch(full_url, {
+    fetch(full_url, {
             method: 'PUT',
             headers: myHeaders,
             body: bodyData
@@ -106,14 +110,13 @@ class App extends React.Component {
         })
         .then(data => {
           //  console.log(data.failureDict)
-           return data;
+          this.setState({
+            _failure_dict: data.failure_dict
+          })
         }).catch(error => {
             console.error(error);
             alert(error.message);
         });
-      this.setState({
-        _failure_dict: myData.failure_dict
-      })
     };
 
 
@@ -264,6 +267,8 @@ class App extends React.Component {
             isUtilitySet={this.state._is_utility_set}
             
             failureDict={this.state._failure_dict}
+            
+            handleDownloadLineupCsv={this.handleDownloadLineupCsv}
 
             _jwt={this.state._jwt}
             handleSaveLintLineups={this.handleSaveLintLineups}

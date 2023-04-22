@@ -47,7 +47,7 @@ def parseEntryCsv(filename, listOfDicts, inputEmail):
                     "entry_id": (int)( row['Entry ID']),
                     "contest_name": row['Contest Name'],
                     "contest_id": (int)(row['Contest ID']),
-                    "entry_fee": (int)(row['Entry Fee'][1:]),
+                    "entry_fee": (float)(row['Entry Fee'][1:]),
                 }
                 listOfDicts.append(temp_dict)
     return contestId_return, number_entries
@@ -233,6 +233,7 @@ class salaries_route(Resource):
             if not file.filename.lower().endswith('.csv'):
                 return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
             filename = secure_filename(file.filename)
+            #todo: os.mkdir
             fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(fullPath)
             listOfDicts = []
@@ -245,6 +246,7 @@ class salaries_route(Resource):
                 else:
                     print("salary already exists!")
             db.session.commit()
+            os.remove(fullPath)
             ret_data=  {
                 'message': 'Salary file uploaded and processed successfully', 
                 'contest_id': -1,
@@ -279,11 +281,13 @@ class entries_route(Resource):
             json_str = email_str.read().decode('utf-8')
             data_dict = json.loads(json_str)
             inputEmail = data_dict['email']
+            print("line 284")
             if not file.filename.lower().endswith('.csv'):
                 return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
             filename = secure_filename(file.filename)
             fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(fullPath)
+            print("line 290")
             listOfDicts = []
             contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts, inputEmail)
             for k in listOfDicts:
@@ -294,6 +298,8 @@ class entries_route(Resource):
                 else:
                     print("entry already exists!")
             db.session.commit()
+            os.remove(fullPath)
+            print("line 302")
             ret_data =  {
                 'message': 'Entry file uploaded and processed successfully', 
                 'contest_id': contestId_return,
@@ -422,6 +428,12 @@ class protectedRoute(Resource):
         current_user = get_jwt_identity()
         return make_response(jsonify(logged_in_as=current_user), 200)
 
+class downloadEntriesRoute(Resource):
+    @jwt_required()
+    def get(self):
+        # Access the identity of the current user with get_jwt_identity
+        data = {'message': "download entries route"}
+        return data, 200
 
 class index_class(Resource):
     def get(self):
@@ -443,4 +455,5 @@ api.add_resource(loginRoute, '/api/login')
 api.add_resource(protectedRoute, '/api/protected')
 api.add_resource(signupRoute, '/api/signup')
 api.add_resource(save_lint_entries_route, '/api/save-lint-entries-route')
+api.add_resource(downloadEntriesRoute,'/api/download-entries-route')
 # api.add_resource(exampleRoute, '/api/example')

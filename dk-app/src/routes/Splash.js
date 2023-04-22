@@ -12,15 +12,15 @@ class Splash extends React.Component {
         }
       }
     render() {
-        let salaries_disp = "Salaries not uploaded!";
-        let entries_disp = "Entries not uploaded!";
+        let salaries_disp = <p className='not-uploaded'>Salaries not uploaded!</p>;
+        let entries_disp = <p className='not-uploaded'>Entries not uploaded!</p>;
         if(this.props.isSalariesUploaded)
         {
-            salaries_disp = "Salaries GOOD!";
+            salaries_disp = <p className='uploaded'>Salaries GOOD!</p>;
         }
         if(this.props.isEntriesUploaded)
         {
-            entries_disp = "Entries GOOD!";
+            entries_disp = <p className='uploaded'>Entries GOOD!</p>;
         }
 
         let viewField = <div>
@@ -36,6 +36,10 @@ class Splash extends React.Component {
                                 _email={this.props._email}
                                 >
                                 </FileUpload>
+                            </div>
+                            <div>
+                            Download Entries from this link (select appropriate lineup):
+                                <a target="_blank" rel="noopener noreferrer" href="https://www.draftkings.com/mycontests">Get Entries Csv</a>
                             </div>
                         </div>
         if(this.props.isEntriesUploaded)
@@ -67,6 +71,10 @@ class Splash extends React.Component {
                                 >
                                 </FileUpload>
                             </div>
+                            <div>
+                            Download Salaries from the same link as entries, but select draft now then export to csv!
+                                <a target="_blank" rel="noopener noreferrer" href="https://www.draftkings.com/mycontests">Get Salaries Csv</a>
+                            </div>
                         </div>
         }
         return (
@@ -79,14 +87,15 @@ class Splash extends React.Component {
                     </div>
                     {viewField}
                     <div>
-                        <div>
-                        <p>{entries_disp}</p>
-                        <p>{salaries_disp}</p>
-                        <p>Current Contest Entry: {this.props.contestId}</p>
-                        </div>
-
-                    <Outlet></Outlet>
+                    {entries_disp}
                     </div>
+                    <div>
+                    {salaries_disp}
+                    </div>
+                    <div>
+                        <p>Current Contest Entry: {this.props.contestId}</p>
+                    </div>
+                    <Outlet></Outlet>
                 </div>
                 ) : 
                 (
