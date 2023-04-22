@@ -29,6 +29,7 @@ class EntryTable extends React.Component {
         return(
             <div className='entry-table_container'>
                 <EntryTableRowHeader
+                failureDict={this.props.failureDict}
                 entryNumber={this.props.lineup._entry_id}
                 ></EntryTableRowHeader>
                 <EntryTableRowCaptain

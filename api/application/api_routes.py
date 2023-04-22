@@ -347,7 +347,8 @@ class save_lint_entries_route(Resource):
                     print("You must have an entry before updating! Please upload entries file!")
             db.session.commit()
             ret_data =  {
-                'message': 'Succesfully checked and saved your lineups!', 
+                'message': 'Succesfully checked and saved your lineups!',
+                'failure_dict': ret_failure_dict 
             }
             return ret_data, 200
         except Exception as e:

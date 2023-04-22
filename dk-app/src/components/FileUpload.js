@@ -26,8 +26,12 @@ class FileUpload extends Component {
         alert('Failed to parse CSV file');
       }
     };
-
-    reader.readAsText(file);
+    try {
+      reader.readAsText(file);
+    } catch (e) {
+      console.error(e);
+      alert('Failed to readAsText');
+    }
   };
 
   handleUpload = () => {

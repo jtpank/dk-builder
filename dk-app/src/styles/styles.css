@@ -137,3 +137,6 @@
 .select-dropdown {
   max-width: 110px;
 }
+.error-class-text {
+  color: red;
+}

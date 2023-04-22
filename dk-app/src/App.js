@@ -33,7 +33,8 @@ class App extends React.Component {
      _num_entries: -1,
      _all_lineups: [],
     _is_captain_set: [],
-     _is_utility_set: []
+     _is_utility_set: [],
+     _failure_dict: {}
 
     }
     this.handleCookiesUpdate = this.handleCookiesUpdate.bind(this);
@@ -83,8 +84,7 @@ class App extends React.Component {
   }
 
 
-  handleSaveLintLineups() {
-    console.log("save and lint fired")
+  async handleSaveLintLineups() {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
@@ -94,26 +94,26 @@ class App extends React.Component {
     const full_url = base_url + fetch_req + end_url;
     //this is a list of objects
     const bodyData = JSON.stringify({lineupData: this.state._all_lineups});
-    console.log(bodyData)
-    fetch(full_url, {
+    const myData = await fetch(full_url, {
             method: 'PUT',
             headers: myHeaders,
             body: bodyData
         }).then(response => {
           if (!response.ok) {
-            console.log(response)
-            console.log(response.json())
               throw new Error("HTTP status " + response.status + " bad json lineup data or server error");
           }
           return response.json();
         })
         .then(data => {
-          console.log(data);
-           
+          //  console.log(data.failureDict)
+           return data;
         }).catch(error => {
             console.error(error);
             alert(error.message);
         });
+      this.setState({
+        _failure_dict: myData.failure_dict
+      })
     };
 
 
@@ -222,42 +222,6 @@ class App extends React.Component {
   }
 
   render() {
-    let tempCptDict = {
-      "values" : [
-          {
-            "player_id":201, "player_name": "Lebron", "salary": 1000, "roster_position": "CPT"
-          },
-          {
-            "player_id":889, "player_name": "Giannis", "salary": 2000, "roster_position": "CPT"
-          },
-          {
-            "player_id":9032, "player_name": "Jordan", "salary": 9030, "roster_position": "CPT"
-          }
-        ]
-    };
-
-    let tempUtilDict = {
-      "values" : [
-        {
-          "player_id":333, "player_name": "Lebron", "salary": 2000, "roster_position": "UTIL"
-        },
-        {
-          "player_id":444, "player_name": "Giannis", "salary": 4000, "roster_position": "UTIL"
-        },
-        {
-          "player_id":34233, "player_name": "Jordan", "salary": 3300, "roster_position": "UTIL"
-        },
-        {
-          "player_id":33366, "player_name": "Jokic", "salary": 2200, "roster_position": "UTIL"
-        },
-        {
-          "player_id":2354234, "player_name": "Norman", "salary": 1100, "roster_position": "UTIL"
-        },
-        {
-          "player_id":981, "player_name": "Blake", "salary": 9000, "roster_position": "UTIL"
-        }
-      ]
-    };
     return (
       <BrowserRouter>
       <div className="App">
@@ -299,6 +263,8 @@ class App extends React.Component {
             handleSetEntryTableRowUtility={(val, lineupIndex, index) => this.handleSetEntryTableRowUtility(val, lineupIndex, index)}
             isUtilitySet={this.state._is_utility_set}
             
+            failureDict={this.state._failure_dict}
+
             _jwt={this.state._jwt}
             handleSaveLintLineups={this.handleSaveLintLineups}
             ></TeamBuilder>} />
@@ -323,90 +289,3 @@ class App extends React.Component {
 }
 
 export default withCookies(App);
-
-
-//For testing state (no api)
-
-// _num_entries: 3,
-// _all_lineups:
-//  [ 
-//      {
-//          _entry_id: 123,
-//          _captain: {},
-//          _utility: [
-//              {},
-//              {},
-//              {},
-//              {},
-//              {},
-//          ]
-//      },
-//      {
-//          _entry_id: 456,
-//          _captain: {},
-//          _utility: [
-//              {},
-//              {},
-//              {},
-//              {},
-//              {},
-//          ]
-//      },
-//      {
-//          _entry_id: 789,
-//          _captain: {},
-//          _utility: [
-//              {},
-//              {},
-//              {},
-//              {},
-//              {},
-//          ]
-//      }
-//  ],
-// _is_captain_set: [
-//  false,
-//  false,
-//  false,
-// ],
-// _is_utility_set: [
-//  [false,false,false,false,false],
-//  [false,false,false,false,false],
-//  [false,false,false,false,false]
-// ]
-// let tempCptDict = {
-//   "values" : [
-//       {
-//         "player_id":201, "player_name": "Lebron", "salary": 1000, "roster_position": "CPT"
-//       },
-//       {
-//         "player_id":889, "player_name": "Giannis", "salary": 2000, "roster_position": "CPT"
-//       },
-//       {
-//         "player_id":9032, "player_name": "Jordan", "salary": 9030, "roster_position": "CPT"
-//       }
-//     ]
-// };
-
-// let tempUtilDict = {
-//   "values" : [
-//     {
-//       "player_id":333, "player_name": "Lebron", "salary": 2000, "roster_position": "UTIL"
-//     },
-//     {
-//       "player_id":444, "player_name": "Giannis", "salary": 4000, "roster_position": "UTIL"
-//     },
-//     {
-//       "player_id":34233, "player_name": "Jordan", "salary": 3300, "roster_position": "UTIL"
-//     },
-//     {
-//       "player_id":33366, "player_name": "Jokic", "salary": 2200, "roster_position": "UTIL"
-//     },
-//     {
-//       "player_id":2354234, "player_name": "Norman", "salary": 1100, "roster_position": "UTIL"
-//     },
-//     {
-//       "player_id":981, "player_name": "Blake", "salary": 9000, "roster_position": "UTIL"
-//     }
-//   ]
-// };

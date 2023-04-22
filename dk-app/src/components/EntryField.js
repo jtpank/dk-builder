@@ -24,6 +24,7 @@ class EntryField extends React.Component {
                         isCaptainSet={this.props.isCaptainSet}
                         handleSetEntryTableRowUtility={this.props.handleSetEntryTableRowUtility}
                         isUtilitySet={this.props.isUtilitySet}
+                        failureDict={this.props.failureDict}
                         ></EntryTable>
                     </div>
             tables.push(row);
