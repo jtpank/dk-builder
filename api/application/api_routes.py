@@ -205,6 +205,7 @@ class entries_route(Resource):
                 'message': 'Entry file uploaded and processed successfully', 
                 'contest_id': contestId_return,
                 'num_entries': num_entries_return,
+                'entry_data': listOfDicts
                 }
             return ret_data, 200
         except Exception as e:

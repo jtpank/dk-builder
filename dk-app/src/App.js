@@ -36,12 +36,14 @@ class App extends React.Component {
   handleUploadSuccess(fileType){
     this.setState({ [`_${fileType}_uploaded`]: true , [`disable_${fileType}_uploaded`]: true});
   };
-  handleContestUpload(id, numEntries){
+  handleContestUpload(id, numEntries, entry_data){
     let allLineups = [];
     let isCaptainSet = [];
     let isUtilitySet = [];
-    let obj =   {
-        _entry_id: -1,
+    //create dummy lineups
+    for (let i = 0; i < numEntries; ++i) {
+      let obj =   {
+        _entry_id: entry_data[i]['entry_id'],
         _captain: {},
         _utility: [
           {}, 
@@ -51,8 +53,6 @@ class App extends React.Component {
           {}
         ]
   }
-    //create dummy lineups
-    for (let i = 0; i < numEntries; ++i) {
       allLineups.push({...obj});
       isCaptainSet.push(false);
       isUtilitySet.push([false, false, false, false, false]);

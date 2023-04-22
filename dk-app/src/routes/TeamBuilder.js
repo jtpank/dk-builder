@@ -29,10 +29,13 @@ class TeamBuilder extends React.Component {
             <div>
             </div>
             <div>
-                <button>Save and Lint Lineups</button>
+                <button>TODO: Save and Lint Lineups</button>
             </div>
             <div>
-                <button>Download Lineup CSV</button>
+                <button>TODO: Download Lineup CSV</button>
+            </div>
+            <div>
+                <button>TODO: Load Saved Lineups</button>
             </div>
             <div>
                 Upload using this link:
