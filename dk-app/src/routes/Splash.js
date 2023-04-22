@@ -33,6 +33,7 @@ class Splash extends React.Component {
                                 routeName={"entries"}
                                 isDisabled={this.props.isDisabled}
                                 _jwt={this.props._jwt}
+                                _email={this.props._email}
                                 >
                                 </FileUpload>
                             </div>
@@ -49,6 +50,7 @@ class Splash extends React.Component {
                                 routeName={"entries"}
                                 isDisabled={this.props.isDisabled}
                                 _jwt={this.props._jwt}
+                                _email={this.props._email}
                                 >
                                 </FileUpload>
                             </div>
@@ -61,6 +63,7 @@ class Splash extends React.Component {
                                 routeName={"salaries"}
                                 isDisabled={this.props.isDisabled}
                                 _jwt={this.props._jwt}
+                                _email={this.props._email}
                                 >
                                 </FileUpload>
                             </div>

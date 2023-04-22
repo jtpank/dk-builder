@@ -42,10 +42,19 @@ class FileUpload extends Component {
     let obj = {
       contest_id: -1
     }
+    let email_obj = {
+      email: "none"
+    }
     if(this.props.contestId != null && this.props.contestId > 0)
     {
       obj = {
         contest_id: this.props.contestId
+      }
+    }
+    if(this.props._email != null && this.props._email.length > 0)
+    {
+      email_obj = {
+        email: this.props._email
       }
     }
     const myHeaders = new Headers();
@@ -55,6 +64,13 @@ class FileUpload extends Component {
       type: 'application/json'
     });
     formData.append("blob", blob);
+
+    
+    let json_email = JSON.stringify(email_obj);
+    let blob_email = new Blob([json_email], {
+      type: 'application/json'
+    });
+    formData.append("blob_email", blob_email);
   
     const base_url = 'http://127.0.0.1:5000/api/'
     const fetch_req = this.props.routeName;

@@ -32,6 +32,7 @@ class UserSchema():
 #Entry Model and Schema
 class Entry(db.Model):
     id = db.Column(db.BigInteger, primary_key=True)
+    email = db.Column(db.String(30))
     entry_id = db.Column(db.BigInteger, unique=True)
     contest_name = db.Column(db.String(50))
     contest_id = db.Column(db.BigInteger)
@@ -49,6 +50,7 @@ class Entry(db.Model):
 class EntrySchema():
     resource_fields = {
         "id": fields.Integer,
+        "email": fields.String,
         "entry_id": fields.Integer,
         "contest_name": fields.String,
         "contest_id": fields.Integer,
@@ -62,6 +64,7 @@ class EntrySchema():
     }
     args_field = reqparse.RequestParser()
     args_field.add_argument("entry_id", type=int,help="entry id is required", required=True)
+    args_field.add_argument("email", type=str,help="email is required", required=True)
     args_field.add_argument("contest_name", type=str,help="contest name is required", required=True)
     args_field.add_argument("contest_id", type=int,help="contest id is required", required=True)
     args_field.add_argument("entry_fee", type=int,help="entry fee is required", required=True)
@@ -101,6 +104,7 @@ class SalarySchema:
     args_field.add_argument("contest_id", type=int, required=True, help="contest_id is required")
     args_field.add_argument("player_name", type=str, required=True, help="player_name is required")
     args_field.add_argument("player_id", type=int, required=True, help="player_id is required")
+
 
 #Outputs Model and Schema
 # Dont really need this yet

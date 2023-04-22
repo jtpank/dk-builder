@@ -26,7 +26,7 @@ api = Api(api_main)
 app = current_app
 
 #auxiliary functions
-def parseEntryCsv(filename, listOfDicts):
+def parseEntryCsv(filename, listOfDicts, inputEmail):
     # "entry_id": fields.Integer,
     # "contest_name": fields.String,
     # "contest_id": fields.Integer,
@@ -43,6 +43,7 @@ def parseEntryCsv(filename, listOfDicts):
                 #then append to listOfDicts
                 contestId_return = (int)(row['Contest ID'])
                 temp_dict = {
+                    "email": inputEmail,
                     "entry_id": (int)( row['Entry ID']),
                     "contest_name": row['Contest Name'],
                     "contest_id": (int)(row['Contest ID']),
@@ -192,13 +193,17 @@ class entries_route(Resource):
         file = request.files['file']
         try:
             file = request.files['file']
+            email_str = request.files['blob_email']
+            json_str = email_str.read().decode('utf-8')
+            data_dict = json.loads(json_str)
+            inputEmail = data_dict['email']
             if not file.filename.lower().endswith('.csv'):
                 return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
             filename = secure_filename(file.filename)
             fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(fullPath)
             listOfDicts = []
-            contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts)
+            contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts, inputEmail)
             for k in listOfDicts:
                 if db.session.query(Entry.id).filter_by(**k).first() is None:
                   print(str(k))
@@ -234,8 +239,6 @@ class loginRoute(Resource):
         email = data.get("email", None)
         password = data.get("password", None)
         #now query database for matching email and password
-        #if user exists in db
-        #user_email = db.session.query(Users).filter_by(email=email).first()
         user_email = db.session.query(Users).filter_by(email=email).first()
         if not user_email:
             response = jsonify({"msg": "Cannot find a user with that email!"})

@@ -32,20 +32,20 @@ class DropdownSelector extends React.Component {
       if(Object.keys(this.props.playerDict).length > 0)
       {
         options = this.props.playerDict.values.map((player) => (
-          <option key={player.player_id} value={player.player_name}>
-            {player.player_name}
+          <option className='option-dropdown' key={player.player_id} value={player.player_name}>
+            {player.player_name} | {player.salary} | {player.team_abbr}
           </option>
         ));
       }
       else
       {
-        options = <option value="none" disabled>
+        options = <option className='option-dropdown' value="none" disabled>
           Please upload salaries!
         </option>
       }
       return (
-        <select defaultValue="" onChange={this.handleChange}>
-          <option value="" disabled>Select a name</option>
+        <select className='select-dropdown' defaultValue="" onChange={this.handleChange}>
+          <option className='option-dropdown' value="" disabled>Select a name</option>
           {options}
         </select>
 

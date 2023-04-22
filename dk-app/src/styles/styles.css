@@ -133,3 +133,7 @@
   border-color: #8B5DA7;
   border-style: solid;
 }
+
+.select-dropdown {
+  max-width: 110px;
+}
