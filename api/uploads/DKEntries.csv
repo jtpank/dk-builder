@@ -1,0 +1,76 @@
+Entry ID,Contest Name,Contest ID,Entry Fee,CPT,UTIL,UTIL,UTIL,UTIL,UTIL,,Instructions
+3730328529,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,Jimmy Butler (27542590),Bam Adebayo (27542559),Jrue Holiday (27542557),Khris Middleton (27542558),Victor Oladipo (27542570),Gabe Vincent (27542566),,1. Column A lists all of your contest entries for this draftgroup
+3730992860,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,2. Your current lineup is listed next to each entry (blank for reservations)
+3730992861,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,3. You can change the lineup for an entry by entering the IDs of the players in the row next to that entry
+3730992862,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,4. Use data from the Name+ID column or the ID column; you cannot use just the player's name
+3730992863,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,5. For faster processing only include entries you are changing in the file you upload
+3730992864,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,
+3730992865,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,Position,Name + ID,Name,ID,Roster Position,Salary,Game Info,TeamAbbrev,AvgPointsPerGame
+3730992866,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,PF/C,Giannis Antetokounmpo (27542589),Giannis Antetokounmpo,27542589,CPT,17400,MIA@MIL 04/19/2023 09:00PM ET,MIL,56.68
+3730992867,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,SF/PF,Jimmy Butler (27542590),Jimmy Butler,27542590,CPT,15000,MIA@MIL 04/19/2023 09:00PM ET,MIA,42.65
+3730992868,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,PG,Jrue Holiday (27542591),Jrue Holiday,27542591,CPT,13800,MIA@MIL 04/19/2023 09:00PM ET,MIL,40.06
+3730992869,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,SF,Khris Middleton (27542592),Khris Middleton,27542592,CPT,13500,MIA@MIL 04/19/2023 09:00PM ET,MIL,29.92
+3730992870,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,C,Bam Adebayo (27542593),Bam Adebayo,27542593,CPT,12900,MIA@MIL 04/19/2023 09:00PM ET,MIA,40.03
+3730992871,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,PF/C,Giannis Antetokounmpo (27542555),Giannis Antetokounmpo,27542555,UTIL,11600,MIA@MIL 04/19/2023 09:00PM ET,MIL,56.68
+3730992872,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,C,Brook Lopez (27542594),Brook Lopez,27542594,CPT,11100,MIA@MIL 04/19/2023 09:00PM ET,MIL,32.30
+3730992873,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,PF/C,Bobby Portis (27542595),Bobby Portis,27542595,CPT,10200,MIA@MIL 04/19/2023 09:00PM ET,MIL,30.56
+3730992874,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,SF/PF,Jimmy Butler (27542556),Jimmy Butler,27542556,UTIL,10000,MIA@MIL 04/19/2023 09:00PM ET,MIA,42.65
+3730992875,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,SG/SF,Max Strus (27542596),Max Strus,27542596,CPT,9900,MIA@MIL 04/19/2023 09:00PM ET,MIA,21.07
+3730992876,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,,,,,,,,PG,Kyle Lowry (27542597),Kyle Lowry,27542597,CPT,9300,MIA@MIL 04/19/2023 09:00PM ET,MIA,26.78
+3731002958,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,Jimmy Butler (27542590),Bam Adebayo (27542559),Brook Lopez (27542560),Khris Middleton (27542558),Victor Oladipo (27542570),Gabe Vincent (27542566),,PG,Jrue Holiday (27542557),Jrue Holiday,27542557,UTIL,9200,MIA@MIL 04/19/2023 09:00PM ET,MIL,40.06
+3731002959,NBA Showdown $4K Sharpshooter (MIA vs MIL),143639444,$3,Jimmy Butler (27542590),Bam Adebayo (27542559),Jrue Holiday (27542557),Khris Middleton (27542558),Victor Oladipo (27542570),Gabe Vincent (27542566),,SF,Khris Middleton (27542558),Khris Middleton,27542558,UTIL,9000,MIA@MIL 04/19/2023 09:00PM ET,MIL,29.92
+,,,,,,,,,,,C,Bam Adebayo (27542559),Bam Adebayo,27542559,UTIL,8600,MIA@MIL 04/19/2023 09:00PM ET,MIA,40.03
+,,,,,,,,,,,SF/PF,Caleb Martin (27542598),Caleb Martin,27542598,CPT,8100,MIA@MIL 04/19/2023 09:00PM ET,MIA,20.79
+,,,,,,,,,,,SG,Grayson Allen (27542599),Grayson Allen,27542599,CPT,7800,MIA@MIL 04/19/2023 09:00PM ET,MIL,20.53
+,,,,,,,,,,,C,Brook Lopez (27542560),Brook Lopez,27542560,UTIL,7400,MIA@MIL 04/19/2023 09:00PM ET,MIL,32.30
+,,,,,,,,,,,PG/SG,Gabe Vincent (27542600),Gabe Vincent,27542600,CPT,6900,MIA@MIL 04/19/2023 09:00PM ET,MIA,17.82
+,,,,,,,,,,,PF/C,Bobby Portis (27542561),Bobby Portis,27542561,UTIL,6800,MIA@MIL 04/19/2023 09:00PM ET,MIL,30.56
+,,,,,,,,,,,SG/SF,Max Strus (27542562),Max Strus,27542562,UTIL,6600,MIA@MIL 04/19/2023 09:00PM ET,MIA,21.07
+,,,,,,,,,,,PF/C,Kevin Love (27542601),Kevin Love,27542601,CPT,6600,MIA@MIL 04/19/2023 09:00PM ET,MIA,20.22
+,,,,,,,,,,,PG,Kyle Lowry (27542563),Kyle Lowry,27542563,UTIL,6200,MIA@MIL 04/19/2023 09:00PM ET,MIA,26.78
+,,,,,,,,,,,PG/SG,Joe Ingles (27542602),Joe Ingles,27542602,CPT,6000,MIA@MIL 04/19/2023 09:00PM ET,MIL,17.21
+,,,,,,,,,,,SG/SF,Wesley Matthews (27542603),Wesley Matthews,27542603,CPT,5700,MIA@MIL 04/19/2023 09:00PM ET,MIL,8.76
+,,,,,,,,,,,SF/PF,Caleb Martin (27542564),Caleb Martin,27542564,UTIL,5400,MIA@MIL 04/19/2023 09:00PM ET,MIA,20.79
+,,,,,,,,,,,PG/SG,Victor Oladipo (27542604),Victor Oladipo,27542604,CPT,5400,MIA@MIL 04/19/2023 09:00PM ET,MIA,22.35
+,,,,,,,,,,,SG,Grayson Allen (27542565),Grayson Allen,27542565,UTIL,5200,MIA@MIL 04/19/2023 09:00PM ET,MIL,20.53
+,,,,,,,,,,,PG,Jevon Carter (27542605),Jevon Carter,27542605,CPT,5100,MIA@MIL 04/19/2023 09:00PM ET,MIL,17.42
+,,,,,,,,,,,SF/PF,Jae Crowder (27542606),Jae Crowder,27542606,CPT,4800,MIA@MIL 04/19/2023 09:00PM ET,MIL,15.70
+,,,,,,,,,,,PG/SG,Gabe Vincent (27542566),Gabe Vincent,27542566,UTIL,4600,MIA@MIL 04/19/2023 09:00PM ET,MIA,17.82
+,,,,,,,,,,,SG/SF,Pat Connaughton (27542607),Pat Connaughton,27542607,CPT,4500,MIA@MIL 04/19/2023 09:00PM ET,MIL,17.58
+,,,,,,,,,,,PF/C,Kevin Love (27542567),Kevin Love,27542567,UTIL,4400,MIA@MIL 04/19/2023 09:00PM ET,MIA,20.22
+,,,,,,,,,,,PG/SG,Joe Ingles (27542568),Joe Ingles,27542568,UTIL,4000,MIA@MIL 04/19/2023 09:00PM ET,MIL,17.21
+,,,,,,,,,,,SG,Jamal Cain (27542608),Jamal Cain,27542608,CPT,3900,MIA@MIL 04/19/2023 09:00PM ET,MIA,11.42
+,,,,,,,,,,,SG/SF,Wesley Matthews (27542569),Wesley Matthews,27542569,UTIL,3800,MIA@MIL 04/19/2023 09:00PM ET,MIL,8.76
+,,,,,,,,,,,PG/SG,Victor Oladipo (27542570),Victor Oladipo,27542570,UTIL,3600,MIA@MIL 04/19/2023 09:00PM ET,MIA,22.35
+,,,,,,,,,,,C,Udonis Haslem (27542609),Udonis Haslem,27542609,CPT,3600,MIA@MIL 04/19/2023 09:00PM ET,MIA,6.82
+,,,,,,,,,,,PG,Jevon Carter (27542571),Jevon Carter,27542571,UTIL,3400,MIA@MIL 04/19/2023 09:00PM ET,MIL,17.42
+,,,,,,,,,,,C,Meyers Leonard (27542610),Meyers Leonard,27542610,CPT,3300,MIA@MIL 04/19/2023 09:00PM ET,MIL,10.33
+,,,,,,,,,,,SF/PF,Jae Crowder (27542572),Jae Crowder,27542572,UTIL,3200,MIA@MIL 04/19/2023 09:00PM ET,MIL,15.70
+,,,,,,,,,,,SG/SF,Pat Connaughton (27542573),Pat Connaughton,27542573,UTIL,3000,MIA@MIL 04/19/2023 09:00PM ET,MIL,17.58
+,,,,,,,,,,,C,Omer Yurtseven (27542611),Omer Yurtseven,27542611,CPT,3000,MIA@MIL 04/19/2023 09:00PM ET,MIA,8.81
+,,,,,,,,,,,PF,Thanasis Antetokounmpo (27542612),Thanasis Antetokounmpo,27542612,CPT,2700,MIA@MIL 04/19/2023 09:00PM ET,MIL,3.64
+,,,,,,,,,,,SG,Jamal Cain (27542574),Jamal Cain,27542574,UTIL,2600,MIA@MIL 04/19/2023 09:00PM ET,MIA,11.42
+,,,,,,,,,,,C,Udonis Haslem (27542575),Udonis Haslem,27542575,UTIL,2400,MIA@MIL 04/19/2023 09:00PM ET,MIA,6.82
+,,,,,,,,,,,SF,Marjon Beauchamp (27542613),Marjon Beauchamp,27542613,CPT,2400,MIA@MIL 04/19/2023 09:00PM ET,MIL,9.99
+,,,,,,,,,,,C,Meyers Leonard (27542576),Meyers Leonard,27542576,UTIL,2200,MIA@MIL 04/19/2023 09:00PM ET,MIL,10.33
+,,,,,,,,,,,SF/PF,Haywood Highsmith (27542614),Haywood Highsmith,27542614,CPT,2100,MIA@MIL 04/19/2023 09:00PM ET,MIA,11.86
+,,,,,,,,,,,PF,Duncan Robinson (27542615),Duncan Robinson,27542615,CPT,2100,MIA@MIL 04/19/2023 09:00PM ET,MIA,11.01
+,,,,,,,,,,,C,Omer Yurtseven (27542577),Omer Yurtseven,27542577,UTIL,2000,MIA@MIL 04/19/2023 09:00PM ET,MIA,8.81
+,,,,,,,,,,,PF,Thanasis Antetokounmpo (27542578),Thanasis Antetokounmpo,27542578,UTIL,1800,MIA@MIL 04/19/2023 09:00PM ET,MIL,3.64
+,,,,,,,,,,,PG,Lindell Wigginton (27542616),Lindell Wigginton,27542616,CPT,1800,MIA@MIL 04/19/2023 09:00PM ET,MIL,11.75
+,,,,,,,,,,,PG,AJ Green (27542617),AJ Green,27542617,CPT,1800,MIA@MIL 04/19/2023 09:00PM ET,MIL,7.79
+,,,,,,,,,,,SF,Marjon Beauchamp (27542579),Marjon Beauchamp,27542579,UTIL,1600,MIA@MIL 04/19/2023 09:00PM ET,MIL,9.99
+,,,,,,,,,,,PG/SG,Tyler Herro (27542618),Tyler Herro,27542618,CPT,1500,MIA@MIL 04/19/2023 09:00PM ET,MIA,35.39
+,,,,,,,,,,,PG,Goran Dragic (27542619),Goran Dragic,27542619,CPT,1500,MIA@MIL 04/19/2023 09:00PM ET,MIL,12.44
+,,,,,,,,,,,C,Orlando Robinson (27542620),Orlando Robinson,27542620,CPT,1500,MIA@MIL 04/19/2023 09:00PM ET,MIA,11.32
+,,,,,,,,,,,C,Cody Zeller (27542621),Cody Zeller,27542621,CPT,1500,MIA@MIL 04/19/2023 09:00PM ET,MIA,12.86
+,,,,,,,,,,,C,Nikola Jovic (27542622),Nikola Jovic,27542622,CPT,1500,MIA@MIL 04/19/2023 09:00PM ET,MIA,10.18
+,,,,,,,,,,,SF/PF,Haywood Highsmith (27542580),Haywood Highsmith,27542580,UTIL,1400,MIA@MIL 04/19/2023 09:00PM ET,MIA,11.86
+,,,,,,,,,,,PF,Duncan Robinson (27542581),Duncan Robinson,27542581,UTIL,1400,MIA@MIL 04/19/2023 09:00PM ET,MIA,11.01
+,,,,,,,,,,,PG,Lindell Wigginton (27542582),Lindell Wigginton,27542582,UTIL,1200,MIA@MIL 04/19/2023 09:00PM ET,MIL,11.75
+,,,,,,,,,,,PG,AJ Green (27542583),AJ Green,27542583,UTIL,1200,MIA@MIL 04/19/2023 09:00PM ET,MIL,7.79
+,,,,,,,,,,,PG/SG,Tyler Herro (27542584),Tyler Herro,27542584,UTIL,1000,MIA@MIL 04/19/2023 09:00PM ET,MIA,35.39
+,,,,,,,,,,,PG,Goran Dragic (27542585),Goran Dragic,27542585,UTIL,1000,MIA@MIL 04/19/2023 09:00PM ET,MIL,12.44
+,,,,,,,,,,,C,Orlando Robinson (27542586),Orlando Robinson,27542586,UTIL,1000,MIA@MIL 04/19/2023 09:00PM ET,MIA,11.32
+,,,,,,,,,,,C,Cody Zeller (27542587),Cody Zeller,27542587,UTIL,1000,MIA@MIL 04/19/2023 09:00PM ET,MIA,12.86
+,,,,,,,,,,,C,Nikola Jovic (27542588),Nikola Jovic,27542588,UTIL,1000,MIA@MIL 04/19/2023 09:00PM ET,MIA,10.18

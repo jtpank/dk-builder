@@ -192,18 +192,28 @@ class entries_route(Resource):
             return {'message': 'No file found!'}, 400
         file = request.files['file']
         try:
+            print("line 195")
             file = request.files['file']
+            print("line 197")
             email_str = request.files['blob_email']
+            print("line 199")
             json_str = email_str.read().decode('utf-8')
+            print("line 201")
             data_dict = json.loads(json_str)
+            print("line 203")
             inputEmail = data_dict['email']
+            print("line 205")
             if not file.filename.lower().endswith('.csv'):
                 return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
             filename = secure_filename(file.filename)
             fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            print(fullPath)
+            print("line 210")
             file.save(fullPath)
+            print("line 212")
             listOfDicts = []
             contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts, inputEmail)
+            print("line 215")
             for k in listOfDicts:
                 if db.session.query(Entry.id).filter_by(**k).first() is None:
                   print(str(k))

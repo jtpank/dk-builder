@@ -1,0 +1,74 @@
+Entry ID,Contest Name,Contest ID,Entry Fee,CPT,UTIL,UTIL,UTIL,UTIL,UTIL,,Instructions
+2556787883,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,James Harden (16430564),Alex Caruso (16430547),Kevin Durant (16430534),LeBron James (16430532),Markieff Morris (16430550),Landry Shamet (16430546),,1. Column A lists all of your contest entries for this draftgroup
+2556787984,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,2. Your current lineup is listed next to each entry (blank for reservations)
+2556787999,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,3. You can change the lineup for an entry by entering the IDs of the players in the row next to that entry
+2556788014,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,4. Use data from the Name+ID column or the ID column; you cannot use just the player's name
+2556788123,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,5. For faster processing only include entries you are changing in the file you upload
+2556788135,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,
+2556794035,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,Position,Name + ID,Name,ID,Roster Position,Salary,Game Info,TeamAbbrev,AvgPointsPerGame
+2556794084,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PG,James Harden (16430564),James Harden,16430564,CPT,17400,BKN@LAL 02/18/2021 10:00PM ET,BKN,55.28
+2556794110,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PG/SF,LeBron James (16430565),LeBron James,16430565,CPT,16800,BKN@LAL 02/18/2021 10:00PM ET,LAL,51.25
+2556794171,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PF/C,Anthony Davis (16430566),Anthony Davis,16430566,CPT,15900,BKN@LAL 02/18/2021 10:00PM ET,LAL,43.75
+2556794481,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PF/C,Kevin Durant (16430567),Kevin Durant,16430567,CPT,15600,BKN@LAL 02/18/2021 10:00PM ET,BKN,50.28
+2556803493,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PG/SG,Kyrie Irving (16430568),Kyrie Irving,16430568,CPT,14700,BKN@LAL 02/18/2021 10:00PM ET,BKN,46.55
+2556803561,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PG,James Harden (16430531),James Harden,16430531,UTIL,11600,BKN@LAL 02/18/2021 10:00PM ET,BKN,55.28
+2556803606,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,SF/PF,Kyle Kuzma (16430569),Kyle Kuzma,16430569,CPT,11400,BKN@LAL 02/18/2021 10:00PM ET,LAL,22.47
+2556803624,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PG/SF,LeBron James (16430532),LeBron James,16430532,UTIL,11200,BKN@LAL 02/18/2021 10:00PM ET,LAL,51.25
+2556812136,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,SG/SF,Joe Harris (16430570),Joe Harris,16430570,CPT,10800,BKN@LAL 02/18/2021 10:00PM ET,BKN,24.79
+2556812154,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PF/C,Anthony Davis (16430533),Anthony Davis,16430533,UTIL,10600,BKN@LAL 02/18/2021 10:00PM ET,LAL,43.75
+2556812549,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,C,Montrezl Harrell (16430571),Montrezl Harrell,16430571,CPT,10500,BKN@LAL 02/18/2021 10:00PM ET,LAL,25.15
+2556812578,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PF/C,Kevin Durant (16430534),Kevin Durant,16430534,UTIL,10400,BKN@LAL 02/18/2021 10:00PM ET,BKN,50.28
+2556812602,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,,,,,,,,PG/SG,Dennis Schroder (16430572),Dennis Schroder,16430572,CPT,10200,BKN@LAL 02/18/2021 10:00PM ET,LAL,26.92
+,,,,,,,,,,,PG/SG,Kyrie Irving (16430535),Kyrie Irving,16430535,UTIL,9800,BKN@LAL 02/18/2021 10:00PM ET,BKN,46.55
+,,,,,,,,,,,PF/C,Jeff Green (16430573),Jeff Green,16430573,CPT,9300,BKN@LAL 02/18/2021 10:00PM ET,BKN,18.8
+,,,,,,,,,,,C,DeAndre Jordan (16430574),DeAndre Jordan,16430574,CPT,8400,BKN@LAL 02/18/2021 10:00PM ET,BKN,21.38
+,,,,,,,,,,,SF/PF,Kyle Kuzma (16430536),Kyle Kuzma,16430536,UTIL,7600,BKN@LAL 02/18/2021 10:00PM ET,LAL,22.47
+,,,,,,,,,,,SG/SF,Joe Harris (16430537),Joe Harris,16430537,UTIL,7200,BKN@LAL 02/18/2021 10:00PM ET,BKN,24.79
+,,,,,,,,,,,C,Montrezl Harrell (16430538),Montrezl Harrell,16430538,UTIL,7000,BKN@LAL 02/18/2021 10:00PM ET,LAL,25.15
+,,,,,,,,,,,PG/SG,Dennis Schroder (16430539),Dennis Schroder,16430539,UTIL,6800,BKN@LAL 02/18/2021 10:00PM ET,LAL,26.92
+,,,,,,,,,,,SG/SF,Bruce Brown (16430575),Bruce Brown,16430575,CPT,6600,BKN@LAL 02/18/2021 10:00PM ET,BKN,15.21
+,,,,,,,,,,,C,Marc Gasol (16430576),Marc Gasol,16430576,CPT,6300,BKN@LAL 02/18/2021 10:00PM ET,LAL,15.45
+,,,,,,,,,,,PF/C,Jeff Green (16430540),Jeff Green,16430540,UTIL,6200,BKN@LAL 02/18/2021 10:00PM ET,BKN,18.8
+,,,,,,,,,,,SF/PF,Timothe Luwawu-Cabarrot (16430577),Timothe Luwawu-Cabarrot,16430577,CPT,6000,BKN@LAL 02/18/2021 10:00PM ET,BKN,14.23
+,,,,,,,,,,,SF,Talen Horton-Tucker (16430578),Talen Horton-Tucker,16430578,CPT,5700,BKN@LAL 02/18/2021 10:00PM ET,LAL,14.66
+,,,,,,,,,,,C,DeAndre Jordan (16430541),DeAndre Jordan,16430541,UTIL,5600,BKN@LAL 02/18/2021 10:00PM ET,BKN,21.38
+,,,,,,,,,,,SG,Landry Shamet (16430579),Landry Shamet,16430579,CPT,5400,BKN@LAL 02/18/2021 10:00PM ET,BKN,13.02
+,,,,,,,,,,,PG/SG,Alex Caruso (16430580),Alex Caruso,16430580,CPT,4500,BKN@LAL 02/18/2021 10:00PM ET,LAL,14.26
+,,,,,,,,,,,SG/SF,Bruce Brown (16430542),Bruce Brown,16430542,UTIL,4400,BKN@LAL 02/18/2021 10:00PM ET,BKN,15.21
+,,,,,,,,,,,C,Marc Gasol (16430543),Marc Gasol,16430543,UTIL,4200,BKN@LAL 02/18/2021 10:00PM ET,LAL,15.45
+,,,,,,,,,,,PG,Tyler Johnson (16430581),Tyler Johnson,16430581,CPT,4200,BKN@LAL 02/18/2021 10:00PM ET,BKN,8.29
+,,,,,,,,,,,SF/PF,Timothe Luwawu-Cabarrot (16430544),Timothe Luwawu-Cabarrot,16430544,UTIL,4000,BKN@LAL 02/18/2021 10:00PM ET,BKN,14.23
+,,,,,,,,,,,SG,Kentavious Caldwell-Pope (16430582),Kentavious Caldwell-Pope,16430582,CPT,3900,BKN@LAL 02/18/2021 10:00PM ET,LAL,15.72
+,,,,,,,,,,,SF,Talen Horton-Tucker (16430545),Talen Horton-Tucker,16430545,UTIL,3800,BKN@LAL 02/18/2021 10:00PM ET,LAL,14.66
+,,,,,,,,,,,SG,Landry Shamet (16430546),Landry Shamet,16430546,UTIL,3600,BKN@LAL 02/18/2021 10:00PM ET,BKN,13.02
+,,,,,,,,,,,PF/C,Markieff Morris (16430583),Markieff Morris,16430583,CPT,3300,BKN@LAL 02/18/2021 10:00PM ET,LAL,11.26
+,,,,,,,,,,,PG/SG,Alex Caruso (16430547),Alex Caruso,16430547,UTIL,3000,BKN@LAL 02/18/2021 10:00PM ET,LAL,14.26
+,,,,,,,,,,,SG/SF,Wesley Matthews (16430584),Wesley Matthews,16430584,CPT,3000,BKN@LAL 02/18/2021 10:00PM ET,LAL,10.59
+,,,,,,,,,,,PG,Tyler Johnson (16430548),Tyler Johnson,16430548,UTIL,2800,BKN@LAL 02/18/2021 10:00PM ET,BKN,8.29
+,,,,,,,,,,,SG,Kentavious Caldwell-Pope (16430549),Kentavious Caldwell-Pope,16430549,UTIL,2600,BKN@LAL 02/18/2021 10:00PM ET,LAL,15.72
+,,,,,,,,,,,PF/C,Markieff Morris (16430550),Markieff Morris,16430550,UTIL,2200,BKN@LAL 02/18/2021 10:00PM ET,LAL,11.26
+,,,,,,,,,,,SG/SF,Wesley Matthews (16430551),Wesley Matthews,16430551,UTIL,2000,BKN@LAL 02/18/2021 10:00PM ET,LAL,10.59
+,,,,,,,,,,,PG,Chris Chiozza (16430585),Chris Chiozza,16430585,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,BKN,8.85
+,,,,,,,,,,,SG/SF,Andre Roberson (16430586),Andre Roberson,16430586,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,BKN,0
+,,,,,,,,,,,SF/PF,Alfonzo McKinnie (16430587),Alfonzo McKinnie,16430587,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,LAL,3.18
+,,,,,,,,,,,PG,Quinn Cook (16430588),Quinn Cook,16430588,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,LAL,2.82
+,,,,,,,,,,,PF/C,Noah Vonleh (16430589),Noah Vonleh,16430589,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,BKN,0.58
+,,,,,,,,,,,SF/PF,Jared Dudley (16430590),Jared Dudley,16430590,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,LAL,2.08
+,,,,,,,,,,,SG/SF,Iman Shumpert (16430591),Iman Shumpert,16430591,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,BKN,0
+,,,,,,,,,,,PG,Spencer Dinwiddie (16430592),Spencer Dinwiddie,16430592,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,BKN,18.08
+,,,,,,,,,,,PF,Devontae Cacok (16430593),Devontae Cacok,16430593,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,LAL,2
+,,,,,,,,,,,PF,Kostas Antetokounmpo (16430594),Kostas Antetokounmpo,16430594,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,LAL,8
+,,,,,,,,,,,PF/C,Nicolas Claxton (16430595),Nicolas Claxton,16430595,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,BKN,0
+,,,,,,,,,,,PF/C,Reggie Perry (16430596),Reggie Perry,16430596,CPT,1500,BKN@LAL 02/18/2021 10:00PM ET,BKN,10.20
+,,,,,,,,,,,PG,Chris Chiozza (16430552),Chris Chiozza,16430552,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,BKN,8.85
+,,,,,,,,,,,SG/SF,Andre Roberson (16430553),Andre Roberson,16430553,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,BKN,0
+,,,,,,,,,,,SF/PF,Alfonzo McKinnie (16430554),Alfonzo McKinnie,16430554,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,LAL,3.18
+,,,,,,,,,,,PG,Quinn Cook (16430555),Quinn Cook,16430555,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,LAL,2.82
+,,,,,,,,,,,PF/C,Noah Vonleh (16430556),Noah Vonleh,16430556,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,BKN,0.58
+,,,,,,,,,,,SF/PF,Jared Dudley (16430557),Jared Dudley,16430557,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,LAL,2.08
+,,,,,,,,,,,SG/SF,Iman Shumpert (16430558),Iman Shumpert,16430558,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,BKN,0
+,,,,,,,,,,,PG,Spencer Dinwiddie (16430559),Spencer Dinwiddie,16430559,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,BKN,18.08
+,,,,,,,,,,,PF,Devontae Cacok (16430560),Devontae Cacok,16430560,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,LAL,2
+,,,,,,,,,,,PF,Kostas Antetokounmpo (16430561),Kostas Antetokounmpo,16430561,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,LAL,8
+,,,,,,,,,,,PF/C,Nicolas Claxton (16430562),Nicolas Claxton,16430562,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,BKN,0
+,,,,,,,,,,,PF/C,Reggie Perry (16430563),Reggie Perry,16430563,UTIL,1000,BKN@LAL 02/18/2021 10:00PM ET,BKN,10.20
