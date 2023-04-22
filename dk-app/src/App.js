@@ -242,6 +242,7 @@ class App extends React.Component {
           <Routes>
             <Route path="/" element={
             <Splash
+            is_logged_in={this.state._is_logged_in}
             isEntriesUploaded={this.state._entries_uploaded}
             isSalariesUploaded={this.state._salaries_uploaded}
             onUploadSuccess={this.handleUploadSuccess}
@@ -249,6 +250,8 @@ class App extends React.Component {
             handleSalaryUpload={this.handleSalaryUpload}
             contestId={this.state._contestId}
             isDisabled = {this._disable_salaries_upload}
+            _jwt={this.state._jwt}
+            _email={this.state._email}
             ></Splash>}></Route>
 
             <Route path="/team-builder" element={

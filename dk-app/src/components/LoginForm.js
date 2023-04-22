@@ -1,5 +1,6 @@
 import React, {setState} from 'react';
 import { Navigate } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert';
 class LoginForm extends React.Component {
     constructor(props) {
         super(props);
@@ -79,10 +80,10 @@ class LoginForm extends React.Component {
             )}
             <form onSubmit={this.handleSubmit}>
                 
-                {/* <Alert show={this.state._is_error} variant='danger'>
+                <Alert show={this.state._is_error} variant='danger'>
                     <Alert.Heading>Oops, there was an error:</Alert.Heading>
                     <p>{this.state._error_message}</p>
-                </Alert> */}
+                </Alert>
                 <h3>Sign In</h3>
                 <div className="mb-3">
                 <label>Email address</label>

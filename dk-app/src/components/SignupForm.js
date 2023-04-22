@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navigate } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert';
 import '../styles/styles.css';
 class SignupForm extends React.Component {
     constructor(props) {
@@ -88,10 +89,10 @@ class SignupForm extends React.Component {
             )}
             <form onSubmit={this.handleSubmit}>
                 
-                {/* <Alert show={this.state._is_error} variant='danger'>
+                <Alert show={this.state._is_error} variant='danger'>
                     <Alert.Heading>Oops, there was an error:</Alert.Heading>
                     <p>{this.state._error_message}</p>
-                </Alert> */}
+                </Alert>
                 <h3>Sign Up</h3>
                 <div className="mb-3">
                 <label>Email address</label>

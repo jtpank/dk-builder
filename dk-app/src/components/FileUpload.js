@@ -48,6 +48,8 @@ class FileUpload extends Component {
         contest_id: this.props.contestId
       }
     }
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', 'Bearer ' + this.props._jwt);
     let json = JSON.stringify(obj);
     let blob = new Blob([json], {
       type: 'application/json'
@@ -60,6 +62,7 @@ class FileUpload extends Component {
     const full_url = base_url + fetch_req + end_url;
     fetch(full_url, {
             method: 'PUT',
+            headers: myHeaders,
             body: formData
         }).then(response => {
           if (!response.ok) {
