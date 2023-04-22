@@ -17,55 +17,13 @@ class App extends React.Component {
      _disable_salaries_upload: false,
      _disable_entries_upload: false,
      _contestId: -1,
-     _num_entries: 3,
      _cpt_salary_dict: {},
      _util_salary_dict: {},
-     _all_lineups:
-      [ 
-          {
-              _entry_id: 123,
-              _captain: {},
-              _utility: [
-                  {},
-                  {},
-                  {},
-                  {},
-                  {},
-              ]
-          },
-          {
-              _entry_id: 456,
-              _captain: {},
-              _utility: [
-                  {},
-                  {},
-                  {},
-                  {},
-                  {},
-              ]
-          },
-          {
-              _entry_id: 789,
-              _captain: {},
-              _utility: [
-                  {},
-                  {},
-                  {},
-                  {},
-                  {},
-              ]
-          }
-      ],
-     _is_captain_set: [
-      false,
-      false,
-      false,
-     ],
-     _is_utility_set: [
-      [false,false,false,false,false],
-      [false,false,false,false,false],
-      [false,false,false,false,false]
-    ]
+     _num_entries: -1,
+     _all_lineups: [],
+    _is_captain_set: [],
+     _is_utility_set: []
+
     }
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.handleContestUpload = this.handleContestUpload.bind(this);
@@ -78,24 +36,34 @@ class App extends React.Component {
   handleUploadSuccess(fileType){
     this.setState({ [`_${fileType}_uploaded`]: true , [`disable_${fileType}_uploaded`]: true});
   };
-  handleContestUpload(id){
-    this.setState({_contestId: id})
+  handleContestUpload(id, numEntries){
+    let allLineups = [];
+    let isCaptainSet = [];
+    let isUtilitySet = [];
+    let obj =   {
+        _entry_id: -1,
+        _captain: {},
+        _utility: [
+          {}, 
+          {}, 
+          {}, 
+          {}, 
+          {}
+        ]
+  }
     //create dummy lineups
-    //set state of _num_entries
-    //iterate over num_entries and create empty _lineups:
-    // of the form
-    // _lineup: {
-    //     _captain: {},
-    //     _utility: [
-    //         {},
-    //         {},
-    //         {},
-    //         {},
-    //         {},
-    //     ]
-    // }
-    // Then finally remove from the entry table state and 
-    //pass as an indiviudal prop to each entry table component;
+    for (let i = 0; i < numEntries; ++i) {
+      allLineups.push({...obj});
+      isCaptainSet.push(false);
+      isUtilitySet.push([false, false, false, false, false]);
+    }
+    this.setState({
+      _contestId: id,
+      _num_entries: numEntries,
+      _all_lineups: allLineups,
+      _is_captain_set: isCaptainSet,
+      _is_utility_set: isUtilitySet,
+    });
 
   }
   handleSalaryUpload(salary_data){
@@ -212,7 +180,6 @@ class App extends React.Component {
         }
       ]
     };
-
     return (
       <BrowserRouter>
       <div className="App">
@@ -226,17 +193,18 @@ class App extends React.Component {
             isEntriesUploaded={this.state._entries_uploaded}
             isSalariesUploaded={this.state._salaries_uploaded}
             onUploadSuccess={this.handleUploadSuccess}
-            onUploadContestId={this.handleContestUpload}
-            onUploadSalary={this.handleSalaryUpload}
+            handleContestUpload={this.handleContestUpload}
+            handleSalaryUpload={this.handleSalaryUpload}
             contestId={this.state._contestId}
             isDisabled = {this._disable_salaries_upload}
             ></Splash>}></Route>
+
             <Route path="/team-builder" element={
             <TeamBuilder
             contestId={this.state._contestId}
             numEntries={this.state._num_entries}
-            cptSalaryDict={tempCptDict}
-            utilSalaryDict={tempUtilDict}
+            cptSalaryDict={this.state._cpt_salary_dict}
+            utilSalaryDict={this.state._util_salary_dict}
             isEntriesUploaded={this.state._entries_uploaded}
             isSalariesUploaded={this.state._salaries_uploaded}
             allLineups={this.state._all_lineups}
@@ -247,6 +215,7 @@ class App extends React.Component {
             handleSetEntryTableRowUtility={(val, lineupIndex, index) => this.handleSetEntryTableRowUtility(val, lineupIndex, index)}
             isUtilitySet={this.state._is_utility_set}
             ></TeamBuilder>} />
+
             <Route path="/charts" element={
             <Charts
             allLineups={this.state._all_lineups}
@@ -268,3 +237,90 @@ export default App;
 //   cookies: instanceOf(Cookies).isRequired
 // };
 
+
+
+//For testing state (no api)
+
+// _num_entries: 3,
+// _all_lineups:
+//  [ 
+//      {
+//          _entry_id: 123,
+//          _captain: {},
+//          _utility: [
+//              {},
+//              {},
+//              {},
+//              {},
+//              {},
+//          ]
+//      },
+//      {
+//          _entry_id: 456,
+//          _captain: {},
+//          _utility: [
+//              {},
+//              {},
+//              {},
+//              {},
+//              {},
+//          ]
+//      },
+//      {
+//          _entry_id: 789,
+//          _captain: {},
+//          _utility: [
+//              {},
+//              {},
+//              {},
+//              {},
+//              {},
+//          ]
+//      }
+//  ],
+// _is_captain_set: [
+//  false,
+//  false,
+//  false,
+// ],
+// _is_utility_set: [
+//  [false,false,false,false,false],
+//  [false,false,false,false,false],
+//  [false,false,false,false,false]
+// ]
+// let tempCptDict = {
+//   "values" : [
+//       {
+//         "player_id":201, "player_name": "Lebron", "salary": 1000, "roster_position": "CPT"
+//       },
+//       {
+//         "player_id":889, "player_name": "Giannis", "salary": 2000, "roster_position": "CPT"
+//       },
+//       {
+//         "player_id":9032, "player_name": "Jordan", "salary": 9030, "roster_position": "CPT"
+//       }
+//     ]
+// };
+
+// let tempUtilDict = {
+//   "values" : [
+//     {
+//       "player_id":333, "player_name": "Lebron", "salary": 2000, "roster_position": "UTIL"
+//     },
+//     {
+//       "player_id":444, "player_name": "Giannis", "salary": 4000, "roster_position": "UTIL"
+//     },
+//     {
+//       "player_id":34233, "player_name": "Jordan", "salary": 3300, "roster_position": "UTIL"
+//     },
+//     {
+//       "player_id":33366, "player_name": "Jokic", "salary": 2200, "roster_position": "UTIL"
+//     },
+//     {
+//       "player_id":2354234, "player_name": "Norman", "salary": 1100, "roster_position": "UTIL"
+//     },
+//     {
+//       "player_id":981, "player_name": "Blake", "salary": 9000, "roster_position": "UTIL"
+//     }
+//   ]
+// };

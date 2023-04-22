@@ -26,7 +26,7 @@ class Splash extends React.Component {
                             <div>
                                 <FileUpload
                                 onUploadSuccess={this.props.onUploadSuccess}
-                                onUploadContestId={this.props.onUploadContestId}
+                                handleContestUpload={this.props.handleContestUpload}
                                 contestId={this.props.contestId}
                                 fileName={"Contest Entries"}
                                 routeName={"entries"}
@@ -41,7 +41,7 @@ class Splash extends React.Component {
                             <div>
                                 <FileUpload
                                 onUploadSuccess={this.props.onUploadSuccess}
-                                onUploadContestId={this.props.onUploadContestId}
+                                handleContestUpload={this.props.handleContestUpload}
                                 contestId={this.props.contestId}
                                 fileName={"Contest Entries"}
                                 routeName={"entries"}
@@ -52,7 +52,7 @@ class Splash extends React.Component {
                             <div>
                                 <FileUpload
                                 onUploadSuccess={this.props.onUploadSuccess}
-                                onUploadContestId={this.props.onUploadContestId}
+                                handleSalaryUpload={this.props.handleSalaryUpload}
                                 contestId={this.props.contestId}
                                 fileName={"DK Salaries"}
                                 routeName={"salaries"}

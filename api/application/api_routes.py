@@ -34,8 +34,10 @@ def parseEntryCsv(filename, listOfDicts):
     contestId_return = -1
     with open(filename) as csvfile:
         reader = csv.DictReader(csvfile)
+        number_entries = 0
         for row in reader:
             if(row['Entry ID']):
+                number_entries+=1
                 #build the temp dict
                 #then append to listOfDicts
                 contestId_return = (int)(row['Contest ID'])
@@ -46,7 +48,7 @@ def parseEntryCsv(filename, listOfDicts):
                     "entry_fee": (int)(row['Entry Fee'][1:]),
                 }
                 listOfDicts.append(temp_dict)
-    return contestId_return
+    return contestId_return, number_entries
 
 def parseSalaryCsv(filename, listOfDicts, contestID):
     # "contest_id": fields.Integer,
@@ -62,6 +64,12 @@ def parseSalaryCsv(filename, listOfDicts, contestID):
     #Position,Name + ID,Name,ID,Roster Position,Salary,Game Info,TeamAbbrev,AvgPointsPerGame
     with open(filename) as csvfile:
         reader = csv.DictReader(csvfile)
+        cpt_return_dict = {
+            "values": []
+        }
+        util_return_dict = {
+            "values": []
+        }
         for row in reader:
             if(row['Position']):
                 #build the temp dict
@@ -88,8 +96,16 @@ def parseSalaryCsv(filename, listOfDicts, contestID):
                     "datetime": dateTime,
                     "avg_pts": (float)(row['AvgPointsPerGame'])
                 }
-                # print(temp_dict)
+                if(row['Roster Position'] == 'CPT'):
+                    cpt_return_dict['values'].append(temp_dict)
+                if(row['Roster Position'] == 'UTIL'):
+                    util_return_dict['values'].append(temp_dict)
                 listOfDicts.append(temp_dict)
+        ret_dict ={
+            "Captains": cpt_return_dict,
+            "Utility": util_return_dict
+        }
+        return ret_dict
 
 #404 response if field not existent
 def abort_if_field_not_exist(data_field, data):
@@ -135,7 +151,7 @@ class salaries_route(Resource):
             file.save(fullPath)
             listOfDicts = []
 
-            parseSalaryCsv(fullPath,listOfDicts, contest_id_number)
+            captain_and_utility_salary_dict = parseSalaryCsv(fullPath,listOfDicts, contest_id_number)
             for k in listOfDicts:
                 if db.session.query(Salary.id).filter_by(**k).first() is None:
                   t = Salary(**k)
@@ -143,7 +159,12 @@ class salaries_route(Resource):
                 else:
                     print("salary already exists!")
             db.session.commit()
-            return {'message': 'Salary file uploaded and processed successfully', 'contest_id': -1}, 200
+            ret_data=  {
+                'message': 'Salary file uploaded and processed successfully', 
+                'contest_id': -1,
+                'salary_data': captain_and_utility_salary_dict
+                }
+            return ret_data, 200
         except Exception as e:
             return {'message': 'Failed to upload and process salary file: {}'.format(str(e))}, 500
     #delete lineup
@@ -171,7 +192,7 @@ class entries_route(Resource):
             fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(fullPath)
             listOfDicts = []
-            contestId_return = parseEntryCsv(fullPath,listOfDicts)
+            contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts)
             for k in listOfDicts:
                 if db.session.query(Entry.id).filter_by(**k).first() is None:
                   print(str(k))
@@ -180,7 +201,12 @@ class entries_route(Resource):
                 else:
                     print("entry already exists!")
             db.session.commit()
-            return {'message': 'Entry file uploaded and processed successfully', 'contest_id': contestId_return}, 200
+            ret_data =  {
+                'message': 'Entry file uploaded and processed successfully', 
+                'contest_id': contestId_return,
+                'num_entries': num_entries_return,
+                }
+            return ret_data, 200
         except Exception as e:
             return {'message': 'Failed to upload and process file: {}'.format(str(e))}, 500
 

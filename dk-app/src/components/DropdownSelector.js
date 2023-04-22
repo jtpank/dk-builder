@@ -8,6 +8,8 @@ class DropdownSelector extends React.Component {
     }
     handleChange(event) {
       event.preventDefault();
+      if(Object.keys(this.props.playerDict).length > 0)
+      {
       let player = this.props.playerDict.values.find(
         (p) => p.player_name === event.target.value
       );
@@ -21,18 +23,29 @@ class DropdownSelector extends React.Component {
         this.props.handleSelectCaptain(player, this.props.lineupIndex);
         this.props.handleSetEntryTableRowCaptain(true, this.props.lineupIndex);
       }
+    }
       
     }
   
     render() {
-      const options = this.props.playerDict.values.map((player) => (
-        <option key={player.player_id} value={player.player_name}>
-          {player.player_name}
+      let options 
+      if(Object.keys(this.props.playerDict).length > 0)
+      {
+        options = this.props.playerDict.values.map((player) => (
+          <option key={player.player_id} value={player.player_name}>
+            {player.player_name}
+          </option>
+        ));
+      }
+      else
+      {
+        options = <option value="none" disabled>
+          Please upload salaries!
         </option>
-      ));
+      }
       return (
-        <select value={this.props.value} onChange={this.handleChange}>
-          <option value="Select" disabled selected>Select a name</option>
+        <select defaultValue="" onChange={this.handleChange}>
+          <option value="" disabled>Select a name</option>
           {options}
         </select>
 

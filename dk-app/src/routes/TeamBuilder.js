@@ -22,19 +22,11 @@ class TeamBuilder extends React.Component {
         return (
         <div>
             <div>
-                <p>Team Builder Page -- Contest ID: {this.props.contestId}</p>
+                <p>Team Builder Page -- Contest ID: {this.props.contestId} -- Number of Entries: {this.props.numEntries}</p>
                 <p>{salaries_disp}</p>
                 <p>{entries_disp}</p>
             </div>
             <div>
-                {/* <DropdownSelector
-                contestId={this.props.contestId}
-                playerDict={this.props.homeSalaryDict}
-                ></DropdownSelector>
-                <DropdownSelector
-                contestId={this.props.contestId}
-                playerDict={this.props.awaySalaryDict}
-                ></DropdownSelector> */}
             </div>
             <div>
                 <button>Save and Lint Lineups</button>

@@ -7,44 +7,8 @@ import '../styles/styles.css';
 class EntryTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            _lineup: {
-                _captain: {},
-                _utility: [
-                    {},
-                    {},
-                    {},
-                    {},
-                    {},
-                ]
-            }
-        }
       }
-      handleSelectCaptain(cpt) {
-        console.log("handle select captain function: ");
-        console.log(cpt.player_name);
-        console.log(cpt.salary);
-        this.setState({
-            _lineup: {
-              ...this.state._lineup,
-              _captain: cpt,
-            },
-          });
-      }
-      handleSelectUtility(player, index) {
-        console.log("handle select utility function");
-        console.log("index: " + String(index))
-        console.log("player: " + player);
-        const newUtility = [...this.state._lineup._utility];
-        newUtility[index] = player;
-        this.setState({
-            _lineup: {
-                ...this.state._lineup,
-                _utility: newUtility
-            }
-        })
-      }
-    
+
     render() {
         let rows = [];
         for(let i = 0; i < 5; ++i)
@@ -53,7 +17,6 @@ class EntryTable extends React.Component {
                 <EntryTableRowUtility
                 key={i}
                 playerDict={this.props.utilityDict}
-                // onSelectUtility={(player) => this.handleSelectUtility(player, i)}
                 handleSelectUtility={this.props.handleSelectUtility}
                 handleSetEntryTableRowUtility={this.props.handleSetEntryTableRowUtility}
                 isUtilitySet={this.props.isUtilitySet}
@@ -70,7 +33,6 @@ class EntryTable extends React.Component {
                 ></EntryTableRowHeader>
                 <EntryTableRowCaptain
                 playerDict={this.props.captainDict}
-                // onSelectCaptain={(cpt) => this.handleSelectCaptain(cpt)}
                 handleSelectCaptain={this.props.handleSelectCaptain}
                 handleSetEntryTableRowCaptain={this.props.handleSetEntryTableRowCaptain}
                 isCaptainSet={this.props.isCaptainSet}

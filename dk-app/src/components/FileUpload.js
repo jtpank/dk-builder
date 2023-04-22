@@ -72,12 +72,14 @@ class FileUpload extends Component {
             if(data.contest_id != null && data.contest_id > 0)
             {
               //also array of all the entry ids, because we need the number of lineups.
-              this.props.onUploadContestId(data.contest_id);
+              this.props.handleContestUpload(data.contest_id, data.num_entries);
             }
+
             this.props.onUploadSuccess(this.props.routeName);
-            if(this.props.routeName == 'salaries-route')
+            if(this.props.routeName == 'salaries')
             {
               //here we want to fill the salary dict, as part of the APP state
+              console.log(data.salary_data);
               this.props.handleSalaryUpload(data.salary_data);
             }
         }).catch(error => {
