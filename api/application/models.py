@@ -37,12 +37,12 @@ class Entry(db.Model):
     contest_name = db.Column(db.String(50))
     contest_id = db.Column(db.BigInteger)
     entry_fee = db.Column(db.Integer)
-    captain = db.Column(db.String(25))
-    util_1 = db.Column(db.String(25))
-    util_2 = db.Column(db.String(25))
-    util_3 = db.Column(db.String(25))
-    util_4 = db.Column(db.String(25))
-    util_5 = db.Column(db.String(25))
+    captain =   db.Column(db.BigInteger)
+    util_1 =    db.Column(db.BigInteger)
+    util_2 =    db.Column(db.BigInteger)
+    util_3 =    db.Column(db.BigInteger)
+    util_4 =    db.Column(db.BigInteger)
+    util_5 =    db.Column(db.BigInteger)
 
     def __repr__(self):
         return '<Entry {}>'.format(self.entry_id)
@@ -55,12 +55,12 @@ class EntrySchema():
         "contest_name": fields.String,
         "contest_id": fields.Integer,
         "entry_fee": fields.Integer,
-        "captain": fields.String,
-        "util_1": fields.String,
-        "util_2": fields.String,
-        "util_3": fields.String,
-        "util_4": fields.String,
-        "util_5": fields.String,
+        "captain":  fields.Integer,
+        "util_1":   fields.Integer,
+        "util_2":   fields.Integer,
+        "util_3":   fields.Integer,
+        "util_4":   fields.Integer,
+        "util_5":   fields.Integer,
     }
     args_field = reqparse.RequestParser()
     args_field.add_argument("entry_id", type=int,help="entry id is required", required=True)

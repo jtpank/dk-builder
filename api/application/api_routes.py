@@ -144,7 +144,7 @@ def lint_lineups(lineup_array):
             else:
                 failure_dict[entry_id] = ["exceed-salary-cap-error"]
         #check that at least 2 players are different / all players NOT same team
-        if(len(set(team_array)) == 1):
+        if(len(set(team_array)) == 1 and len(name_array) == 6):
             if entry_id in failure_dict:
                 failure_dict[entry_id].append("all-players-on-same-team-error")
             else:
@@ -154,7 +154,40 @@ def lint_lineups(lineup_array):
     return failure_dict
 
 def parse_linted_lineups(failure_dict, lineup_array):
-    return
+    good_lineups_array = []
+    for i in range(0, len(lineup_array)):
+        lineup_key = lineup_array[i]['_entry_id']
+        if lineup_key not in failure_dict:
+            temp_dict = {
+                "entry_id": lineup_array[i]['_entry_id']
+            }
+            if lineup_array[i]['_captain']:
+                temp_dict["captain"] = lineup_array[i]['_captain']['player_id']
+            else:
+                temp_dict["captain"] = None
+            if lineup_array[i]['_utility'][0]:
+                temp_dict["util_1"] = lineup_array[i]['_utility'][0]['player_id']
+            else:
+                temp_dict["util_1"] = None
+            if lineup_array[i]['_utility'][1]:
+                temp_dict["util_2"] = lineup_array[i]['_utility'][1]['player_id']
+            else:
+                temp_dict["util_2"] = None
+            if lineup_array[i]['_utility'][2]:
+                temp_dict["util_3"] = lineup_array[i]['_utility'][2]['player_id']
+            else:
+                temp_dict["util_3"] = None
+            if lineup_array[i]['_utility'][3]:
+                temp_dict["util_4"] = lineup_array[i]['_utility'][3]['player_id']
+            else:
+                temp_dict["util_4"] = None
+            if lineup_array[i]['_utility'][4]:
+                temp_dict["util_5"] = lineup_array[i]['_utility'][4]['player_id']
+            else:
+                temp_dict["util_5"] = None
+            good_lineups_array.append(temp_dict)
+            print("after update good lineup dict")
+    return good_lineups_array
 
 # end auxiliary functions
 
@@ -280,6 +313,7 @@ class entries_route(Resource):
         return '', 204
 
 class save_lint_entries_route(Resource):
+    schema = EntrySchema()
     def get(self):
         data = {"hit get entries" : "route"}
         return data, 200
@@ -293,22 +327,25 @@ class save_lint_entries_route(Resource):
             if(len(lineup_array) == 0):
                 return {'message': 'Failed to save, all lineups are empty'}, 200
             ret_failure_dict = lint_lineups(lineup_array)
-            for key, value in ret_failure_dict.items():
-                print(key, value)
             #makes a post request with all the lineups that had NO failures
-
-            # which lints the lineups, and then saves them if successful
-            # else
-            # returns which lineups failed and why (ie dupe player, above salary, 6 players one team)
-            # listOfDicts = []
-            # for k in listOfDicts:
-            #     if db.session.query(Entry.id).filter_by(**k).first() is None:
-            #       print(str(k))
-            #       t = Entry(**k)
-            #       db.session.add(t)
-            #     else:
-            #         print("entry already exists!")
-            # db.session.commit()
+            good_lineups = parse_linted_lineups(ret_failure_dict, lineup_array)
+            #now save lineups. if lineup existst, overwrite it
+            for k in good_lineups:
+                print(k['entry_id'])
+                data_entry = db.session.query(Entry).filter(
+                        Entry.entry_id == k['entry_id']
+                ).first()
+                if data_entry is not None:
+                    data_entry.captain = k['captain']
+                    data_entry.util_1 = k['util_1']
+                    data_entry.util_2 = k['util_2']
+                    data_entry.util_3 = k['util_3']
+                    data_entry.util_4 = k['util_4']
+                    data_entry.util_5 = k['util_5']
+                    db.session.add(data_entry)
+                else:
+                    print("You must have an entry before updating! Please upload entries file!")
+            db.session.commit()
             ret_data =  {
                 'message': 'Succesfully checked and saved your lineups!', 
             }
