@@ -1,17 +1,28 @@
 
 import React from 'react';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
+import { withCookies, Cookies } from 'react-cookie';
+import { instanceOf } from 'prop-types';
 import './styles/styles.css';
 import Splash from './routes/Splash';
 import TeamBuilder from './routes/TeamBuilder';
 import Charts from './routes/Charts';
 import Header from './components/Header';
 import Groups from './routes/Groups';
+import Login from './routes/Login';
+import Logout from './routes/Logout';
+import Signup from './routes/Signup';
 class App extends React.Component {
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
+  };
   constructor(props){
     super(props);
     const {cookies} = props;
     this.state = {
+      _email: cookies.get('email') || 'None',
+      _jwt: cookies.get('jwt_token') || 'None',
+      _is_logged_in: cookies.get('is_logged_in') || false,
      _entries_uploaded: false,
      _salaries_uploaded: false,
      _disable_salaries_upload: false,
@@ -25,6 +36,10 @@ class App extends React.Component {
      _is_utility_set: []
 
     }
+    this.handleCookiesUpdate = this.handleCookiesUpdate.bind(this);
+    this.handleCookiesDelete = this.handleCookiesDelete.bind(this);
+    this.shouldRenderHeader  = this.shouldRenderHeader.bind(this);
+
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
     this.handleContestUpload = this.handleContestUpload.bind(this);
     this.handleSalaryUpload = this.handleSalaryUpload.bind(this);
@@ -33,6 +48,40 @@ class App extends React.Component {
     this.handleSetEntryTableRowCaptain = this.handleSetEntryTableRowCaptain.bind(this);
     this.handleSetEntryTableRowUtility = this.handleSetEntryTableRowUtility.bind(this);
   }
+
+  handleCookiesUpdate(data) {
+    const {cookies} = this.props;
+    cookies.set('email', data.email, {path: '/'});
+    cookies.set('jwt_token', data.jwt_token, {path: '/'});
+    cookies.set('is_logged_in', data.is_logged_in, {path: '/'});
+    this.setState({
+      _email: data.email,
+      _jwt: data.jwt_token,
+      _is_logged_in: data.is_logged_in
+    });
+  }
+  handleCookiesDelete() {
+    console.log('removed cookies fired')
+    const {cookies} = this.props;
+    cookies.remove('email', {path: '/'});
+    cookies.remove('jwt_token', {path: '/'});
+    cookies.remove('is_logged_in', {path: '/'});
+    this.setState({
+      _email: 'None',
+      _jwt: 'None',
+      _is_logged_in: false
+    });
+  }
+  shouldRenderHeader() {
+    if (typeof window !== 'undefined') {
+      const { pathname } = window.location;
+      return pathname !== '/';
+    }
+    return false;
+  }
+
+
+
   handleUploadSuccess(fileType){
     this.setState({ [`_${fileType}_uploaded`]: true , [`disable_${fileType}_uploaded`]: true});
   };
@@ -184,7 +233,10 @@ class App extends React.Component {
       <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          <Header></Header>
+          <Header
+           is_logged_in={this.state._is_logged_in}
+           handleLogout={this.handleCookiesDelete}
+          ></Header>
         </header>
         <div>
           <Routes>
@@ -224,6 +276,9 @@ class App extends React.Component {
             } />
             <Route path="/groups" element={<Groups></Groups>
             }/>
+            <Route path="/login" element={<Login handleCookiesUpdate={this.handleCookiesUpdate}></Login>} />
+            <Route path="/signup" element={<Signup handleCookiesUpdate={this.handleCookiesUpdate}></Signup>} />
+            <Route path="/logout" element={<Logout></Logout>} />
           </Routes>
         </div>
       </div>
@@ -232,11 +287,7 @@ class App extends React.Component {
   }
 }
 
-export default App;
-// static propTypes = {
-//   cookies: instanceOf(Cookies).isRequired
-// };
-
+export default withCookies(App);
 
 
 //For testing state (no api)
