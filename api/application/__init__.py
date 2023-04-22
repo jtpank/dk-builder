@@ -12,8 +12,8 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = CFG.SQLALCHEMY_DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = CFG.UPLOAD_FOLDER
-    #app.config["JWT_SECRET_KEY"] = "adsf4235adfsg3%#$@sg5"
-    #app.secret_key = "sxasd342r2q345gasdg"
+    app.config["JWT_SECRET_KEY"] = "adsf4235adfsg3%#$@sg5LPLPLA67@"
+    app.secret_key = "sxasd342r2q345gasdg"
     db.init_app(app)
 
     with app.app_context():
@@ -23,5 +23,6 @@ def create_app():
         app.register_blueprint(routes.main_app_frontend)
         from . import api_routes
         app.register_blueprint(api_routes.api_main)
+        jwt = JWTManager(app)
         CORS(app, resources={r'/api/*': {"origins": "*"}}, methods=['GET', 'PUT', 'POST'])
         return app

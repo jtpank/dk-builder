@@ -4,6 +4,7 @@ from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
 from flask_jwt_extended import JWTManager
+from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from flask_restful import reqparse, abort, Api, Resource, fields, marshal_with
 from flask import current_app, Blueprint
@@ -17,7 +18,7 @@ import csv
 import time
 import numpy as np
 import ast
-from .models import Salary, SalarySchema, Entry, EntrySchema
+from .models import Salary, SalarySchema, Entry, EntrySchema, Users, UserSchema
 import json
 
 api_main = Blueprint('api', __name__, template_folder='templates')
@@ -122,6 +123,7 @@ def abort_if_table_none(data):
 class salaries_route(Resource):
     schema = SalarySchema()
     # @marshal_with(schema.resource_fields)
+    @jwt_required()
     def get(self):
         data_return = {"Home": {"values" : 
                                 {"ID": {"Name": "n", "Sal": 10}}
@@ -132,6 +134,7 @@ class salaries_route(Resource):
         data = {"hit get salaries" : "route"}
         return data, 200
     # @marshal_with(schema.resource_fields)
+    @jwt_required()
     def put(self):
         if 'file' not in request.files:
             return {'message': 'No file found!'}, 400
@@ -170,16 +173,19 @@ class salaries_route(Resource):
     #delete lineup
     #tokenize
     #TODO: update for team_name delete entry
+    @jwt_required()
     def delete(self):
         return '', 204
     
 class entries_route(Resource):
     schema = EntrySchema()
+    @jwt_required()
     @marshal_with(schema.resource_fields)
     def get(self):
         data = {"hit get entries" : "route"}
         return data, 200
     # @marshal_with(schema.resource_fields)
+    @jwt_required()
     def put(self):
         if 'file' not in request.files:
             return {'message': 'No file found!'}, 400
@@ -215,42 +221,79 @@ class entries_route(Resource):
     #delete lineup
     #tokenize
     #TODO: update for team_name delete entry
+    @jwt_required()
     def delete(self):
         return '', 204
 
+#User login and sign up routes + protected route example:
+class loginRoute(Resource):
+    def get(self):
+        return {'get login' : 'this is the login get page'}
+    def put(self):
+        data = request.json["credentials"]
+        email = data.get("email", None)
+        password = data.get("password", None)
+        #now query database for matching email and password
+        #if user exists in db
+        #user_email = db.session.query(Users).filter_by(email=email).first()
+        user_email = db.session.query(Users).filter_by(email=email).first()
+        if not user_email:
+            response = jsonify({"msg": "Cannot find a user with that email!"})
+            return make_response(response, 401)
+        else:
+            #userEmail.password == generate_password_hash(password):
+            if check_password_hash(user_email.password, password):
+                access_token = create_access_token(identity=email)
+                return make_response(jsonify(access_token=access_token), 200) 
+            else:
+                response = jsonify({"msg": "Invalid Password"})
+                return make_response(response, 401)
 
-# class exampleRoute(Resource):
-#     schema = UserSchema()
-#     #get teams
-#     #tokenize
-#     @marshal_with(schema.resource_fields)
-#     def get(self):
-#         #query database for the team database -->
-#         #TODO: this is an entry for all team names
-#         data = db.session.query(UserSchema).all()
-#         abort_if_table_none(data)
-#         result_dict = {}
-#         # Loop through the results and add them to the dictionary
-#         for result in data:
-#             # Use the `id` attribute of the result as the key
-#             key = result.id
-#             # Use a dictionary comprehension to create a dictionary of the remaining data
-#             value = {column.name: getattr(result, column.name) for column in result.__table__.columns if column.name != 'id'}
-#             # Add the key-value pair to the dictionary
-#             result_dict[key] = value
-#         return data, 200
-#     #add/update team
-#     #tokenize
-#     @marshal_with(schema.resource_fields)
-#     def put(self):
-#         args = schema.args_field.parse_args()
-#         return args, 201
-#     #delete lineup
-#     #tokenize
-#     #TODO: update for team_name delete entry
-#     def delete(self):
-#         return '', 204
+class signupRoute(Resource):
+    def get(self):
+        return {'get signup' : 'this is the signup get page'}
+    def put(self):
+        data = request.json["credentials"]
+        email = data.get("email", None)
+        username = data.get("username", None)
+        password = data.get("password", None)
+        error = None
+        if not email:
+            #email required
+            error = 1
+            response = jsonify({"msg": "Email required"})
+            return make_response(response, 401)
+        if not username:
+            #username required
+            error = 1
+            response = jsonify({"msg": "Username required"})
+            return make_response(response, 401)
+        if not password:
+            #password required
+            error = 1
+            response = jsonify({"msg": "Password required"})
+            return make_response(response, 401)
+        if error is None:
+            exists = db.session.query(Users).filter_by(email=email).first() is not None
+            if exists:
+                #email address exists
+                error = 1
+                response = jsonify({"msg": "Email already exists"})
+                return make_response(response, 401)
+            else:
+                usr = Users(username, email, password)
+                db.session.add(usr)
+                db.session.commit()
+                response = jsonify({"success": "signup success"})
+                return make_response(response, 200)
 
+
+class protectedRoute(Resource):
+    @jwt_required()
+    def get(self):
+        # Access the identity of the current user with get_jwt_identity
+        current_user = get_jwt_identity()
+        return make_response(jsonify(logged_in_as=current_user), 200)
 
 
 class index_class(Resource):
@@ -269,4 +312,7 @@ class index_class(Resource):
 api.add_resource(index_class, '/api')
 api.add_resource(salaries_route, '/api/salaries-route')
 api.add_resource(entries_route, '/api/entries-route')
+api.add_resource(loginRoute, '/api/login')
+api.add_resource(protectedRoute, '/api/protected')
+api.add_resource(signupRoute, '/api/signup')
 # api.add_resource(exampleRoute, '/api/example')
