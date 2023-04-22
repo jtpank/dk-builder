@@ -47,6 +47,8 @@ class App extends React.Component {
     this.handleSelectUtility = this.handleSelectUtility.bind(this);
     this.handleSetEntryTableRowCaptain = this.handleSetEntryTableRowCaptain.bind(this);
     this.handleSetEntryTableRowUtility = this.handleSetEntryTableRowUtility.bind(this);
+
+    this.handleSaveLintLineups = this.handleSaveLintLineups.bind(this);
   }
 
   handleCookiesUpdate(data) {
@@ -81,8 +83,42 @@ class App extends React.Component {
   }
 
 
+  handleSaveLintLineups() {
+    console.log("save and lint fired")
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
+    const base_url = 'http://127.0.0.1:5000/api/';
+    const fetch_req = "save-lint-entries";
+    const end_url = '-route';
+    const full_url = base_url + fetch_req + end_url;
+    //this is a list of objects
+    const bodyData = JSON.stringify({lineupData: this.state._all_lineups});
+    console.log(bodyData)
+    fetch(full_url, {
+            method: 'PUT',
+            headers: myHeaders,
+            body: bodyData
+        }).then(response => {
+          if (!response.ok) {
+            console.log(response)
+            console.log(response.json())
+              throw new Error("HTTP status " + response.status + " bad json lineup data or server error");
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log(data);
+           
+        }).catch(error => {
+            console.error(error);
+            alert(error.message);
+        });
+    };
 
-  handleUploadSuccess(fileType){
+
+
+  handleUploadSuccess(fileType) {
     this.setState({ [`_${fileType}_uploaded`]: true , [`disable_${fileType}_uploaded`]: true});
   };
   handleContestUpload(id, numEntries, entry_data){
@@ -124,9 +160,6 @@ class App extends React.Component {
   }
   //Lineup specific functions
   handleSelectCaptain(cpt, lineupIndex) {
-    console.log("handle select captain function: ");
-    console.log(cpt.player_name);
-    console.log(cpt.salary);
     let allLineups = [...this.state._all_lineups]; // make a copy of the lineup array
     let lineup = {...allLineups[lineupIndex]}; // make a copy of the lineup object at the specified index
     lineup._captain = cpt; // set the _captain object for the lineup
@@ -136,7 +169,6 @@ class App extends React.Component {
     });
   }
   handleSetEntryTableRowCaptain(val, lineupIndex) {
-    console.log("handle captain set: " + String(val) + " index: " + String(lineupIndex));
     let setCaptain = [...this.state._is_captain_set]; // make a copy of the lineup array
     setCaptain[lineupIndex] = val;
     this.setState({
@@ -157,9 +189,6 @@ class App extends React.Component {
 
   }
   handleSelectUtility(player, lineupIndex, index) {
-    console.log("handle select utility function");
-    console.log("index: " + String(index))
-    console.log("player: " + player);
     const allLineups = [...this.state._all_lineups]; // make a copy of the lineup array
     const lineup = {...allLineups[lineupIndex]}; // make a copy of the lineup object at the specified index
     const utility = [...lineup._utility]; // make a copy of the _utility array
@@ -269,6 +298,9 @@ class App extends React.Component {
             isCaptainSet={this.state._is_captain_set}
             handleSetEntryTableRowUtility={(val, lineupIndex, index) => this.handleSetEntryTableRowUtility(val, lineupIndex, index)}
             isUtilitySet={this.state._is_utility_set}
+            
+            _jwt={this.state._jwt}
+            handleSaveLintLineups={this.handleSaveLintLineups}
             ></TeamBuilder>} />
 
             <Route path="/charts" element={

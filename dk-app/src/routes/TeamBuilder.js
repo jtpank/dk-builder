@@ -32,7 +32,9 @@ class TeamBuilder extends React.Component {
                 {/* This is to be a fetch request to the server to lint (or do that browser side)
                 then it saves / overwriets with a post fetch request to the server for the
                 corresponding email-entry id combinations */}
-                <button>TODO: Save and Lint Lineups</button>
+                <button
+                onClick={this.props.handleSaveLintLineups}
+                >TODO: Save and Lint Lineups</button>
             </div>
             <div> 
                 {/* Probably easiest to make this browser side... 

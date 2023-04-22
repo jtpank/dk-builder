@@ -109,6 +109,55 @@ def parseSalaryCsv(filename, listOfDicts, contestID):
         }
         return ret_dict
 
+def lint_lineups(lineup_array):
+    failure_dict = {}
+    for lineup in lineup_array:
+        entry_id = lineup['_entry_id']
+        captain = lineup['_captain']
+        utilityArray = lineup['_utility']
+        name_array = []
+        salary_array = []
+        team_array = []
+        all_empty = True
+        if(bool(captain)):
+            name_array.append(captain['player_name'])
+            salary_array.append(captain['salary'])
+            team_array.append(captain['team_abbr'])
+            all_empty = False
+        for utility in utilityArray:
+            if(bool(utility)):
+                name_array.append(utility['player_name'])
+                salary_array.append(utility['salary'])
+                team_array.append(utility['team_abbr'])
+                all_empty = False
+        #check name_array is all unique
+        for i in range(len(name_array)):
+            for j in range(i+1, len(name_array)):
+                if(name_array[i] == name_array[j]):
+                    print(name_array[i])
+                    print(name_array[j])
+                    failure_dict[entry_id] = ["duplicate-name-error"]
+        # check that salary does not exceed 50,000
+        if(sum(salary_array) > 50000):
+            if entry_id in failure_dict:
+                failure_dict[entry_id].append("exceed-salary-cap-error")
+            else:
+                failure_dict[entry_id] = ["exceed-salary-cap-error"]
+        #check that at least 2 players are different / all players NOT same team
+        if(len(set(team_array)) == 1):
+            if entry_id in failure_dict:
+                failure_dict[entry_id].append("all-players-on-same-team-error")
+            else:
+                failure_dict[entry_id] = ["all-players-on-same-team-error"]
+        if(all_empty):
+            failure_dict[entry_id] = ["all-empty"]
+    return failure_dict
+
+def parse_linted_lineups(failure_dict, lineup_array):
+    return
+
+# end auxiliary functions
+
 #404 response if field not existent
 def abort_if_field_not_exist(data_field, data):
     if data_field not in data:
@@ -192,28 +241,18 @@ class entries_route(Resource):
             return {'message': 'No file found!'}, 400
         file = request.files['file']
         try:
-            print("line 195")
             file = request.files['file']
-            print("line 197")
             email_str = request.files['blob_email']
-            print("line 199")
             json_str = email_str.read().decode('utf-8')
-            print("line 201")
             data_dict = json.loads(json_str)
-            print("line 203")
             inputEmail = data_dict['email']
-            print("line 205")
             if not file.filename.lower().endswith('.csv'):
                 return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
             filename = secure_filename(file.filename)
             fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            print(fullPath)
-            print("line 210")
             file.save(fullPath)
-            print("line 212")
             listOfDicts = []
             contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts, inputEmail)
-            print("line 215")
             for k in listOfDicts:
                 if db.session.query(Entry.id).filter_by(**k).first() is None:
                   print(str(k))
@@ -239,6 +278,43 @@ class entries_route(Resource):
     @jwt_required()
     def delete(self):
         return '', 204
+
+class save_lint_entries_route(Resource):
+    def get(self):
+        data = {"hit get entries" : "route"}
+        return data, 200
+     # @marshal_with(schema.resource_fields)
+    @jwt_required()
+    def put(self):
+        try:
+            #need to lint
+            lineup_data = request.get_json()
+            lineup_array = lineup_data['lineupData']
+            if(len(lineup_array) == 0):
+                return {'message': 'Failed to save, all lineups are empty'}, 200
+            ret_failure_dict = lint_lineups(lineup_array)
+            for key, value in ret_failure_dict.items():
+                print(key, value)
+            #makes a post request with all the lineups that had NO failures
+
+            # which lints the lineups, and then saves them if successful
+            # else
+            # returns which lineups failed and why (ie dupe player, above salary, 6 players one team)
+            # listOfDicts = []
+            # for k in listOfDicts:
+            #     if db.session.query(Entry.id).filter_by(**k).first() is None:
+            #       print(str(k))
+            #       t = Entry(**k)
+            #       db.session.add(t)
+            #     else:
+            #         print("entry already exists!")
+            # db.session.commit()
+            ret_data =  {
+                'message': 'Succesfully checked and saved your lineups!', 
+            }
+            return ret_data, 200
+        except Exception as e:
+            return {'message': 'Failed to check and save your lineups: {}'.format(str(e))}, 500
 
 #User login and sign up routes + protected route example:
 class loginRoute(Resource):
@@ -328,4 +404,5 @@ api.add_resource(entries_route, '/api/entries-route')
 api.add_resource(loginRoute, '/api/login')
 api.add_resource(protectedRoute, '/api/protected')
 api.add_resource(signupRoute, '/api/signup')
+api.add_resource(save_lint_entries_route, '/api/save-lint-entries-route')
 # api.add_resource(exampleRoute, '/api/example')
