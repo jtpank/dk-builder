@@ -29,12 +29,19 @@ class TeamBuilder extends React.Component {
             <div>
             </div>
             <div>
+                {/* This is to be a fetch request to the server to lint (or do that browser side)
+                then it saves / overwriets with a post fetch request to the server for the
+                corresponding email-entry id combinations */}
                 <button>TODO: Save and Lint Lineups</button>
             </div>
-            <div>
+            <div> 
+                {/* Probably easiest to make this browser side... 
+                Can only be performed AFTER save and linted*/}
                 <button>TODO: Download Lineup CSV</button>
             </div>
             <div>
+                {/* Fetch get request to load current lineups 
+                ALSO: (need to ensure that past lineups are READ ONLY) */}
                 <button>TODO: Load Saved Lineups</button>
             </div>
             <div>
