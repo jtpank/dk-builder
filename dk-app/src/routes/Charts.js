@@ -42,7 +42,7 @@ class Charts extends React.Component {
             datasets: [
             {
                 label: "Percent Exposed ",
-                data: [...captainMap.values()].map(val => (val/(entries)).toPrecision(2)),
+                data: [...captainMap.values()].map(val =>  ((val/(entries))*100.0)),
             }
             ]
         }
@@ -105,7 +105,7 @@ class Charts extends React.Component {
             datasets: [
             {
                 label: "Percent Exposed ",
-                data: [...totalPlayerMap.values()].map(val => (val/(entries)).toPrecision(2)),
+                data: [...totalPlayerMap.values()].map(val => ((val/(entries))*100.0)),
             }
             ]
         }
