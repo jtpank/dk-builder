@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+//set baseurl here!
+const base_url = 'http://127.0.0.1:8000/api/'
 class FileUpload extends Component {
   constructor(props) {
     super(props);
@@ -75,8 +76,7 @@ class FileUpload extends Component {
       type: 'application/json'
     });
     formData.append("blob_email", blob_email);
-  
-    const base_url = 'http://127.0.0.1:5000/api/'
+
     const fetch_req = this.props.routeName;
     const end_url = '-route';
     const full_url = base_url + fetch_req + end_url;

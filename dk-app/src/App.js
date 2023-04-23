@@ -12,6 +12,8 @@ import Groups from './routes/Groups';
 import Login from './routes/Login';
 import Logout from './routes/Logout';
 import Signup from './routes/Signup';
+//Change baseurl here!
+const base_url = 'http://127.0.0.1:8000/api/';
 class App extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -88,7 +90,6 @@ class App extends React.Component {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
-    const base_url = 'http://127.0.0.1:5000/api/';
     const fetch_req = "download-entries";
     const end_url = '-route';
     // const filename = 'download_DKEntries.csv';
@@ -134,7 +135,6 @@ class App extends React.Component {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
-    const base_url = 'http://127.0.0.1:5000/api/';
     const fetch_req = "save-lint-entries";
     const end_url = '-route';
     const full_url = base_url + fetch_req + end_url;
