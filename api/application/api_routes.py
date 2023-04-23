@@ -560,11 +560,14 @@ class groupContestDataRoute(Resource):
                     Salary.player_id == lineup['captain'],
                     Salary.contest_id == contest_id_value
                         ).first()
+                print("after captain query")
                 if salary_array_query is not None:
                     salary_data = salary_array_query.__dict__
                     # Remove any internal keys
                     salary_data.pop('_sa_instance_state', None)
                     lineup['captain'] = salary_data
+                    print(salary_data)
+                    print("------------")
             if lineup['util_1'] != None:
                 salary_array_query = db.session.query(Salary).filter(
                     Salary.player_id == lineup['util_1'],
