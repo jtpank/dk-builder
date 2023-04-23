@@ -64,6 +64,7 @@ class FileUpload extends Component {
     }
     const myHeaders = new Headers();
     myHeaders.append('Authorization', 'Bearer ' + this.props._jwt);
+    myHeaders.append("Access-Control-Allow-Origin","*");
     let json = JSON.stringify(obj);
     let blob = new Blob([json], {
       type: 'application/json'
