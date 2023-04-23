@@ -15,6 +15,10 @@ class Groups extends React.Component {
         <div>
             <div>
                 <p>Group stats!</p>
+                <div>
+                    <p>Select Contest:</p>
+                    <button onClick={this.props.handleDisplayContestData}>Find contests</button>
+                </div>
             </div>
           
             <Outlet></Outlet>

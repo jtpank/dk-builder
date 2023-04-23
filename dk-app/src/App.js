@@ -53,6 +53,8 @@ class App extends React.Component {
 
     this.handleSaveLintLineups = this.handleSaveLintLineups.bind(this);
     this.handleDownloadLineupCsv = this.handleDownloadLineupCsv.bind(this);
+
+    this.handleDisplayContestData = this.handleDisplayContestData.bind(this);
   }
 
   handleCookiesUpdate(data) {
@@ -267,6 +269,36 @@ class App extends React.Component {
     }
   }
 
+  //Group lineup and stat display
+  handleDisplayContestData(){
+    console.log("handleDisplay contest data");
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append("Access-Control-Allow-Origin","*");
+    myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
+    let path = "user-contests-route";
+    let full_url = base_url + path;
+    const bodyData = JSON.stringify({contest_id: this.state._contestId});
+    fetch(full_url, {
+      method: 'PUT',
+      headers: myHeaders,
+      body: bodyData
+    }).then(response => {
+      console.log(response)
+      if (!response.ok) {
+          throw new Error("HTTP status " + response.status + " bad request to user contests");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+    }).catch(error => {
+        console.error(error);
+        alert(error.message);
+    });
+
+  }
+
   render() {
     return (
       <BrowserRouter>
@@ -294,36 +326,40 @@ class App extends React.Component {
             ></Splash>}></Route>
 
             <Route path="/team-builder" element={
-            <TeamBuilder
-            contestId={this.state._contestId}
-            numEntries={this.state._num_entries}
-            cptSalaryDict={this.state._cpt_salary_dict}
-            utilSalaryDict={this.state._util_salary_dict}
-            isEntriesUploaded={this.state._entries_uploaded}
-            isSalariesUploaded={this.state._salaries_uploaded}
-            allLineups={this.state._all_lineups}
-            handleSelectCaptain={(cpt, lineupIndex) => this.handleSelectCaptain(cpt, lineupIndex)}
-            handleSelectUtility={(player, lineupIndex, idx) => this.handleSelectUtility(player, lineupIndex, idx)}
-            handleSetEntryTableRowCaptain={(val, lineupIndex) => this.handleSetEntryTableRowCaptain(val, lineupIndex)}
-            isCaptainSet={this.state._is_captain_set}
-            handleSetEntryTableRowUtility={(val, lineupIndex, index) => this.handleSetEntryTableRowUtility(val, lineupIndex, index)}
-            isUtilitySet={this.state._is_utility_set}
-            
-            failureDict={this.state._failure_dict}
-            
-            handleDownloadLineupCsv={this.handleDownloadLineupCsv}
+              <TeamBuilder
+              contestId={this.state._contestId}
+              numEntries={this.state._num_entries}
+              cptSalaryDict={this.state._cpt_salary_dict}
+              utilSalaryDict={this.state._util_salary_dict}
+              isEntriesUploaded={this.state._entries_uploaded}
+              isSalariesUploaded={this.state._salaries_uploaded}
+              allLineups={this.state._all_lineups}
+              handleSelectCaptain={(cpt, lineupIndex) => this.handleSelectCaptain(cpt, lineupIndex)}
+              handleSelectUtility={(player, lineupIndex, idx) => this.handleSelectUtility(player, lineupIndex, idx)}
+              handleSetEntryTableRowCaptain={(val, lineupIndex) => this.handleSetEntryTableRowCaptain(val, lineupIndex)}
+              isCaptainSet={this.state._is_captain_set}
+              handleSetEntryTableRowUtility={(val, lineupIndex, index) => this.handleSetEntryTableRowUtility(val, lineupIndex, index)}
+              isUtilitySet={this.state._is_utility_set}
+              
+              failureDict={this.state._failure_dict}
+              
+              handleDownloadLineupCsv={this.handleDownloadLineupCsv}
 
-            _jwt={this.state._jwt}
-            handleSaveLintLineups={this.handleSaveLintLineups}
-            ></TeamBuilder>} />
+              _jwt={this.state._jwt}
+              handleSaveLintLineups={this.handleSaveLintLineups}
+              ></TeamBuilder>} />
 
             <Route path="/charts" element={
-            <Charts
-            allLineups={this.state._all_lineups}
-            numEntries={this.state._num_entries}
-            ></Charts>
+              <Charts
+              allLineups={this.state._all_lineups}
+              numEntries={this.state._num_entries}
+              ></Charts>
             } />
-            <Route path="/groups" element={<Groups></Groups>
+            <Route path="/groups" element={
+              <Groups
+              handleDisplayContestData={this.handleDisplayContestData}
+              _jwt={this.state._jwt}
+              ></Groups>
             }/>
             <Route path="/login" element={<Login handleCookiesUpdate={this.handleCookiesUpdate}></Login>} />
             <Route path="/signup" element={<Signup handleCookiesUpdate={this.handleCookiesUpdate}></Signup>} />

@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 from flask_restful import reqparse, abort, Api, Resource, fields, marshal_with
 from flask import current_app, Blueprint, send_file, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import exc, and_
+from sqlalchemy import exc, and_, distinct
 from .models import db
 import openpyxl as opx
 import os
@@ -460,6 +460,7 @@ class downloadEntriesRoute(Resource):
     def get(self):
         data = {'message': "download entries get route"}
         return data, 200
+    @jwt_required
     def put(self):
         print("current directory: ************")
         print(os.getcwd())
@@ -494,6 +495,26 @@ class downloadEntriesRoute(Resource):
         except Exception as e:
             return {'message': 'Failed to build csv: {}'.format(str(e))}, 500
 
+#data display route
+class userContestDataRoute(Resource):
+    @jwt_required()
+    def get(self):
+        data = {'message': "user contest data get route"}
+        return data, 200
+    def put(self):
+        email_addr = 'jtpank34@gmail.com'
+        myquery = db.session.query(distinct(Entry.contest_name)).filter(Entry.email == email_addr).all()
+        if myquery is not None:
+            print(type(myquery))
+            print(type(myquery[0]))
+        try:
+            print("inside the try user contest data loop")
+            return {"message": "return message"}, 200
+        except Exception as e:
+            return {'message': 'Failed to retrieve contest data: {}'.format(str(e))}, 500
+
+
+
 class index_class(Resource):
     def get(self):
         # listDict = []
@@ -515,4 +536,5 @@ api.add_resource(protectedRoute, '/api/protected')
 api.add_resource(signupRoute, '/api/signup')
 api.add_resource(save_lint_entries_route, '/api/save-lint-entries-route')
 api.add_resource(downloadEntriesRoute,'/api/download-entries-route')
+api.add_resource(userContestDataRoute, '/api/user-contests-route')
 # api.add_resource(exampleRoute, '/api/example')
