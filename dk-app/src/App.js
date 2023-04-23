@@ -144,9 +144,8 @@ class App extends React.Component {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
-    const fetch_req = "save-lint-entries";
-    const end_url = '-route';
-    const full_url =  + fetch_req + end_url;
+    const fetch_req = "save-lint-entries-route";
+    const full_url =  base_url + fetch_req;
     //this is a list of objects
     const bodyData = JSON.stringify({lineupData: this.state._all_lineups});
     fetch(full_url, {
