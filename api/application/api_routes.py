@@ -622,7 +622,6 @@ class groupContestDataRoute(Resource):
                 "email_list": email_list,
                 "entry_obj_list": entry_obj_list,
                 }
-            print(entry_obj_list)
             return data, 200
         except Exception as e:
             return {'message': 'Failed to retrieve groupContestDataRoute data: {}'.format(str(e))}, 500
