@@ -19,10 +19,12 @@ class Groups extends React.Component {
                     <p>Select Contest:</p>
                     <button onClick={this.props.handleDisplayContestData}>Find contests</button>
                 </div>
-                <div>
-                    <ul>
+                <div className="scrollable-container">
+                    <ul className="contest-list">
                         {this.props.allUserContestsList.map((item, index) => (
-                        <li key={index}>{item}</li>
+                        <div key={index}>
+                        <li>{item} <button>click me</button></li>
+                        </div>
                         ))}
                     </ul>
                 </div>

@@ -290,7 +290,6 @@ class App extends React.Component {
       return response.json();
     })
     .then(data => {
-      console.log(data["contest_list"]);
       this.setState({
         _all_user_contests_list: data["contest_list"]
       })
