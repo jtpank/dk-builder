@@ -95,7 +95,7 @@ class FileUpload extends Component {
             if(data.contest_id != null && data.contest_id > 0)
             {
               //also array of all the entry ids, because we need the number of lineups.
-              this.props.handleContestUpload(data.contest_id, data.num_entries, data.entry_data);
+              this.props.handleContestUpload(data.contest_name, data.contest_id, data.num_entries, data.entry_data);
             }
 
             this.props.onUploadSuccess(this.props.routeName);

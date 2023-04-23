@@ -38,7 +38,9 @@ class App extends React.Component {
      _all_lineups: [],
     _is_captain_set: [],
      _is_utility_set: [],
-     _failure_dict: {}
+     _failure_dict: {},
+     _current_groups_email_list: [],
+     _current_groups_entry_list_data: [],
 
     }
     this.handleCookiesUpdate = this.handleCookiesUpdate.bind(this);
@@ -302,27 +304,30 @@ class App extends React.Component {
     });
 
   }
-  handleDisplayGroupsAndContestCharts() {
-    console.log("handleDisplayGroupsAndContestCharts");
+  handleDisplayGroupsAndContestCharts(selectedContestId) {
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append("Access-Control-Allow-Origin","*");
     myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
     let path = "group-contests-route";
     let full_url = base_url + path;
-    const bodyData = JSON.stringify({contest_id: this.state._contestId});
+    const bodyData = JSON.stringify({contest_id: selectedContestId});
     fetch(full_url, {
       method: 'PUT',
       headers: myHeaders,
       body: bodyData
     }).then(response => {
       if (!response.ok) {
-          throw new Error("HTTP status " + response.status + " bad request to user contests");
+        console.log(response)
+          throw new Error("HTTP status " + response.status + " bad request to group contests");
       }
       return response.json();
     })
     .then(data => {
-      console.log(data)
+      this.setState({
+        _current_groups_entry_list_data: data['entry_obj_list'],
+        _current_groups_email_list: data['email_list']
+      })
     }).catch(error => {
         console.error(error);
         alert(error.message);
@@ -388,6 +393,8 @@ class App extends React.Component {
             } />
             <Route path="/groups" element={
               <Groups
+              groupEmailList={this.state._current_groups_email_list}
+              groupEntryDataList={this.state._current_groups_entry_list_data}
               handleDisplayContestData={this.handleDisplayContestData}
               allUserContestsList={this.state._all_user_contests_list}
               handleDisplayGroupsAndContestCharts={this.handleDisplayGroupsAndContestCharts}

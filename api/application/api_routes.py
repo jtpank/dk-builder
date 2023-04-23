@@ -9,7 +9,7 @@ from werkzeug.utils import secure_filename
 from flask_restful import reqparse, abort, Api, Resource, fields, marshal_with
 from flask import current_app, Blueprint, send_file, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import exc, and_, distinct
+from sqlalchemy import exc, and_, distinct, or_
 from .models import db
 import openpyxl as opx
 import os
@@ -439,7 +439,6 @@ class signupRoute(Resource):
                 response = jsonify({"success": "signup success"})
                 return make_response(response, 200)
 
-
 class protectedRoute(Resource):
     @jwt_required()
     def get(self):
@@ -495,14 +494,18 @@ class userContestDataRoute(Resource):
         #need to lint
         email_data = request.get_json()
         email_addr = email_data['email']
-        myquery = db.session.query(distinct(Entry.contest_name)).filter(Entry.email == email_addr).all()
-        contest_names = []
+        myquery = db.session.query(distinct(Entry.contest_name),Entry.contest_id).filter(
+                                    Entry.email == email_addr).all()
+        contest_names_ids = []
         if myquery is not None:
-            contest_names = [row[0] for row in myquery]
+            contest_names_ids = [{
+                "contest_name": row[0],
+                "contest_id": row[1],
+            } for row in myquery]
         try:
             data =  {
                 "message": "return message",
-                "contest_list": contest_names
+                "contest_list": contest_names_ids
                 }
             return data, 200
         except Exception as e:
@@ -523,16 +526,103 @@ class groupContestDataRoute(Resource):
         # [
         #   {entry dict...}
         # ]
-        emailQuery = db.session.query(distinct(Entry.email)).filter(Entry.contest_id == contest_id).all()
+        #TODO: Clean up this repeated code....
         email_list = []
+        entry_query_list = []
+        entry_obj_list = []
+        emailQuery = db.session.query(distinct(Entry.email)).filter(Entry.contest_id == contest_id).all()
         if emailQuery is not None:
             email_list = [row[0] for row in emailQuery]
+        for email in email_list:
+            entry_query = db.session.query(Entry).filter(
+                Entry.contest_id == contest_id,
+                Entry.email == email
+            ).all()
+            if entry_query is not None:
+                entry_query_list.extend(entry_query)
+        if entry_query_list is not None:
+                for entry_row in entry_query_list:
+                    contest_data = entry_row.__dict__
+                    # Remove any internal keys
+                    contest_data.pop('_sa_instance_state', None)
+                    entry_obj_list.append(contest_data)
+        for lineup in entry_obj_list:
+            #captain query
+            contest_id_value = lineup['contest_id']
+            lineup['_utility'] = []
+            #add key _utility which is array of objects
+            if lineup['captain'] != None:
+                salary_array_query = db.session.query(Salary).filter(
+                    Salary.player_id == lineup['captain'],
+                    Salary.contest_id == contest_id_value
+                        ).first()
+                if salary_array_query is not None:
+                    salary_data = salary_array_query.__dict__
+                    # Remove any internal keys
+                    salary_data.pop('_sa_instance_state', None)
+                    lineup['captain'] = salary_data
+            if lineup['util_1'] != None:
+                salary_array_query = db.session.query(Salary).filter(
+                    Salary.player_id == lineup['util_1'],
+                    Salary.contest_id == contest_id_value
+                        ).first()
+                if salary_array_query is not None:
+                    salary_data = salary_array_query.__dict__
+                    # Remove any internal keys
+                    salary_data.pop('_sa_instance_state', None)
+                    lineup['_utility'].append(salary_data)
+            if lineup['util_2'] != None:
+                salary_array_query = db.session.query(Salary).filter(
+                    Salary.player_id == lineup['util_2'],
+                    Salary.contest_id == contest_id_value
+                        ).first()
+                if salary_array_query is not None:
+                    salary_data = salary_array_query.__dict__
+                    # Remove any internal keys
+                    salary_data.pop('_sa_instance_state', None)
+                    lineup['_utility'].append(salary_data)
+            if lineup['util_3'] != None:
+                salary_array_query = db.session.query(Salary).filter(
+                    Salary.player_id == lineup['util_3'],
+                    Salary.contest_id == contest_id_value
+                        ).first()
+                if salary_array_query is not None:
+                    salary_data = salary_array_query.__dict__
+                    # Remove any internal keys
+                    salary_data.pop('_sa_instance_state', None)
+                    lineup['_utility'].append(salary_data)
+            if lineup['util_4'] != None:
+                salary_array_query = db.session.query(Salary).filter(
+                    Salary.player_id == lineup['util_4'],
+                    Salary.contest_id == contest_id_value
+                        ).first()
+                if salary_array_query is not None:
+                    salary_data = salary_array_query.__dict__
+                    # Remove any internal keys
+                    salary_data.pop('_sa_instance_state', None)
+                    lineup['_utility'].append(salary_data)
+            if lineup['util_5'] != None:
+                salary_array_query = db.session.query(Salary).filter(
+                    Salary.player_id == lineup['util_5'],
+                    Salary.contest_id == contest_id_value
+                        ).first()
+                if salary_array_query is not None:
+                    salary_data = salary_array_query.__dict__
+                    # Remove any internal keys
+                    salary_data.pop('_sa_instance_state', None)
+                    lineup['_utility'].append(salary_data)
+            del lineup['util_1']
+            del lineup['util_2']
+            del lineup['util_3']
+            del lineup['util_4']
+            del lineup['util_5']
         try:
-            print("inside groupContestDataRoute loop")
             data =  {
                 "message": "return message",
                 "email_list": email_list,
+                "entry_obj_list": entry_obj_list,
                 }
+            print(entry_obj_list)
             return data, 200
         except Exception as e:
             return {'message': 'Failed to retrieve groupContestDataRoute data: {}'.format(str(e))}, 500
@@ -540,15 +630,6 @@ class groupContestDataRoute(Resource):
 
 class index_class(Resource):
     def get(self):
-        # listDict = []
-        # fileIn = "team_names.csv"
-        # pushTeamNames(fileIn, listDict)
-        # for k in listDict:
-        #     print("in for loop: " + str(k))
-        #     if db.session.query(NFL_TEAM_LIST_NAMES.id).filter_by(**k).first() is None:
-        #       t = NFL_TEAM_LIST_NAMES(**k)
-        #       db.session.add(t)
-        # db.session.commit()
         return {"api-for-dk" : "index_page"}
 #add resources
 api.add_resource(index_class, '/api')
