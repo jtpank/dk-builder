@@ -1,6 +1,10 @@
 import React from 'react';
 import {Outlet} from 'react-router-dom';
 import '../styles/styles.css';
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import { Data } from "../utils/Data"
+import { BarChart } from '../components/BarChart';
 
 class Groups extends React.Component {
     constructor(props){
@@ -10,7 +14,21 @@ class Groups extends React.Component {
         }
       }
     render() {
-       
+        Chart.register(CategoryScale);
+        let testMap = new Map();
+        testMap.set("item1", 10);
+        testMap.set("item2", 20);
+        testMap.set("item3", 30);
+        const utilityData =
+        {
+            labels: [...testMap.keys()], 
+            datasets: [
+            {
+                label: "Percent Exposed ",
+                data: [...testMap.values()].map(val => (val*100.0)),
+            }
+            ]
+        }
         return (
         <div>
             <div>
@@ -27,6 +45,16 @@ class Groups extends React.Component {
                         </div>
                         ))}
                     </ul>
+                </div>
+                <div className='bar-chart-style'>
+                    <BarChart
+                    chartData={utilityData}
+                    labelName={"Captain"}/>
+
+                    <BarChart 
+                    chartData={utilityData}
+                    labelName={"Total"} 
+                    />
                 </div>
             </div>
           

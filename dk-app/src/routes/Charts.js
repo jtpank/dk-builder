@@ -1,7 +1,6 @@
 import React from 'react';
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import { Data } from "../utils/Data.js";
 import { BarChart } from '../components/BarChart';
 import '../styles/styles.css';
 
