@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //set baseurl here!
-const base_url = 'http://127.0.0.1:8000/api/'
+const base_url = '/api/'
 class FileUpload extends Component {
   constructor(props) {
     super(props);

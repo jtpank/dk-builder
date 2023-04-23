@@ -20,7 +20,7 @@ class SignupForm extends React.Component {
     //async function loginUser(credentials)
     //  then fetch('/api/login) as a POST
     async signupUser(credentials) {
-        const base_url = 'http://127.0.0.1:8000/api/signup'
+        const base_url = '/api/signup'
         fetch(base_url, {
                     method: 'PUT',
                     headers: {
@@ -41,7 +41,7 @@ class SignupForm extends React.Component {
                 _is_error: false,
                 _registered: true });
             }
-            const base_url_2 = 'http://127.0.0.1:8000/api/login'
+            const base_url_2 = '/api/login'
             return fetch(base_url_2, {
                 method: 'PUT',
                 headers: {

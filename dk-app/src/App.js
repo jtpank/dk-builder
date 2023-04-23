@@ -13,7 +13,7 @@ import Login from './routes/Login';
 import Logout from './routes/Logout';
 import Signup from './routes/Signup';
 //Change baseurl here!
-const base_url = 'http://127.0.0.1:8000/api/';
+const base_url = '/api/';
 class App extends React.Component {
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
@@ -138,7 +138,7 @@ class App extends React.Component {
     myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
     const fetch_req = "save-lint-entries";
     const end_url = '-route';
-    const full_url = base_url + fetch_req + end_url;
+    const full_url =  + fetch_req + end_url;
     //this is a list of objects
     const bodyData = JSON.stringify({lineupData: this.state._all_lineups});
     fetch(full_url, {
