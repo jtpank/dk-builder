@@ -616,6 +616,8 @@ class groupContestDataRoute(Resource):
             del lineup['util_3']
             del lineup['util_4']
             del lineup['util_5']
+        
+        print(entry_obj_list)
         try:
             data =  {
                 "message": "return message",

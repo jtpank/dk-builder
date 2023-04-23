@@ -15,10 +15,6 @@ class Groups extends React.Component {
       }
     render() {
         Chart.register(CategoryScale);
-        let testMap = new Map();
-        testMap.set("item1", 10);
-        testMap.set("item2", 20);
-        testMap.set("item3", 30);
         let captainMap = new Map();
         let entries = 0;
         if(this.props.groupEntryDataList)
