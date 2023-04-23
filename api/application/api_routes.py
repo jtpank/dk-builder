@@ -43,6 +43,7 @@ def parseEntryCsv(filename, listOfDicts, inputEmail):
                 #build the temp dict
                 #then append to listOfDicts
                 contestId_return = (int)(row['Contest ID'])
+                contestName_return = (str)(row['Contest Name'])
                 temp_dict = {
                     "email": inputEmail,
                     "entry_id": (int)( row['Entry ID']),
@@ -51,7 +52,7 @@ def parseEntryCsv(filename, listOfDicts, inputEmail):
                     "entry_fee": (float)(row['Entry Fee'][1:]),
                 }
                 listOfDicts.append(temp_dict)
-    return contestId_return, number_entries
+    return contestName_return, contestId_return, number_entries
 
 def parseSalaryCsv(filename, listOfDicts, contestID):
     # "contest_id": fields.Integer,
@@ -135,8 +136,6 @@ def lint_lineups(lineup_array):
         for i in range(len(name_array)):
             for j in range(i+1, len(name_array)):
                 if(name_array[i] == name_array[j]):
-                    print(name_array[i])
-                    print(name_array[j])
                     failure_dict[entry_id] = ["duplicate-name-error"]
         # check that salary does not exceed 50,000
         if(sum(salary_array) > 50000):
@@ -187,7 +186,6 @@ def parse_linted_lineups(failure_dict, lineup_array):
             else:
                 temp_dict["util_5"] = None
             good_lineups_array.append(temp_dict)
-            print("after update good lineup dict")
     return good_lineups_array
 
 def build_csv_entry_file(all_matching_contests, relPath):
@@ -195,12 +193,10 @@ def build_csv_entry_file(all_matching_contests, relPath):
     #2556787883,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,16430531,16430549,16430538,16430532,16430540,16430541,,
     _FIRST_LINE = "Entry ID,Contest Name,Contest ID,Entry Fee,CPT,UTIL,UTIL,UTIL,UTIL,UTIL,,Instructions"
     try:
-        print("trying to open file=")
         cwd = os.getcwd()
         path = cwd+relPath
         with open(path, "w+") as f:
             f.write(_FIRST_LINE+'\n')
-            print("wrote first line")
             for i in range(len(all_matching_contests)):
                 lineup = all_matching_contests[i]
                 line = ""
@@ -273,8 +269,6 @@ class salaries_route(Resource):
                 if db.session.query(Salary.id).filter_by(**k).first() is None:
                   t = Salary(**k)
                   db.session.add(t)
-                else:
-                    print("salary already exists!")
             db.session.commit()
             os.remove(fullPath)
             ret_data=  {
@@ -317,19 +311,18 @@ class entries_route(Resource):
             fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(fullPath)
             listOfDicts = []
-            contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts, inputEmail)
+            contestName_return, contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts, inputEmail)
             for k in listOfDicts:
                 if db.session.query(Entry.id).filter_by(**k).first() is None:
                   print(str(k))
                   t = Entry(**k)
                   db.session.add(t)
-                else:
-                    print("entry already exists!")
             db.session.commit()
             os.remove(fullPath)
             ret_data =  {
                 'message': 'Entry file uploaded and processed successfully', 
                 'contest_id': contestId_return,
+                'contest_name': contestName_return,
                 'num_entries': num_entries_return,
                 'entry_data': listOfDicts
                 }
@@ -364,7 +357,6 @@ class save_lint_entries_route(Resource):
             good_lineups = parse_linted_lineups(ret_failure_dict, lineup_array)
             #now save lineups. if lineup existst, overwrite it
             for k in good_lineups:
-                print(k['entry_id'])
                 data_entry = db.session.query(Entry).filter(
                         Entry.entry_id == k['entry_id']
                 ).first()
@@ -462,15 +454,14 @@ class downloadEntriesRoute(Resource):
         return data, 200
     @jwt_required
     def put(self):
-        print("current directory: ************")
-        print(os.getcwd())
+        # TODO: this may cause problems if multiple users
+        # attempt download simultaneously, should make unique filename for sesssion
         csv_filename = "download_DKEntries.csv"
         csv_path = app.config['DOWNLOAD_FOLDER']
         fullPath = os.path.join(csv_path, csv_filename)
         if os.path.exists(fullPath):
             os.remove(fullPath)
         try:
-            print("inside the try loop")
             contest_id_data = request.get_json()
             contest_id = contest_id_data['contest_id']
             all_matching_contests = db.session.query(Entry).filter(
@@ -485,10 +476,8 @@ class downloadEntriesRoute(Resource):
                     all_matching_contests_data.append(contest_data)
             build_csv_entry_file(all_matching_contests_data, fullPath)
             try:
-                print("try sending from dir")
                 myFullPath = os.getcwd() + csv_path
                 fileBlob = send_from_directory(myFullPath, csv_filename, as_attachment=True)
-                print("after file blob")
                 return fileBlob
             except FileNotFoundError:
                 abort(404)
@@ -501,18 +490,52 @@ class userContestDataRoute(Resource):
     def get(self):
         data = {'message': "user contest data get route"}
         return data, 200
+    @jwt_required()
     def put(self):
-        email_addr = 'jtpank34@gmail.com'
+        #need to lint
+        email_data = request.get_json()
+        email_addr = email_data['email']
         myquery = db.session.query(distinct(Entry.contest_name)).filter(Entry.email == email_addr).all()
+        contest_names = []
         if myquery is not None:
-            print(type(myquery))
-            print(type(myquery[0]))
+            contest_names = [row[0] for row in myquery]
         try:
-            print("inside the try user contest data loop")
-            return {"message": "return message"}, 200
+            data =  {
+                "message": "return message",
+                "contest_list": contest_names
+                }
+            return data, 200
         except Exception as e:
             return {'message': 'Failed to retrieve contest data: {}'.format(str(e))}, 500
 
+class groupContestDataRoute(Resource):
+    @jwt_required()
+    def get(self):
+        data = {'message': "groupContestDataRoute get route"}
+        return data, 200
+    def put(self):
+        contest_id_data = request.get_json()
+        contest_id = contest_id_data['contest_id']
+        #data in: 
+        # # {contestId: contest_id}
+        # return:
+        # [email1, email2, ... emailn]
+        # [
+        #   {entry dict...}
+        # ]
+        emailQuery = db.session.query(distinct(Entry.email)).filter(Entry.contest_id == contest_id).all()
+        email_list = []
+        if emailQuery is not None:
+            email_list = [row[0] for row in emailQuery]
+        try:
+            print("inside groupContestDataRoute loop")
+            data =  {
+                "message": "return message",
+                "email_list": email_list,
+                }
+            return data, 200
+        except Exception as e:
+            return {'message': 'Failed to retrieve groupContestDataRoute data: {}'.format(str(e))}, 500
 
 
 class index_class(Resource):
@@ -537,4 +560,5 @@ api.add_resource(signupRoute, '/api/signup')
 api.add_resource(save_lint_entries_route, '/api/save-lint-entries-route')
 api.add_resource(downloadEntriesRoute,'/api/download-entries-route')
 api.add_resource(userContestDataRoute, '/api/user-contests-route')
+api.add_resource(groupContestDataRoute, '/api/group-contests-route')
 # api.add_resource(exampleRoute, '/api/example')

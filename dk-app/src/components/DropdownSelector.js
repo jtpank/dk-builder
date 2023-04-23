@@ -31,7 +31,11 @@ class DropdownSelector extends React.Component {
       let options 
       if(Object.keys(this.props.playerDict).length > 0)
       {
-        options = this.props.playerDict.values.map((player) => (
+        options = this.props.playerDict.values.sort((a, b) => {
+          if (a.team_abbr < b.team_abbr) return -1;
+          if (a.team_abbr > b.team_abbr) return 1;
+          return b.salary - a.salary;
+        }).map((player) => (
           <option className='option-dropdown' key={player.player_id} value={player.player_name}>
             {player.player_name} | {player.salary} | {player.team_abbr}
           </option>

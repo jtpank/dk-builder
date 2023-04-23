@@ -41,7 +41,10 @@ class Groups extends React.Component {
                     <ul className="contest-list">
                         {this.props.allUserContestsList.map((item, index) => (
                         <div key={index}>
-                        <li>{item} <button>click me</button></li>
+                        <li>{item}</li>
+                        <button
+                        onClick={this.props.handleDisplayGroupsAndContestCharts}
+                        >Display Group Contest Charts</button>
                         </div>
                         ))}
                     </ul>

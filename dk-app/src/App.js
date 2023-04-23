@@ -30,6 +30,7 @@ class App extends React.Component {
      _disable_salaries_upload: false,
      _disable_entries_upload: false,
      _contestId: -1,
+     _contest_name: "",
      _all_user_contests_list: [],
      _cpt_salary_dict: {},
      _util_salary_dict: {},
@@ -56,6 +57,7 @@ class App extends React.Component {
     this.handleDownloadLineupCsv = this.handleDownloadLineupCsv.bind(this);
 
     this.handleDisplayContestData = this.handleDisplayContestData.bind(this);
+    this.handleDisplayGroupsAndContestCharts = this.handleDisplayGroupsAndContestCharts.bind(this);
   }
 
   handleCookiesUpdate(data) {
@@ -170,7 +172,7 @@ class App extends React.Component {
   handleUploadSuccess(fileType) {
     this.setState({ [`_${fileType}_uploaded`]: true , [`disable_${fileType}_uploaded`]: true});
   };
-  handleContestUpload(id, numEntries, entry_data){
+  handleContestUpload(contestName, id, numEntries, entry_data){
     let allLineups = [];
     let isCaptainSet = [];
     let isUtilitySet = [];
@@ -192,6 +194,7 @@ class App extends React.Component {
       isUtilitySet.push([false, false, false, false, false]);
     }
     this.setState({
+      _contest_name: contestName,
       _contestId: id,
       _num_entries: numEntries,
       _all_lineups: allLineups,
@@ -278,7 +281,7 @@ class App extends React.Component {
     myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
     let path = "user-contests-route";
     let full_url = base_url + path;
-    const bodyData = JSON.stringify({contest_id: this.state._contestId});
+    const bodyData = JSON.stringify({email: this.state._email});
     fetch(full_url, {
       method: 'PUT',
       headers: myHeaders,
@@ -293,6 +296,33 @@ class App extends React.Component {
       this.setState({
         _all_user_contests_list: data["contest_list"]
       })
+    }).catch(error => {
+        console.error(error);
+        alert(error.message);
+    });
+
+  }
+  handleDisplayGroupsAndContestCharts() {
+    console.log("handleDisplayGroupsAndContestCharts");
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append("Access-Control-Allow-Origin","*");
+    myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
+    let path = "group-contests-route";
+    let full_url = base_url + path;
+    const bodyData = JSON.stringify({contest_id: this.state._contestId});
+    fetch(full_url, {
+      method: 'PUT',
+      headers: myHeaders,
+      body: bodyData
+    }).then(response => {
+      if (!response.ok) {
+          throw new Error("HTTP status " + response.status + " bad request to user contests");
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data)
     }).catch(error => {
         console.error(error);
         alert(error.message);
@@ -341,7 +371,7 @@ class App extends React.Component {
               isCaptainSet={this.state._is_captain_set}
               handleSetEntryTableRowUtility={(val, lineupIndex, index) => this.handleSetEntryTableRowUtility(val, lineupIndex, index)}
               isUtilitySet={this.state._is_utility_set}
-              
+              contestName={this.state._contest_name}
               failureDict={this.state._failure_dict}
               
               handleDownloadLineupCsv={this.handleDownloadLineupCsv}
@@ -360,6 +390,7 @@ class App extends React.Component {
               <Groups
               handleDisplayContestData={this.handleDisplayContestData}
               allUserContestsList={this.state._all_user_contests_list}
+              handleDisplayGroupsAndContestCharts={this.handleDisplayGroupsAndContestCharts}
               _jwt={this.state._jwt}
               ></Groups>
             }/>

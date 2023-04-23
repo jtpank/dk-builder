@@ -22,26 +22,21 @@ class TeamBuilder extends React.Component {
         return (
         <div>
             <div>
-                <p>Team Builder Page -- Contest ID: {this.props.contestId} -- Number of Entries: {this.props.numEntries}</p>
+                <p>Team Builder Page -- Contest ID: {this.props.contestId} -- Contest Name: {this.props.contestName} -- Number of Entries: {this.props.numEntries}</p>
                 <p>{salaries_disp}</p>
                 <p>{entries_disp}</p>
             </div>
             <div>
             </div>
             <div>
-                {/* This is to be a fetch request to the server to lint (or do that browser side)
-                then it saves / overwriets with a post fetch request to the server for the
-                corresponding email-entry id combinations */}
                 <button
                 onClick={this.props.handleSaveLintLineups}
                 >Save and Lint Lineups</button>
             </div>
-            <div> 
-                {/* Probably easiest to make this browser side... 
-                Can only be performed AFTER save and linted*/}
+            <div>
                 <button
                 onClick={this.props.handleDownloadLineupCsv}
-                >TODO: Download Lineup CSV</button>
+                >Download Lineup CSV</button>
             </div>
             <div>
                 {/* Fetch get request to load current lineups 
@@ -55,6 +50,7 @@ class TeamBuilder extends React.Component {
             <EntryField
             key={"_entry_field_0"}
             numEntries={this.props.numEntries}
+            contestName={this.props.contestName}
             contestId={this.props.contestId}
             utilityDict={this.props.utilSalaryDict}
             captainDict={this.props.cptSalaryDict}
