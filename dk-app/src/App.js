@@ -13,7 +13,7 @@ import Login from './routes/Login';
 import Logout from './routes/Logout';
 import Signup from './routes/Signup';
 //Change baseurl here!
-//53e639dfe9e73b58cc2b09ddd4e0ca7831a1cf3d
+//TODO: Bug with multiple entreis that are different ** they are all grouped under 1 entries csv!
 const base_url = '/api/';
 class App extends React.Component {
   static propTypes = {
