@@ -85,8 +85,50 @@ class App extends React.Component {
   }
 
   handleDownloadLineupCsv(){
-    console.log("fire handle download")
-  }
+    const myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
+    const base_url = 'http://127.0.0.1:5000/api/';
+    const fetch_req = "download-entries";
+    const end_url = '-route';
+    // const filename = 'download_DKEntries.csv';
+    const full_url = base_url + fetch_req + end_url;
+    //this is a list of objects
+    const bodyData = JSON.stringify({contest_id: this.state._contestId});
+    fetch(full_url, {
+            method: 'PUT',
+            headers: myHeaders,
+            body: bodyData
+        }).then(response => {
+          console.log(response)
+          if (!response.ok) {
+              throw new Error("HTTP status " + response.status + " bad contestID or server error");
+          }
+          return response.blob();
+        })
+        .then(data => {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            // create a download link element
+            const link = document.createElement('a');
+            link.href = event.target.result;
+            // console.log(link.href)
+            // link.download = '/application/downloads/download_DKEntries.csv';
+            // add the link element to the DOM
+            document.body.appendChild(link);
+    
+            // trigger the download
+            link.click();
+    
+            // remove the link element from the DOM
+            document.body.removeChild(link);
+          };
+          reader.readAsDataURL(data);
+        }).catch(error => {
+            console.error(error);
+            alert(error.message);
+        });
+  };
 
  handleSaveLintLineups() {
     const myHeaders = new Headers();

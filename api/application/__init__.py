@@ -12,6 +12,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = CFG.SQLALCHEMY_DATABASE_URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['UPLOAD_FOLDER'] = CFG.UPLOAD_FOLDER
+    app.config['DOWNLOAD_FOLDER'] = CFG.DOWNLOAD_FOLDER
     app.config["JWT_SECRET_KEY"] = "adsf4235adfsg3%#$@sg5LPLPLA67@"
     app.secret_key = "sxasd342r2q345gasdg"
     db.init_app(app)

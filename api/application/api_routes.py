@@ -7,7 +7,7 @@ from flask_jwt_extended import JWTManager
 from werkzeug.security import check_password_hash
 from werkzeug.utils import secure_filename
 from flask_restful import reqparse, abort, Api, Resource, fields, marshal_with
-from flask import current_app, Blueprint
+from flask import current_app, Blueprint, send_file, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import exc, and_
 from .models import db
@@ -24,6 +24,7 @@ import json
 api_main = Blueprint('api', __name__, template_folder='templates')
 api = Api(api_main)
 app = current_app
+
 
 #auxiliary functions
 def parseEntryCsv(filename, listOfDicts, inputEmail):
@@ -189,6 +190,35 @@ def parse_linted_lineups(failure_dict, lineup_array):
             print("after update good lineup dict")
     return good_lineups_array
 
+def build_csv_entry_file(all_matching_contests, relPath):
+    #Entry ID,Contest Name,Contest ID,Entry Fee,CPT,UTIL,UTIL,UTIL,UTIL,UTIL,,Instructions
+    #2556787883,NBA Showdown $12.5K And-One (BKN vs LAL),103590221,$1,16430531,16430549,16430538,16430532,16430540,16430541,,
+    _FIRST_LINE = "Entry ID,Contest Name,Contest ID,Entry Fee,CPT,UTIL,UTIL,UTIL,UTIL,UTIL,,Instructions"
+    try:
+        print("trying to open file=")
+        cwd = os.getcwd()
+        path = cwd+relPath
+        with open(path, "w+") as f:
+            f.write(_FIRST_LINE+'\n')
+            print("wrote first line")
+            for i in range(len(all_matching_contests)):
+                lineup = all_matching_contests[i]
+                line = ""
+                line += str(lineup['entry_id']) + ','
+                line += str(lineup['contest_name']) + ','
+                line += str(lineup['contest_id']) + ','
+                line += '$'+str(lineup['entry_fee']) + ','
+                line += str(lineup['captain']) + ','
+                line += str(lineup['util_1']) + ','
+                line += str(lineup['util_2']) + ','
+                line += str(lineup['util_3']) + ','
+                line += str(lineup['util_4']) + ','
+                line += str(lineup['util_5']) + ','
+                line += ','
+                f.write(line+'\n')
+            f.close()
+    except Exception as e:
+        print(str(e))
 # end auxiliary functions
 
 #404 response if field not existent
@@ -281,13 +311,11 @@ class entries_route(Resource):
             json_str = email_str.read().decode('utf-8')
             data_dict = json.loads(json_str)
             inputEmail = data_dict['email']
-            print("line 284")
             if not file.filename.lower().endswith('.csv'):
                 return {'message': 'Invalid file format. Only CSV files are allowed.'}, 400
             filename = secure_filename(file.filename)
             fullPath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             file.save(fullPath)
-            print("line 290")
             listOfDicts = []
             contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts, inputEmail)
             for k in listOfDicts:
@@ -299,7 +327,6 @@ class entries_route(Resource):
                     print("entry already exists!")
             db.session.commit()
             os.remove(fullPath)
-            print("line 302")
             ret_data =  {
                 'message': 'Entry file uploaded and processed successfully', 
                 'contest_id': contestId_return,
@@ -431,9 +458,41 @@ class protectedRoute(Resource):
 class downloadEntriesRoute(Resource):
     @jwt_required()
     def get(self):
-        # Access the identity of the current user with get_jwt_identity
-        data = {'message': "download entries route"}
+        data = {'message': "download entries get route"}
         return data, 200
+    def put(self):
+        print("current directory: ************")
+        print(os.getcwd())
+        csv_filename = "download_DKEntries.csv"
+        csv_path = app.config['DOWNLOAD_FOLDER']
+        fullPath = os.path.join(csv_path, csv_filename)
+        if os.path.exists(fullPath):
+            os.remove(fullPath)
+        try:
+            print("inside the try loop")
+            contest_id_data = request.get_json()
+            contest_id = contest_id_data['contest_id']
+            all_matching_contests = db.session.query(Entry).filter(
+                            Entry.contest_id == contest_id
+                    ).all()
+            all_matching_contests_data = []
+            if(all_matching_contests is not None):
+                for contest in all_matching_contests:
+                    contest_data = contest.__dict__
+                    # Remove any internal keys
+                    contest_data.pop('_sa_instance_state', None)
+                    all_matching_contests_data.append(contest_data)
+            build_csv_entry_file(all_matching_contests_data, fullPath)
+            try:
+                print("try sending from dir")
+                myFullPath = os.getcwd() + csv_path
+                fileBlob = send_from_directory(myFullPath, csv_filename, as_attachment=True)
+                print("after file blob")
+                return fileBlob
+            except FileNotFoundError:
+                abort(404)
+        except Exception as e:
+            return {'message': 'Failed to build csv: {}'.format(str(e))}, 500
 
 class index_class(Resource):
     def get(self):
