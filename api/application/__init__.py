@@ -5,6 +5,7 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from config import Config as CFG
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 db = SQLAlchemy()
 def create_app():
@@ -24,6 +25,9 @@ def create_app():
         app.register_blueprint(routes.main_app_frontend)
         from . import api_routes
         app.register_blueprint(api_routes.api_main)
+        # app.wsgi_app = ProxyFix(
+        #     app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+        # )
         jwt = JWTManager(app)
         CORS(app, resources={r'/api/*': {"origins": "*"}}, methods=['GET', 'PUT', 'POST'])
         return app
