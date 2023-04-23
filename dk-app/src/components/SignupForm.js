@@ -20,7 +20,8 @@ class SignupForm extends React.Component {
     //async function loginUser(credentials)
     //  then fetch('/api/login) as a POST
     async signupUser(credentials) {
-        fetch('http://127.0.0.1:5000/api/signup', {
+        const base_url = 'http://127.0.0.1:8000/api/signup'
+        fetch(base_url, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'

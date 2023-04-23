@@ -20,7 +20,8 @@ class LoginForm extends React.Component {
     // loginUser and handleSubmit**
 
     async loginUser(credentials) {
-        return fetch('http://127.0.0.1:5000/api/login', {
+        const base_url = 'http://127.0.0.1:8000/api/login'
+        return fetch(base_url, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
