@@ -96,18 +96,20 @@ class App extends React.Component {
 
   handleDownloadLineupCsv(){
     const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
-    myHeaders.append("Access-Control-Allow-Origin","*");
-    myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Access-Control-Allow-Origin", "*");
+    myHeaders.append("Authorization", "Bearer " + this.state._jwt);
     const fetch_req = "download-entries-route"
     // const filename = 'download_DKEntries.csv';
     const full_url = base_url + fetch_req;
     //this is a list of objects
     const bodyData = JSON.stringify({contest_id: this.state._contestId});
+    console.log(bodyData)
     fetch(full_url, {
             method: 'PUT',
             headers: myHeaders,
-            body: bodyData
+            body: bodyData,
+            credentials: "same-origin",
         }).then(response => {
           console.log(response)
           if (!response.ok) {

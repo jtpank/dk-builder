@@ -382,7 +382,7 @@ class save_lint_entries_route(Resource):
 #User login and sign up routes + protected route example:
 class loginRoute(Resource):
     def get(self):
-        return {'get login' : 'this is the login get page'}
+        return {"get login" : "this is the login get page"}
     def put(self):
         data = request.json["credentials"]
         email = data.get("email", None)
@@ -451,10 +451,11 @@ class downloadEntriesRoute(Resource):
     def get(self):
         data = {'message': "download entries get route"}
         return data, 200
-    @jwt_required
+    #TODO: adding jwt_required() causes a typeerror function is not serializable
     def put(self):
         # TODO: this may cause problems if multiple users
         # attempt download simultaneously, should make unique filename for sesssion
+        print("line 458")
         csv_filename = "download_DKEntries.csv"
         csv_path = app.config['DOWNLOAD_FOLDER']
         fullPath = os.path.join(csv_path, csv_filename)
@@ -476,8 +477,7 @@ class downloadEntriesRoute(Resource):
             build_csv_entry_file(all_matching_contests_data, fullPath)
             try:
                 myFullPath = os.getcwd() + csv_path
-                fileBlob = send_from_directory(myFullPath, csv_filename, as_attachment=True)
-                return fileBlob
+                return send_from_directory(myFullPath, csv_filename, as_attachment=True)
             except FileNotFoundError:
                 abort(404)
         except Exception as e:
@@ -509,7 +509,7 @@ class userContestDataRoute(Resource):
                 }
             return data, 200
         except Exception as e:
-            return {'message': 'Failed to retrieve contest data: {}'.format(str(e))}, 500
+            return {"message": "Failed to retrieve contest data: {}".format(str(e))}, 500
 
 class groupContestDataRoute(Resource):
     @jwt_required()
