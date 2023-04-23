@@ -24,7 +24,7 @@ class SignupForm extends React.Component {
         fetch(base_url, {
                     method: 'PUT',
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                         "Access-Control-Allow-Origin" : "*"
                     },
                     body: JSON.stringify({credentials})
@@ -45,7 +45,7 @@ class SignupForm extends React.Component {
             return fetch(base_url_2, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                     "Access-Control-Allow-Origin" : "*"
                 },
                 body: JSON.stringify({credentials})
