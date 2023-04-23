@@ -547,6 +547,10 @@ class groupContestDataRoute(Resource):
                     contest_data.pop('_sa_instance_state', None)
                     entry_obj_list.append(contest_data)
         for lineup in entry_obj_list:
+            print("****************")
+            print("lineup: ")
+            print(lineup)
+            print("****************")
             #captain query
             contest_id_value = lineup['contest_id']
             lineup['_utility'] = []
@@ -616,8 +620,6 @@ class groupContestDataRoute(Resource):
             del lineup['util_3']
             del lineup['util_4']
             del lineup['util_5']
-        
-        print(entry_obj_list)
         try:
             data =  {
                 "message": "return message",
