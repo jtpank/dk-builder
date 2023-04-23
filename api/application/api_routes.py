@@ -266,7 +266,16 @@ class salaries_route(Resource):
 
             captain_and_utility_salary_dict = parseSalaryCsv(fullPath,listOfDicts, contest_id_number)
             for k in listOfDicts:
-                if db.session.query(Salary.id).filter_by(**k).first() is None:
+                # (Entry).filter(
+                #             Entry.contest_id == contest_id
+                #     )
+                # if db.session.query(Salary.id).filter_by(**k).first() is None:
+                #   t = Salary(**k)
+                #   db.session.add(t)
+                if db.session.query(Salary).filter_by(
+                    Salary.contest_id,
+                    Salary.player_id
+                ).first() is None:
                   t = Salary(**k)
                   db.session.add(t)
             db.session.commit()
