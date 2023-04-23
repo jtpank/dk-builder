@@ -272,12 +272,9 @@ class salaries_route(Resource):
                 # if db.session.query(Salary.id).filter_by(**k).first() is None:
                 #   t = Salary(**k)
                 #   db.session.add(t)
-                if db.session.query(Salary).filter_by(
-                    Salary.contest_id,
-                    Salary.player_id
-                ).first() is None:
-                  t = Salary(**k)
-                  db.session.add(t)
+                if db.session.query(Salary).filter_by(contest_id=k['contest_id'], player_id=k['player_id']).first() is None:
+                    t = Salary(**k)
+                    db.session.add(t)
             db.session.commit()
             os.remove(fullPath)
             ret_data=  {
