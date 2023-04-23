@@ -99,10 +99,9 @@ class App extends React.Component {
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append("Access-Control-Allow-Origin","*");
     myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
-    const fetch_req = "download-entries";
-    const end_url = '-route';
+    const fetch_req = "download-entries-route"
     // const filename = 'download_DKEntries.csv';
-    const full_url = base_url + fetch_req + end_url;
+    const full_url = base_url + fetch_req;
     //this is a list of objects
     const bodyData = JSON.stringify({contest_id: this.state._contestId});
     fetch(full_url, {
@@ -123,7 +122,7 @@ class App extends React.Component {
             const link = document.createElement('a');
             link.href = event.target.result;
             // console.log(link.href)
-            // link.download = '/application/downloads/download_DKEntries.csv';
+            link.download = '/application/downloads/download_DKEntries.csv';
             // add the link element to the DOM
             document.body.appendChild(link);
     
