@@ -41,7 +41,8 @@ class SignupForm extends React.Component {
                 _is_error: false,
                 _registered: true });
             }
-            return fetch('http://127.0.0.1:5000/api/login', {
+            const base_url_2 = 'http://127.0.0.1:8000/api/login'
+            return fetch(base_url_2, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
