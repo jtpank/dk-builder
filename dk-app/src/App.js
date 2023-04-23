@@ -98,7 +98,7 @@ class App extends React.Component {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("Access-Control-Allow-Origin", "*");
-    myHeaders.append("Authorization", "Bearer " + this.state._jwt);
+    // myHeaders.append("Authorization", "Bearer " + this.state._jwt);
     const fetch_req = "download-entries-route"
     // const filename = 'download_DKEntries.csv';
     const full_url = base_url + fetch_req;
@@ -109,7 +109,6 @@ class App extends React.Component {
             method: 'PUT',
             headers: myHeaders,
             body: bodyData,
-            credentials: "same-origin",
         }).then(response => {
           console.log(response)
           if (!response.ok) {
