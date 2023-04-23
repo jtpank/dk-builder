@@ -30,6 +30,7 @@ class App extends React.Component {
      _disable_salaries_upload: false,
      _disable_entries_upload: false,
      _contestId: -1,
+     _all_user_contests_list: [],
      _cpt_salary_dict: {},
      _util_salary_dict: {},
      _num_entries: -1,
@@ -271,7 +272,6 @@ class App extends React.Component {
 
   //Group lineup and stat display
   handleDisplayContestData(){
-    console.log("handleDisplay contest data");
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append("Access-Control-Allow-Origin","*");
@@ -284,14 +284,16 @@ class App extends React.Component {
       headers: myHeaders,
       body: bodyData
     }).then(response => {
-      console.log(response)
       if (!response.ok) {
           throw new Error("HTTP status " + response.status + " bad request to user contests");
       }
       return response.json();
     })
     .then(data => {
-      console.log(data);
+      console.log(data["contest_list"]);
+      this.setState({
+        _all_user_contests_list: data["contest_list"]
+      })
     }).catch(error => {
         console.error(error);
         alert(error.message);
@@ -358,6 +360,7 @@ class App extends React.Component {
             <Route path="/groups" element={
               <Groups
               handleDisplayContestData={this.handleDisplayContestData}
+              allUserContestsList={this.state._all_user_contests_list}
               _jwt={this.state._jwt}
               ></Groups>
             }/>

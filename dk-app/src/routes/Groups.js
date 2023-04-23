@@ -19,6 +19,13 @@ class Groups extends React.Component {
                     <p>Select Contest:</p>
                     <button onClick={this.props.handleDisplayContestData}>Find contests</button>
                 </div>
+                <div>
+                    <ul>
+                        {this.props.allUserContestsList.map((item, index) => (
+                        <li key={index}>{item}</li>
+                        ))}
+                    </ul>
+                </div>
             </div>
           
             <Outlet></Outlet>
