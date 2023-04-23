@@ -38,8 +38,8 @@ class Splash extends React.Component {
                                 </FileUpload>
                             </div>
                             <div>
-                            Download Entries from this link (select appropriate lineup):
-                                <a target="_blank" rel="noopener noreferrer" href="https://www.draftkings.com/mycontests">Get Entries Csv</a>
+                            Download Entries from this link (select appropriate lineup, after reserving!):
+                                <a target="_blank" rel="noopener noreferrer" href="https://www.draftkings.com/entry/upload">Get Entries Csv</a>
                             </div>
                         </div>
         if(this.props.isEntriesUploaded)
