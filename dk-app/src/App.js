@@ -103,7 +103,10 @@ class App extends React.Component {
     // const filename = 'download_DKEntries.csv';
     const full_url = base_url + fetch_req;
     //this is a list of objects
-    const bodyData = JSON.stringify({contest_id: this.state._contestId});
+    const bodyData = JSON.stringify({
+      contest_id: this.state._contestId,
+      email: this.state._email
+    });
     console.log(bodyData)
     fetch(full_url, {
             method: 'PUT',

@@ -472,8 +472,10 @@ class downloadEntriesRoute(Resource):
         try:
             contest_id_data = request.get_json()
             contest_id = contest_id_data['contest_id']
+            email_addr = contest_id_data['email']
             all_matching_contests = db.session.query(Entry).filter(
-                            Entry.contest_id == contest_id
+                            Entry.contest_id == contest_id,
+                            Entry.email == email_addr
                     ).all()
             all_matching_contests_data = []
             if(all_matching_contests is not None):
