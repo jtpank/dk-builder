@@ -147,7 +147,10 @@ class App extends React.Component {
     const fetch_req = "save-lint-entries-route";
     const full_url =  base_url + fetch_req;
     //this is a list of objects
-    const bodyData = JSON.stringify({lineupData: this.state._all_lineups});
+    const bodyData = JSON.stringify({
+      lineupData: this.state._all_lineups,
+      email: this.state._email
+    });
     fetch(full_url, {
             method: 'PUT',
             headers: myHeaders,

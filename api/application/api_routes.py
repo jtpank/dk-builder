@@ -364,6 +364,7 @@ class save_lint_entries_route(Resource):
             #now save lineups. if lineup existst, overwrite it
             for k in good_lineups:
                 data_entry = db.session.query(Entry).filter(
+                        Entry.email == k['email'],
                         Entry.entry_id == k['entry_id']
                 ).first()
                 if data_entry is not None:
