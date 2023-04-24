@@ -356,6 +356,7 @@ class save_lint_entries_route(Resource):
             #need to lint
             lineup_data = request.get_json()
             lineup_array = lineup_data['lineupData']
+            email_addr = lineup_data['email']
             if(len(lineup_array) == 0):
                 return {'message': 'Failed to save, all lineups are empty'}, 200
             ret_failure_dict = lint_lineups(lineup_array)
@@ -364,7 +365,7 @@ class save_lint_entries_route(Resource):
             #now save lineups. if lineup existst, overwrite it
             for k in good_lineups:
                 data_entry = db.session.query(Entry).filter(
-                        Entry.email == k['email'],
+                        Entry.email == email_addr,
                         Entry.entry_id == k['entry_id']
                 ).first()
                 if data_entry is not None:
