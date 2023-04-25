@@ -577,7 +577,7 @@ class groupContestDataRoute(Resource):
                     # Remove any internal keys
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
-                    lineup['captain'] = salary_data
+                        lineup['captain'] = salary_data
                     print(salary_data)
                     print("------------")
             if lineup['util_1'] != None:
