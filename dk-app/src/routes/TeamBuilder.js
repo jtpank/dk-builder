@@ -4,6 +4,7 @@ import EntryField from '../components/EntryField';
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { BarChart } from '../components/BarChart';
+import DropdownSelector from '../components/DropdownSelector';
 class TeamBuilder extends React.Component {
     constructor(props){
         super(props);
@@ -144,6 +145,27 @@ class TeamBuilder extends React.Component {
             <div>
                 Upload using this link:
                 <a target="_blank" rel="noopener noreferrer" href="https://www.draftkings.com/entry/upload">Entry Upload!</a>
+            </div>
+            <div>
+                <DropdownSelector className='captain-inline-block'
+                whichRow={"CPT"}
+                playerDict={this.props.playerDict}
+                handleSelectCaptain={this.props.handleSelectCaptain}
+                handleSetEntryTableRowCaptain={this.props.handleSetEntryTableRowCaptain}
+                lineupIndex={this.props.lineupIndex}
+                utilityId={this.props.utilityId}
+                ></DropdownSelector>
+            </div>
+            <div>
+                <DropdownSelector className='captain-inline-block'
+                whichRow={"UTIL"}
+                playerDict={this.props.playerDict}
+                handleSelectUtility={this.props.handleSelectUtility}
+                handleSetEntryTableRowUtility={this.props.handleSetEntryTableRowUtility}
+                isUtilitySet={this.props.isUtilitySet}
+                lineupIndex={this.props.lineupIndex}
+                utilityId={this.props.utilityId}
+                ></DropdownSelector>
             </div>
             <EntryField
             key={"_entry_field_0"}

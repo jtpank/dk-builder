@@ -4,7 +4,6 @@ class DropdownSelector extends React.Component {
     constructor(props) {
       super(props);
       this.handleChange = this.handleChange.bind(this);
-      // this.onChange = this.onChange.bind(this);
     }
     handleChange(event) {
       event.preventDefault();
