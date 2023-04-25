@@ -20,7 +20,6 @@ import numpy as np
 import ast
 from .models import Salary, SalarySchema, Entry, EntrySchema, Users, UserSchema
 import json
-
 api_main = Blueprint('api', __name__, template_folder='templates')
 api = Api(api_main)
 app = current_app
@@ -529,13 +528,6 @@ class groupContestDataRoute(Resource):
     def put(self):
         contest_id_data = request.get_json()
         contest_id = contest_id_data['contest_id']
-        #data in: 
-        # # {contestId: contest_id}
-        # return:
-        # [email1, email2, ... emailn]
-        # [
-        #   {entry dict...}
-        # ]
         #TODO: Clean up this repeated code....
         email_list = []
         entry_query_list = []
@@ -578,8 +570,8 @@ class groupContestDataRoute(Resource):
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
                         lineup['captain'] = salary_data
-                    print(salary_data)
-                    print("------------")
+            print(salary_data)
+            print("------------")
             if lineup['util_1'] != None:
                 salary_array_query = db.session.query(Salary).filter(
                     Salary.player_id == lineup['util_1'],

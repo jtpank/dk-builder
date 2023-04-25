@@ -5,6 +5,7 @@ from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from config import Config as CFG
+from datetime import timedelta
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 db = SQLAlchemy()
@@ -15,6 +16,7 @@ def create_app():
     app.config['UPLOAD_FOLDER'] = CFG.UPLOAD_FOLDER
     app.config['DOWNLOAD_FOLDER'] = CFG.DOWNLOAD_FOLDER
     app.config["JWT_SECRET_KEY"] = "adsf4235adfsg3%#$@sg5LPLPLA67@"
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=2)
     app.secret_key = "sxasd342r2q345gasdg"
     db.init_app(app)
 
