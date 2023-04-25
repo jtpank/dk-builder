@@ -554,7 +554,8 @@ class groupContestDataRoute(Resource):
                 for entry_row in entry_query_list:
                     contest_data = entry_row.__dict__
                     # Remove any internal keys
-                    contest_data.pop('_sa_instance_state', None)
+                    if '_sa_instance_state' in contest_data:
+                        contest_data.pop('_sa_instance_state', None)
                     entry_obj_list.append(contest_data)
         for lineup in entry_obj_list:
             print("****************")
