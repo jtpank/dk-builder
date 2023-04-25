@@ -575,7 +575,8 @@ class groupContestDataRoute(Resource):
                 if salary_array_query is not None:
                     salary_data = salary_array_query.__dict__
                     # Remove any internal keys
-                    salary_data.pop('_sa_instance_state', None)
+                    if '_sa_instance_state' in salary_data:
+                        salary_data.pop('_sa_instance_state', None)
                     lineup['captain'] = salary_data
                     print(salary_data)
                     print("------------")
@@ -587,7 +588,8 @@ class groupContestDataRoute(Resource):
                 if salary_array_query is not None:
                     salary_data = salary_array_query.__dict__
                     # Remove any internal keys
-                    salary_data.pop('_sa_instance_state', None)
+                    if '_sa_instance_state' in salary_data:
+                        salary_data.pop('_sa_instance_state', None)
                     lineup['_utility'].append(salary_data)
             if lineup['util_2'] != None:
                 salary_array_query = db.session.query(Salary).filter(
@@ -597,7 +599,8 @@ class groupContestDataRoute(Resource):
                 if salary_array_query is not None:
                     salary_data = salary_array_query.__dict__
                     # Remove any internal keys
-                    salary_data.pop('_sa_instance_state', None)
+                    if '_sa_instance_state' in salary_data:
+                        salary_data.pop('_sa_instance_state', None)
                     lineup['_utility'].append(salary_data)
             if lineup['util_3'] != None:
                 salary_array_query = db.session.query(Salary).filter(
@@ -607,7 +610,8 @@ class groupContestDataRoute(Resource):
                 if salary_array_query is not None:
                     salary_data = salary_array_query.__dict__
                     # Remove any internal keys
-                    salary_data.pop('_sa_instance_state', None)
+                    if '_sa_instance_state' in salary_data:
+                        salary_data.pop('_sa_instance_state', None)
                     lineup['_utility'].append(salary_data)
             if lineup['util_4'] != None:
                 salary_array_query = db.session.query(Salary).filter(
@@ -617,7 +621,8 @@ class groupContestDataRoute(Resource):
                 if salary_array_query is not None:
                     salary_data = salary_array_query.__dict__
                     # Remove any internal keys
-                    salary_data.pop('_sa_instance_state', None)
+                    if '_sa_instance_state' in salary_data:
+                        salary_data.pop('_sa_instance_state', None)
                     lineup['_utility'].append(salary_data)
             if lineup['util_5'] != None:
                 salary_array_query = db.session.query(Salary).filter(
@@ -627,7 +632,8 @@ class groupContestDataRoute(Resource):
                 if salary_array_query is not None:
                     salary_data = salary_array_query.__dict__
                     # Remove any internal keys
-                    salary_data.pop('_sa_instance_state', None)
+                    if '_sa_instance_state' in salary_data:
+                        salary_data.pop('_sa_instance_state', None)
                     lineup['_utility'].append(salary_data)
             del lineup['util_1']
             del lineup['util_2']
