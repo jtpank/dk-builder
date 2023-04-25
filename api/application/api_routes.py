@@ -590,7 +590,8 @@ class groupContestDataRoute(Resource):
                     # Remove any internal keys
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
-                    lineup['_utility'].append(salary_data)
+                        lineup['_utility'].append(salary_data)
+                        del lineup['util_1']
             if lineup['util_2'] != None:
                 salary_array_query = db.session.query(Salary).filter(
                     Salary.player_id == lineup['util_2'],
@@ -635,7 +636,7 @@ class groupContestDataRoute(Resource):
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
                     lineup['_utility'].append(salary_data)
-            del lineup['util_1']
+
             del lineup['util_2']
             del lineup['util_3']
             del lineup['util_4']
