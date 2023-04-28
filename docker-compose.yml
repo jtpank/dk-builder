@@ -1,0 +1,44 @@
+services:
+
+  dk-app:
+    image: node:18-alpine
+    command: sh -c "npm install && npm start"
+    ports:
+      - 3000:3000
+    working_dir: /dk-builder/dk-app
+    volumes:
+      - ./:/dk-builder
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: passworD12345!
+      MYSQL_DB: dk_builder
+
+  dk-api:
+    image: python:3.7-alpine
+    ports:
+      - 5000:5000
+    working_dir: /dk-builder/api
+    command: "python3 app.py"
+    volumes:
+      - ./:/dk-builder
+    depends_on:
+      - requirements-install
+
+  requirements-install:
+    image: python:3.7-alpine
+    working_dir: /dk-builder/api
+    volumes:
+      - ./:/dk-builder
+    command: sh -c "apk update && apk add build-base && apk add mariadb-dev && python3 -m pip install --upgrade pip && pip3 install -r requirements.txt"
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - dk-builder-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: passworD12345!
+      MYSQL_DATABASE: dk_builder
+
+volumes:
+  dk-builder-data:
