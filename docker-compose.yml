@@ -30,7 +30,7 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - dk-builder-data:/var/lib/mysqls
+      - dk-builder-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: passworD12345!
       MYSQL_DATABASE: dk_builder
