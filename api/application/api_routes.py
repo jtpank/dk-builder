@@ -16,7 +16,6 @@ import os
 import subprocess
 import csv
 import time
-import numpy as np
 import ast
 from .models import Salary, SalarySchema, Entry, EntrySchema, Users, UserSchema
 import json
