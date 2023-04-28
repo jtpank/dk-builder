@@ -8,34 +8,29 @@ services:
     working_dir: /dk-builder/dk-app
     volumes:
       - ./:/dk-builder
-    environment:
-      MYSQL_HOST: mysql
-      MYSQL_USER: root
-      MYSQL_PASSWORD: passworD12345!
-      MYSQL_DB: dk_builder
 
   dk-api:
-    image: python:3.7-alpine
+    image: python:3.10-alpine
     ports:
       - 5000:5000
     working_dir: /dk-builder/api
-    command: "python3 app.py"
+    environment:
+      - PIP_ROOT_USER_ACTION=ignore
+    command: sh -c "apk update && apk add mariadb-dev && apk add build-base && python3 -m pip install --upgrade pip && pip3 install -r requirements.txt && python3 app.py"
     volumes:
       - ./:/dk-builder
-    depends_on:
-      - requirements-install
-
-  requirements-install:
-    image: python:3.7-alpine
-    working_dir: /dk-builder/api
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DB: dk_builder
+  
+  db:
+    image: mysql:latest
+    ports:
+      - 3306:3306
     volumes:
-      - ./:/dk-builder
-    command: sh -c "apk update && apk add build-base && apk add mariadb-dev && python3 -m pip install --upgrade pip && pip3 install -r requirements.txt"
-
-  mysql:
-    image: mysql:8.0
-    volumes:
-      - dk-builder-data:/var/lib/mysql
+      - dk-builder-data:/var/lib/mysqls
     environment:
       MYSQL_ROOT_PASSWORD: passworD12345!
       MYSQL_DATABASE: dk_builder
