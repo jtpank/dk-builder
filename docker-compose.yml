@@ -2,7 +2,7 @@ services:
 
   dk-app:
     image: node:18-alpine
-    command: sh -c "npm install && npm start"
+    command: sh -c "npm ci && npm install && npm start"
     ports:
       - 3000:3000
     working_dir: /dk-builder/dk-app
