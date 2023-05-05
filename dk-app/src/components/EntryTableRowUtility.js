@@ -12,10 +12,19 @@ class EntryTableRowUtility extends React.Component {
         {
             rows = <div>
             <p className='captain-inline-block'>Utility </p>
-            <button
+            <DropdownSelector className='captain-inline-block'
+            whichRow={"UTIL"}
+            playerDict={this.props.playerDict}
+            handleSelectUtility={this.props.handleSelectUtility}
+            handleSetEntryTableRowUtility={this.props.handleSetEntryTableRowUtility}
+            isUtilitySet={this.props.isUtilitySet}
+            lineupIndex={this.props.lineupIndex}
+            utilityId={this.props.utilityId}
+            ></DropdownSelector>
+            {/* <button
             onClick={()=> this.props.handleSetEntryTableRowUtility(true,  this.props.lineupIndex, this.props.utilityId-1)}>
                 Set Utility {this.props.utilityId}
-            </button>
+            </button> */}
 
             </div>
         }

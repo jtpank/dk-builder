@@ -146,7 +146,7 @@ class TeamBuilder extends React.Component {
                 Upload using this link:
                 <a target="_blank" rel="noopener noreferrer" href="https://www.draftkings.com/entry/upload">Entry Upload!</a>
             </div>
-            <div>
+            {/* <div>
                 <DropdownSelector className='captain-inline-block'
                 whichRow={"CPT"}
                 playerDict={this.props.playerDict}
@@ -166,7 +166,7 @@ class TeamBuilder extends React.Component {
                 lineupIndex={this.props.lineupIndex}
                 utilityId={this.props.utilityId}
                 ></DropdownSelector>
-            </div>
+            </div> */}
             <EntryField
             key={"_entry_field_0"}
             numEntries={this.props.numEntries}

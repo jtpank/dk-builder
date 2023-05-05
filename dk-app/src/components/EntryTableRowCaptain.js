@@ -13,11 +13,18 @@ class EntryTableRowCaptain extends React.Component {
         {
             rows = <div>
             <p className='captain-inline-block'>Captain </p>
-            <button
+            <DropdownSelector className='captain-inline-block'
+            whichRow={"CPT"}
+            playerDict={this.props.playerDict}
+            handleSelectCaptain={this.props.handleSelectCaptain}
+            handleSetEntryTableRowCaptain={this.props.handleSetEntryTableRowCaptain}
+            lineupIndex={this.props.lineupIndex}
+            utilityId={this.props.utilityId}
+            ></DropdownSelector>
+            {/* <button
             onClick={()=> this.props.handleSetEntryTableRowCaptain(true, this.props.lineupIndex)}
             >
-
-            </button>
+            </button> */}
             </div>
         }
         else
