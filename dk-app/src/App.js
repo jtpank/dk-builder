@@ -37,9 +37,10 @@ class App extends React.Component {
      _util_salary_dict: {},
      _num_entries: -1,
      _all_lineups: [],
-    _is_captain_set: [],
+     _is_captain_set: [],
      _is_utility_set: [],
      _failure_dict: {},
+     _duplicate_user_dict: {},
      _current_groups_email_list: [],
      _current_groups_entry_list_data: [],
 
@@ -167,7 +168,8 @@ class App extends React.Component {
         .then(data => {
           //  console.log(data.failureDict)
           this.setState({
-            _failure_dict: data.failure_dict
+            _failure_dict: data.failure_dict,
+            _duplicate_user_dict: data.duplicate_user_lineups_dict
           })
         }).catch(error => {
             console.error(error);
@@ -384,7 +386,7 @@ class App extends React.Component {
               isUtilitySet={this.state._is_utility_set}
               contestName={this.state._contest_name}
               failureDict={this.state._failure_dict}
-              
+              duplicateUserLineupsDict={this.state._duplicate_user_dict}
               handleDownloadLineupCsv={this.handleDownloadLineupCsv}
 
               _jwt={this.state._jwt}

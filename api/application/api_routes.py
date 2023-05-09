@@ -161,29 +161,24 @@ def find_duplicates_in_user_entries(lineup_array):
         lineup_array[l]['_utility'].sort()
     #range len(lineup_array)-1 because we dont need to compare the last lineup to itself
     n = len(lineup_array)
-    #temp dict for non-repeats
-    id_dict  = {}
     for l in range(0, n-1):
         entry_id = lineup_array[l]['_entry_id']
         captain = lineup_array[l]['_captain']
         utilityArray = lineup_array[l]['_utility']
         #likewise range(l+1,n-2) because we dont need to compare the first lineup to itself
-        for j in range(l+1, n):
+        for j in range(0, n):
             j_entry_id = lineup_array[j]['_entry_id']
             j_captain = lineup_array[j]['_captain']
             j_utilityArray = lineup_array[j]['_utility']
             #if the captains are the same
-            if(j_captain == captain):
+            if(j_captain == captain and j != l):
                 #now compare lineups
                 if(j_utilityArray == utilityArray):
-                    #insert into id dict list
-                    if entry_id not in id_dict:
                         #insert into duplicate dict list
                         if entry_id not in duplicate_dict:
                             duplicate_dict[entry_id] = [j_entry_id]
                         else:
                             duplicate_dict[entry_id].append(j_entry_id)
-                        id_dict[j_entry_id] = 1
     return duplicate_dict
 
 def parse_linted_lineups(failure_dict, lineup_array):
@@ -416,7 +411,7 @@ class save_lint_entries_route(Resource):
             ret_data =  {
                 'message': 'Succesfully checked and saved your lineups!',
                 'failure_dict': ret_failure_dict,
-                'duplicate_user_lineups': duplicate_lineups
+                'duplicate_user_lineups_dict': duplicate_lineups
             }
             return ret_data, 200
         except Exception as e:

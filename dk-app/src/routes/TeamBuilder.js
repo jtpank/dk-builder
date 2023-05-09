@@ -160,6 +160,7 @@ class TeamBuilder extends React.Component {
             handleSetEntryTableRowUtility={this.props.handleSetEntryTableRowUtility}
             isUtilitySet={this.props.isUtilitySet}
             failureDict={this.props.failureDict}
+            duplicateUserLineupsDict={this.PROPS.duplicateUserLineupsDict}
             ></EntryField>
             <div>
             </div>
