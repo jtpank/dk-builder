@@ -43,7 +43,7 @@ class App extends React.Component {
      _duplicate_user_dict: {},
      _current_groups_email_list: [],
      _current_groups_entry_list_data: [],
-     _current_groups_duplicate_list: [],
+     _current_groups_duplicate_dict: [],
     }
     this.handleCookiesUpdate = this.handleCookiesUpdate.bind(this);
     this.handleCookiesDelete = this.handleCookiesDelete.bind(this);
@@ -335,7 +335,7 @@ class App extends React.Component {
       this.setState({
         _current_groups_entry_list_data: data['entry_obj_list'],
         _current_groups_email_list: data['email_list'],
-        _current_groups_duplicate_list: data['group_duplicate_list']
+        _current_groups_duplicate_dict: data['group_duplicate_obj_dict']
       })
     }).catch(error => {
         console.error(error);
@@ -404,7 +404,7 @@ class App extends React.Component {
               <Groups
               groupEmailList={this.state._current_groups_email_list}
               groupEntryDataList={this.state._current_groups_entry_list_data}
-              groupDuplicateList={this.state._current_groups_duplicate_list}
+              groupDuplicateDict={this.state._current_groups_duplicate_dict}
               handleDisplayContestData={this.handleDisplayContestData}
               allUserContestsList={this.state._all_user_contests_list}
               handleDisplayGroupsAndContestCharts={this.handleDisplayGroupsAndContestCharts}

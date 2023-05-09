@@ -146,6 +146,7 @@ class Groups extends React.Component {
                 </div>
                 <div>
                     Duplicates in group:
+                    
                     <ul>
                     dupes
                     </ul>

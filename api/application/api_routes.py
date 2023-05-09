@@ -207,10 +207,12 @@ def find_duplicates_in_valid_group_entries(entry_list):
                 if(j_utilityArray == utilityArray):
                         #insert into duplicate dict list
                         if entry_id not in duplicate_dict:
-                            entry_pair = [entry_id, j_entry_id]
+                            dupe_tuble = (j_email, j_entry_id)
+                            entry_pair = [entry_id, dupe_tuble]
                             duplicate_dict[email] = [entry_pair]
                         else:
-                            entry_pair = [entry_id, j_entry_id]
+                            dupe_tuble = (j_email, j_entry_id)
+                            entry_pair = [entry_id, dupe_tuble]
                             duplicate_dict[email].append(entry_pair)
     return duplicate_dict
     return
@@ -697,14 +699,14 @@ class groupContestDataRoute(Resource):
                         salary_data.pop('_sa_instance_state', None)
                         lineup['utility'].append(salary_data)
                         del lineup['util_5']
-        group_duplicate_obj_list = []
-        group_duplicate_obj_list = find_duplicates_in_valid_group_entries(entry_obj_list)
+        group_duplicate_obj_dict = {}
+        group_duplicate_obj_dict = find_duplicates_in_valid_group_entries(entry_obj_list)
         try:
             data =  {
                 "message": "return message",
                 "email_list": email_list,
                 "entry_obj_list": entry_obj_list,
-                "group_duplicate_list": group_duplicate_obj_list
+                "group_duplicate_obj_dict": group_duplicate_obj_dict
                 }
             return data, 200
         except Exception as e:
