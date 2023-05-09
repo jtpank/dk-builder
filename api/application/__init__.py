@@ -7,7 +7,10 @@ from flask_cors import CORS
 from config import Config as CFG
 from datetime import timedelta
 from werkzeug.middleware.proxy_fix import ProxyFix
-
+#note if insalling manually:
+# pip install mysqlclient (mix os/ python 3)
+# otherwise:
+# python3 -m pip install package
 db = SQLAlchemy()
 def create_app():
     app = Flask(__name__, static_url_path='/static')
