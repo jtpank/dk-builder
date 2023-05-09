@@ -144,6 +144,12 @@ class Groups extends React.Component {
                     ))}
                     </ul>
                 </div>
+                <div>
+                    Duplicates in group:
+                    <ul>
+                    dupes
+                    </ul>
+                </div>
                 <div className='bar-chart-style'>
                     <BarChart
                     chartData={captainData}

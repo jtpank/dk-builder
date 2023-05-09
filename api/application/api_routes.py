@@ -663,12 +663,13 @@ class groupContestDataRoute(Resource):
                         salary_data.pop('_sa_instance_state', None)
                         lineup['_utility'].append(salary_data)
                         del lineup['util_5']
-
+        group_duplicate_obj_list = []
         try:
             data =  {
                 "message": "return message",
                 "email_list": email_list,
                 "entry_obj_list": entry_obj_list,
+                "group_duplicate_list": group_duplicate_obj_list
                 }
             return data, 200
         except Exception as e:
