@@ -151,6 +151,41 @@ def lint_lineups(lineup_array):
             failure_dict[entry_id] = ["all-empty"]
     return failure_dict
 
+def find_duplicates_in_user_entries(lineup_array):
+    #This function compares all lineups for duplicate lineups
+    #runs O(n^2) can't really improve it
+    #returns the duplicate dict which contains the {entry_id : [entry_dup1, entry_dup2, ...], ...}
+    duplicate_dict = {}
+    for l in range(0, len(lineup_array)):
+        #sort the utility array
+        lineup_array[l]['_utility'].sort()
+    #range len(lineup_array)-1 because we dont need to compare the last lineup to itself
+    n = len(lineup_array)
+    #temp dict for non-repeats
+    id_dict  = {}
+    for l in range(0, n-1):
+        entry_id = lineup_array[l]['_entry_id']
+        captain = lineup_array[l]['_captain']
+        utilityArray = lineup_array[l]['_utility']
+        #likewise range(l+1,n-2) because we dont need to compare the first lineup to itself
+        for j in range(l+1, n):
+            j_entry_id = lineup_array[j]['_entry_id']
+            j_captain = lineup_array[j]['_captain']
+            j_utilityArray = lineup_array[j]['_utility']
+            #if the captains are the same
+            if(j_captain == captain):
+                #now compare lineups
+                if(j_utilityArray == utilityArray):
+                    #insert into id dict list
+                    if entry_id not in id_dict:
+                        #insert into duplicate dict list
+                        if entry_id not in duplicate_dict:
+                            duplicate_dict[entry_id] = [j_entry_id]
+                        else:
+                            duplicate_dict[entry_id].append(j_entry_id)
+                        id_dict[j_entry_id] = 1
+    return duplicate_dict
+
 def parse_linted_lineups(failure_dict, lineup_array):
     good_lineups_array = []
     for i in range(0, len(lineup_array)):
@@ -358,6 +393,7 @@ class save_lint_entries_route(Resource):
             if(len(lineup_array) == 0):
                 return {'message': 'Failed to save, all lineups are empty'}, 200
             ret_failure_dict = lint_lineups(lineup_array)
+            duplicate_lineups = find_duplicates_in_user_entries(lineup_array)
             #makes a post request with all the lineups that had NO failures
             good_lineups = parse_linted_lineups(ret_failure_dict, lineup_array)
             #now save lineups. if lineup existst, overwrite it
@@ -379,7 +415,8 @@ class save_lint_entries_route(Resource):
             db.session.commit()
             ret_data =  {
                 'message': 'Succesfully checked and saved your lineups!',
-                'failure_dict': ret_failure_dict 
+                'failure_dict': ret_failure_dict,
+                'duplicate_user_lineups': duplicate_lineups
             }
             return ret_data, 200
         except Exception as e:
