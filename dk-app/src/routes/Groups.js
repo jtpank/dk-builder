@@ -106,6 +106,9 @@ class Groups extends React.Component {
                 }
             }
         }
+        // Sort array by value of key-value pair
+        console.log(typeof(totalPlayerMap))
+        // totalPlayerMap.sort((a, b) => Object.values(a)[0] - Object.values(b)[0]);
         const utilityData =
         {
             labels: [...totalPlayerMap.keys()], 
