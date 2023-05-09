@@ -182,6 +182,37 @@ def find_duplicates_in_user_entries(lineup_array):
     return duplicate_dict
 
 def find_duplicates_in_valid_group_entries(entry_list):
+    #This function compares all lineups for duplicate lineups
+    #runs O(n^2) can't really improve it
+    duplicate_dict = {}
+    for l in range(0, len(entry_list)):
+        #sort the utility array
+        entry_list[l]['utility'].sort(key=lambda x: x.player_name)
+    #range len(lineup_array)-1 because we dont need to compare the last lineup to itself
+    n = len(entry_list)
+    for l in range(0, n-1):
+        entry_id = entry_list[l]['entry_id']
+        captain = entry_list[l]['captain']
+        utilityArray = entry_list[l]['utility']
+        email = entry_list[l]['email']
+        #likewise range(l+1,n-2) because we dont need to compare the first lineup to itself
+        for j in range(0, n):
+            j_entry_id = entry_list[j]['entry_id']
+            j_captain = entry_list[j]['captain']
+            j_utilityArray = entry_list[j]['utility']
+            j_email = entry_list[j]['email']
+            #if the captains are the same
+            if(j_captain == captain and j != l):
+                #now compare lineups
+                if(j_utilityArray == utilityArray):
+                        #insert into duplicate dict list
+                        if entry_id not in duplicate_dict:
+                            entry_pair = [entry_id, j_entry_id]
+                            duplicate_dict[email] = [entry_pair]
+                        else:
+                            entry_pair = [entry_id, j_entry_id]
+                            duplicate_dict[email].append(entry_pair)
+    return duplicate_dict
     return
 
 def parse_linted_lineups(failure_dict, lineup_array):
@@ -590,8 +621,8 @@ class groupContestDataRoute(Resource):
             print("****************")
             #captain query
             contest_id_value = lineup['contest_id']
-            lineup['_utility'] = []
-            #add key _utility which is array of objects
+            lineup['utility'] = []
+            #add key utility which is array of objects
             if lineup['captain'] != None:
                 salary_array_query = db.session.query(Salary).filter(
                     Salary.player_id == lineup['captain'],
@@ -616,7 +647,7 @@ class groupContestDataRoute(Resource):
                     # Remove any internal keys
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
-                        lineup['_utility'].append(salary_data)
+                        lineup['utility'].append(salary_data)
                         del lineup['util_1']
             if lineup['util_2'] != None:
                 salary_array_query = db.session.query(Salary).filter(
@@ -628,7 +659,7 @@ class groupContestDataRoute(Resource):
                     # Remove any internal keys
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
-                        lineup['_utility'].append(salary_data)
+                        lineup['utility'].append(salary_data)
                         del lineup['util_2']
             if lineup['util_3'] != None:
                 salary_array_query = db.session.query(Salary).filter(
@@ -640,7 +671,7 @@ class groupContestDataRoute(Resource):
                     # Remove any internal keys
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
-                        lineup['_utility'].append(salary_data)
+                        lineup['utility'].append(salary_data)
                         del lineup['util_3']
             if lineup['util_4'] != None:
                 salary_array_query = db.session.query(Salary).filter(
@@ -652,7 +683,7 @@ class groupContestDataRoute(Resource):
                     # Remove any internal keys
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
-                        lineup['_utility'].append(salary_data)
+                        lineup['utility'].append(salary_data)
                         del lineup['util_4']
             if lineup['util_5'] != None:
                 salary_array_query = db.session.query(Salary).filter(
@@ -664,7 +695,7 @@ class groupContestDataRoute(Resource):
                     # Remove any internal keys
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
-                        lineup['_utility'].append(salary_data)
+                        lineup['utility'].append(salary_data)
                         del lineup['util_5']
         group_duplicate_obj_list = []
         group_duplicate_obj_list = find_duplicates_in_valid_group_entries(entry_obj_list)

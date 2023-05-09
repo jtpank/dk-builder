@@ -60,9 +60,9 @@ class Groups extends React.Component {
                 const lineup = this.props.groupEntryDataList[i];
                 if(lineup)
                 {
-                        if(lineup._utility)
+                        if(lineup.utility)
                         {
-                            const utilArray = lineup._utility;
+                            const utilArray = lineup.utility;
                             for(let j = 0; j < utilArray.length; ++j)
                             {
                                 const utilPlayer = utilArray[j];
@@ -83,9 +83,9 @@ class Groups extends React.Component {
                                 }
                             }
                         }
-                        if(lineup._captain)
+                        if(lineup.captain)
                         {
-                            const captain = this.props.allLineups[i]._captain;
+                            const captain = this.props.groupEntryDataList[i].captain;
                             if(captain != null && Object.keys(captain).length !== 0)  // captain is not empty and not null
                             {
                                 if(captain.player_name != null)  //player name not null
