@@ -181,6 +181,9 @@ def find_duplicates_in_user_entries(lineup_array):
                             duplicate_dict[entry_id].append(j_entry_id)
     return duplicate_dict
 
+def find_duplicates_in_valid_group_entries(entry_list):
+    return
+
 def parse_linted_lineups(failure_dict, lineup_array):
     good_lineups_array = []
     for i in range(0, len(lineup_array)):
@@ -664,6 +667,7 @@ class groupContestDataRoute(Resource):
                         lineup['_utility'].append(salary_data)
                         del lineup['util_5']
         group_duplicate_obj_list = []
+        group_duplicate_obj_list = find_duplicates_in_valid_group_entries(entry_obj_list)
         try:
             data =  {
                 "message": "return message",
