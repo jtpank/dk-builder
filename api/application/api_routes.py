@@ -162,9 +162,18 @@ def check_valid_format(lineup):
             return False
     return True
 
+def check_valid_format_groups(lineup):
+    if not lineup['entry_id']:
+        return False
+    if not lineup['captain'] or not lineup['captain']['player_name']:
+        return False
+    currList =  lineup['utility']
+    for obj in currList:
+        if not bool(obj):
+            return False
+    return True
 
 def find_duplicates_in_user_entries(lineup_array):
-    print("inside find dupe user lineups")
     #This function compares all lineups for duplicate lineups
     #runs O(n^2) can't really improve it
     #returns the duplicate dict which contains the {entry_id : [entry_dup1, entry_dup2, ...], ...}
@@ -179,25 +188,16 @@ def find_duplicates_in_user_entries(lineup_array):
                 hasEmptyObject = True
                 break
         if not hasEmptyObject:
-            print("stuff")
             lineup_array[l]['_utility'] = sorted(lineup_array[l]['_utility'], key=lambda x: x["player_name"])
     #range len(lineup_array)-1 because we dont need to compare the last lineup to itself
     n = len(lineup_array)
-    print("177")
     for l in range(0, n-1):
-        #TODO:
-        #could be bug, if no captain OR utility!
-        print("181")
         if check_valid_format(lineup_array[l]):
             entry_id = lineup_array[l]['_entry_id']
             captain = lineup_array[l]['_captain']['player_name']
             utilityArray = lineup_array[l]['_utility']
             #likewise range(l+1,n-2) because we dont need to compare the first lineup to itself
-            print("184")
             for j in range(0, n):
-                #TODO:
-                #could be bug, if no captain OR utility!
-                print("188")
                 if check_valid_format(lineup_array[j]):
                     j_entry_id = lineup_array[j]['_entry_id']
                     j_captain = lineup_array[j]['_captain']['player_name']
@@ -205,7 +205,6 @@ def find_duplicates_in_user_entries(lineup_array):
                     #if the captains are the same
                     if(j_captain == captain and j != l):
                         #now compare lineups
-                        print("195")
                         if(j_utilityArray == utilityArray):
                                 #insert into duplicate dict list
                                 if entry_id not in duplicate_dict:
@@ -217,38 +216,51 @@ def find_duplicates_in_user_entries(lineup_array):
 def find_duplicates_in_valid_group_entries(entry_list):
     #This function compares all lineups for duplicate lineups
     #runs O(n^2) can't really improve it
+    #returns the duplicate dict which contains the {entry_id : [entry_dup1, entry_dup2, ...], ...}
+    print("**********************************")
     duplicate_dict = {}
     for l in range(0, len(entry_list)):
         #sort the utility array
-        entry_list[l]['utility'].sort(key=lambda x: x.player_name)
+        #lineup_array[l]['_utility'].sort(key=lambda x: x.player_name)
+        hasEmptyObject = False
+        print(entry_list[l])
+        print("**********************************")
+        currList =  entry_list[l]['utility']
+        for obj in currList:
+            if not bool(obj):
+                hasEmptyObject = True
+                break
+        if not hasEmptyObject:
+            entry_list[l]['utility'] = sorted(entry_list[l]['utility'], key=lambda x: x["player_name"])
     #range len(lineup_array)-1 because we dont need to compare the last lineup to itself
     n = len(entry_list)
     for l in range(0, n-1):
-        entry_id = entry_list[l]['entry_id']
-        captain = entry_list[l]['captain']
-        utilityArray = entry_list[l]['utility']
-        email = entry_list[l]['email']
-        #likewise range(l+1,n-2) because we dont need to compare the first lineup to itself
-        for j in range(0, n):
-            j_entry_id = entry_list[j]['entry_id']
-            j_captain = entry_list[j]['captain']
-            j_utilityArray = entry_list[j]['utility']
-            j_email = entry_list[j]['email']
-            #if the captains are the same
-            if(j_captain == captain and j != l):
-                #now compare lineups
-                if(j_utilityArray == utilityArray):
-                        #insert into duplicate dict list
-                        if entry_id not in duplicate_dict:
-                            dupe_tuble = (j_email, j_entry_id)
-                            entry_pair = [entry_id, dupe_tuble]
-                            duplicate_dict[email] = [entry_pair]
-                        else:
-                            dupe_tuble = (j_email, j_entry_id)
-                            entry_pair = [entry_id, dupe_tuble]
-                            duplicate_dict[email].append(entry_pair)
+        if check_valid_format_groups(entry_list[l]):
+            entry_id = entry_list[l]['entry_id']
+            captain = entry_list[l]['captain']['player_name']
+            utilityArray = entry_list[l]['utility']
+            email = entry_list[l]['email']
+            #likewise range(l+1,n-2) because we dont need to compare the first lineup to itself
+            for j in range(0, n):
+                if check_valid_format_groups(entry_list[j]):
+                    j_entry_id = entry_list[j]['entry_id']
+                    j_captain = entry_list[j]['captain']['player_name']
+                    j_utilityArray = entry_list[j]['utility']
+                    j_email = entry_list[j]['email']
+                    #if the captains are the same
+                    if(j_captain == captain and j != l):
+                        #now compare lineups
+                        if(j_utilityArray == utilityArray):
+                            #insert into duplicate dict list
+                            if entry_id not in duplicate_dict:
+                                dupe_tuble = (j_email, j_entry_id)
+                                entry_pair = [entry_id, dupe_tuble]
+                                duplicate_dict[email] = [entry_pair]
+                            else:
+                                dupe_tuble = (j_email, j_entry_id)
+                                entry_pair = [entry_id, dupe_tuble]
+                                duplicate_dict[email].append(entry_pair)
     return duplicate_dict
-    return
 
 def parse_linted_lineups(failure_dict, lineup_array):
     good_lineups_array = []
@@ -653,10 +665,6 @@ class groupContestDataRoute(Resource):
                         contest_data.pop('_sa_instance_state', None)
                     entry_obj_list.append(contest_data)
         for lineup in entry_obj_list:
-            print("****************")
-            print("lineup: ")
-            print(lineup)
-            print("****************")
             #captain query
             contest_id_value = lineup['contest_id']
             lineup['utility'] = []
@@ -673,7 +681,6 @@ class groupContestDataRoute(Resource):
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
                         lineup['captain'] = salary_data
-            print(salary_data)
             print("------------")
             if lineup['util_1'] != None:
                 salary_array_query = db.session.query(Salary).filter(
