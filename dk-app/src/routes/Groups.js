@@ -122,9 +122,28 @@ class Groups extends React.Component {
         // {Object.keys(this.props.groupDuplicateDict).forEach(k => (
         //     <li key={k}>{k} has dupes with {this.props.groupDuplicateDict[k]}</li>
         // ))}
-        for(const key in this.props.groupDuplicateDict)
+        // {'jtpank34@gmail.com': {2926446416: [{'vik@gmail.com': 2927486019}], 2926446834: [{'vik@gmail.com': 2927487356}]}, 'vik@gmail.com': {2927486019: [{'jtpank34@gmail.com': 2926446416}], 2927487356: [{'jtpank34@gmail.com': 2926446834}]}}
+        let dupe_rows = [];
+        for(const email in this.props.groupDuplicateDict)
         {
-            console.log(`Key: ${key}, Value: ${this.props.groupDuplicateDict[key]}`);
+            let li_row;
+            let curr_lineup_id_dict = this.props.groupDuplicateDict[email];
+            for(const lineup_id in curr_lineup_id_dict)
+            {
+                // Map the objects into strings of the form "email, value"
+                const stringList = curr_lineup_id_dict[lineup_id].map(obj => {
+                    const email = Object.keys(obj)[0];
+                    const value = obj[email];
+                    return `${email}, ${value}`;
+                });
+                const result = stringList.join(' | ');
+                li_row = <li key={lineup_id}>
+                    User: {email} has dupes at lineup: {lineup_id} with: {result}
+                </li>
+            }
+
+
+            dupe_rows.push(li_row);
         }
         return (
         <div>
@@ -157,7 +176,7 @@ class Groups extends React.Component {
                 <div>
                     Duplicates in group:
                     <ul>
-                    
+                    {dupe_rows}
                     </ul>
                 </div>
                 <div className='bar-chart-style'>

@@ -249,14 +249,20 @@ def find_duplicates_in_valid_group_entries(entry_list):
                         #now compare lineups
                         if(j_utilityArray == utilityArray):
                             #insert into duplicate dict list
-                            if entry_id not in duplicate_dict:
-                                dupe_tuble = (j_email, j_entry_id)
-                                entry_pair = [entry_id, dupe_tuble]
-                                duplicate_dict[email] = [entry_pair]
+                            if email not in duplicate_dict:
+                                entry_id_dict= { entry_id : [{j_email : j_entry_id}]}
+                                duplicate_dict[email] = entry_id_dict
                             else:
-                                dupe_tuble = (j_email, j_entry_id)
-                                entry_pair = [entry_id, dupe_tuble]
-                                duplicate_dict[email].append(entry_pair)
+                                if entry_id not in duplicate_dict[email]:
+                                    # dupe_tuble = (j_email, j_entry_id)
+                                    # entry_pair = [entry_id, dupe_tuble]
+                                    entry_id_dict= [{j_email : j_entry_id}]
+                                    duplicate_dict[email][entry_id] = entry_id_dict
+                                else:
+                                    # dupe_tuble = (j_email, j_entry_id)
+                                    # entry_pair = [entry_id, dupe_tuble]
+                                    entry_pair_dict = {j_email : j_entry_id}
+                                    duplicate_dict[email][entry_id].append(entry_pair_dict)
     return duplicate_dict
 
 def parse_linted_lineups(failure_dict, lineup_array):
@@ -737,6 +743,7 @@ class groupContestDataRoute(Resource):
                         del lineup['util_5']
         group_duplicate_obj_dict = {}
         group_duplicate_obj_dict = find_duplicates_in_valid_group_entries(entry_obj_list)
+        print(group_duplicate_obj_dict)
         try:
             data =  {
                 "message": "return message",
