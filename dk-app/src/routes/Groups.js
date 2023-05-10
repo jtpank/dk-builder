@@ -119,7 +119,13 @@ class Groups extends React.Component {
             }
             ]
         }
-        console.log(this.props.groupDuplicateDict)
+        // {Object.keys(this.props.groupDuplicateDict).forEach(k => (
+        //     <li key={k}>{k} has dupes with {this.props.groupDuplicateDict[k]}</li>
+        // ))}
+        for(const key in this.props.groupDuplicateDict)
+        {
+            console.log(`Key: ${key}, Value: ${this.props.groupDuplicateDict[key]}`);
+        }
         return (
         <div>
             <div>
@@ -151,9 +157,7 @@ class Groups extends React.Component {
                 <div>
                     Duplicates in group:
                     <ul>
-                    {Object.keys(this.props.groupDuplicateDict).forEach(k => (
-                        <li key={k}>{k} has dupes with {this.props.groupDuplicateDict[k]}</li>
-                    ))}
+                    
                     </ul>
                 </div>
                 <div className='bar-chart-style'>
