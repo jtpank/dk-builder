@@ -186,7 +186,7 @@ class App extends React.Component {
     let allLineups = [];
     let isCaptainSet = [];
     let isUtilitySet = [];
-    //create dummy lineups
+    // make a fetch request, if contests show up for the contest, then populate. other wise make dummy entries
     for (let i = 0; i < numEntries; ++i) {
       let obj =   {
         _entry_id: entry_data[i]['entry_id'],
@@ -198,7 +198,37 @@ class App extends React.Component {
           {}, 
           {}
         ]
-  }
+      }
+    //   const myHeaders = new Headers();
+    //   myHeaders.append('Content-Type', 'application/json');
+    //   myHeaders.append("Access-Control-Allow-Origin","*");
+    //   myHeaders.append('Authorization', 'Bearer ' + this.state._jwt);
+    //   let path = "load-saved-entries-route";
+    //   let full_url = base_url + path;
+    //   const bodyData = JSON.stringify({
+    //     email: this.state._email,
+    //     entry_id: entry_data[i]['entry_id']
+    //   });
+    //   let data = await fetch(full_url, {
+    //     method: 'PUT',
+    //     headers: myHeaders,
+    //     body: bodyData
+    //   }).then(response => {
+    //     if (!response.ok) {
+    //         throw new Error("HTTP status " + response.status + " bad request to user contests");
+    //     }
+    //     return response.json();
+    //   })
+    //   .then(data => {
+    //     // this.setState({
+    //     //   _all_user_contests_list: data["contest_list"]
+    //     // })
+    //     return data;
+    //   }).catch(error => {
+    //       console.error(error);
+    //       alert(error.message);
+    //   });
+    //   console.log(data);
       allLineups.push({...obj});
       isCaptainSet.push(false);
       isUtilitySet.push([false, false, false, false, false]);

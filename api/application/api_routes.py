@@ -395,12 +395,6 @@ class salaries_route(Resource):
 
             captain_and_utility_salary_dict = parseSalaryCsv(fullPath,listOfDicts, contest_id_number)
             for k in listOfDicts:
-                # (Entry).filter(
-                #             Entry.contest_id == contest_id
-                #     )
-                # if db.session.query(Salary.id).filter_by(**k).first() is None:
-                #   t = Salary(**k)
-                #   db.session.add(t)
                 if db.session.query(Salary).filter_by(contest_id=k['contest_id'], player_id=k['player_id']).first() is None:
                     t = Salary(**k)
                     db.session.add(t)
@@ -519,6 +513,31 @@ class save_lint_entries_route(Resource):
             return ret_data, 200
         except Exception as e:
             return {'message': 'Failed to check and save your lineups: {}'.format(str(e))}, 500
+
+class load_saved_entries_route(Resource):
+    @jwt_required()
+    def get(self):
+        data = {"hit load save entries" : "route"}
+        return data, 200
+    @jwt_required()
+    def put(self):
+        try:
+            saved_entry_dict = {}
+            # for k in listOfDicts:
+            #     if db.session.query(Salary).filter_by(contest_id=k['contest_id'], player_id=k['player_id']).first() is None:
+            #         t = Salary(**k)
+            #         db.session.add(t)
+            # db.session.commit()
+            ret_data=  {
+                'message': 'loaded all save entries',
+                'saved_entry_dict': saved_entry_dict
+                }
+            return ret_data, 200
+        except Exception as e:
+            return {'message': 'Failed to load saved_entry_dict: {}'.format(str(e))}, 500
+    @jwt_required()
+    def delete(self):
+        return '', 204
 
 #User login and sign up routes + protected route example:
 class loginRoute(Resource):
@@ -731,4 +750,5 @@ api.add_resource(save_lint_entries_route, '/api/save-lint-entries-route')
 api.add_resource(downloadEntriesRoute,'/api/download-entries-route')
 api.add_resource(userContestDataRoute, '/api/user-contests-route')
 api.add_resource(groupContestDataRoute, '/api/group-contests-route')
+api.add_resource(load_saved_entries_route, '/api/load-saved-entries-route')
 # api.add_resource(exampleRoute, '/api/example')
