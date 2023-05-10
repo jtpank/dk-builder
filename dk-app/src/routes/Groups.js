@@ -119,6 +119,7 @@ class Groups extends React.Component {
             }
             ]
         }
+        console.log(this.props.groupDuplicateDict)
         return (
         <div>
             <div>
