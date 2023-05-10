@@ -691,18 +691,6 @@ class groupContestDataRoute(Resource):
                 #add key utility which is array of objects
                 cpt = handle_lineup_groups(lineup['captain'], contest_id_value)
                 lineup['captain'] = cpt
-                # if lineup['captain'] != None:
-                #     salary_array_query = db.session.query(Salary).filter(
-                #         Salary.player_id == lineup['captain'],
-                #         Salary.contest_id == contest_id_value
-                #         ).first()
-                #     if salary_array_query is not None:
-                #         salary_data = salary_array_query.__dict__
-                #         # Remove any internal keys
-                #         if salary_data is not None:
-                #             if '_sa_instance_state' in salary_data:
-                #                 salary_data.pop('_sa_instance_state', None)
-                #                 lineup['captain'] = salary_data
                 l_1 = handle_lineup_groups(lineup['util_1'], contest_id_value)
                 l_2 = handle_lineup_groups(lineup['util_2'], contest_id_value)
                 l_3 = handle_lineup_groups(lineup['util_3'], contest_id_value)
@@ -714,15 +702,15 @@ class groupContestDataRoute(Resource):
                 lineup['utility'].append(l_4)
                 lineup['utility'].append(l_5)
                 
-        # group_duplicate_obj_dict = {}
-        # group_duplicate_obj_dict = find_duplicates_in_valid_group_entries(entry_obj_list)
-        # print("line 722")
+        group_duplicate_obj_dict = {}
+        group_duplicate_obj_dict = find_duplicates_in_valid_group_entries(entry_obj_list)
+        print(group_duplicate_obj_dict)
         try:
             data =  {
                 "message": "return message",
                 "email_list": email_list,
                 "entry_obj_list": entry_obj_list,
-                # "group_duplicate_obj_dict": group_duplicate_obj_dict
+                "group_duplicate_obj_dict": group_duplicate_obj_dict
                 }
             return data, 200
         except Exception as e:
