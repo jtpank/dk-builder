@@ -217,14 +217,11 @@ def find_duplicates_in_valid_group_entries(entry_list):
     #This function compares all lineups for duplicate lineups
     #runs O(n^2) can't really improve it
     #returns the duplicate dict which contains the {entry_id : [entry_dup1, entry_dup2, ...], ...}
-    print("**********************************")
     duplicate_dict = {}
     for l in range(0, len(entry_list)):
         #sort the utility array
         #lineup_array[l]['_utility'].sort(key=lambda x: x.player_name)
         hasEmptyObject = False
-        print(entry_list[l])
-        print("**********************************")
         currList =  entry_list[l]['utility']
         for obj in currList:
             if not bool(obj):
@@ -429,7 +426,6 @@ class entries_route(Resource):
             contestName_return, contestId_return, num_entries_return = parseEntryCsv(fullPath,listOfDicts, inputEmail)
             for k in listOfDicts:
                 if db.session.query(Entry.id).filter_by(**k).first() is None:
-                  print(str(k))
                   t = Entry(**k)
                   db.session.add(t)
             db.session.commit()
@@ -577,7 +573,6 @@ class downloadEntriesRoute(Resource):
     def put(self):
         # TODO: this may cause problems if multiple users
         # attempt download simultaneously, should make unique filename for sesssion
-        print("line 458")
         csv_filename = "download_DKEntries.csv"
         csv_path = app.config['DOWNLOAD_FOLDER']
         fullPath = os.path.join(csv_path, csv_filename)
@@ -674,14 +669,12 @@ class groupContestDataRoute(Resource):
                     Salary.player_id == lineup['captain'],
                     Salary.contest_id == contest_id_value
                         ).first()
-                print("after captain query")
                 if salary_array_query is not None:
                     salary_data = salary_array_query.__dict__
                     # Remove any internal keys
                     if '_sa_instance_state' in salary_data:
                         salary_data.pop('_sa_instance_state', None)
                         lineup['captain'] = salary_data
-            print("------------")
             if lineup['util_1'] != None:
                 salary_array_query = db.session.query(Salary).filter(
                     Salary.player_id == lineup['util_1'],
