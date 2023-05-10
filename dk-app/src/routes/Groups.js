@@ -119,9 +119,7 @@ class Groups extends React.Component {
             }
             ]
         }
-        // {Object.keys(this.props.groupDuplicateDict).forEach(k => (
-        //     <li key={k}>{k} has dupes with {this.props.groupDuplicateDict[k]}</li>
-        // ))}
+       
         // {'jtpank34@gmail.com': {2926446416: [{'vik@gmail.com': 2927486019}], 2926446834: [{'vik@gmail.com': 2927487356}]}, 'vik@gmail.com': {2927486019: [{'jtpank34@gmail.com': 2926446416}], 2927487356: [{'jtpank34@gmail.com': 2926446834}]}}
         let dupe_rows = [];
         for(const email in this.props.groupDuplicateDict)

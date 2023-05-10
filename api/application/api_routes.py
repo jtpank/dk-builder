@@ -147,8 +147,8 @@ def lint_lineups(lineup_array):
                 failure_dict[entry_id].append("all-players-on-same-team-error")
             else:
                 failure_dict[entry_id] = ["all-players-on-same-team-error"]
-        if(all_empty):
-            failure_dict[entry_id] = ["all-empty"]
+        # if(all_empty):
+        #     failure_dict[entry_id] = ["all-empty"]
     return failure_dict
 
 def check_valid_format(lineup):
@@ -327,6 +327,23 @@ def build_csv_entry_file(all_matching_contests, relPath):
             f.close()
     except Exception as e:
         print(str(e))
+
+def handle_lineup_groups(lineup, contest_id_value):
+    if lineup != None:
+        salary_array_query = db.session.query(Salary).filter(
+            Salary.player_id == lineup,
+            Salary.contest_id == contest_id_value
+            ).first()
+        if salary_array_query is not None:
+            salary_data = salary_array_query.__dict__
+            # Remove any internal keys
+            if salary_data is not None:
+                if '_sa_instance_state' in salary_data:
+                    salary_data.pop('_sa_instance_state', None)
+                    return salary_data
+        else:
+            return None
+
 # end auxiliary functions
 
 #404 response if field not existent
@@ -597,7 +614,8 @@ class downloadEntriesRoute(Resource):
                 for contest in all_matching_contests:
                     contest_data = contest.__dict__
                     # Remove any internal keys
-                    contest_data.pop('_sa_instance_state', None)
+                    if '_sa_instance_state' in contest_data:
+                        contest_data.pop('_sa_instance_state', None)
                     all_matching_contests_data.append(contest_data)
             build_csv_entry_file(all_matching_contests_data, fullPath)
             try:
@@ -666,90 +684,45 @@ class groupContestDataRoute(Resource):
                         contest_data.pop('_sa_instance_state', None)
                     entry_obj_list.append(contest_data)
         for lineup in entry_obj_list:
-            #captain query
-            contest_id_value = lineup['contest_id']
-            lineup['utility'] = []
-            #add key utility which is array of objects
-            if lineup['captain'] != None:
-                salary_array_query = db.session.query(Salary).filter(
-                    Salary.player_id == lineup['captain'],
-                    Salary.contest_id == contest_id_value
-                        ).first()
-                if salary_array_query is not None:
-                    salary_data = salary_array_query.__dict__
-                    # Remove any internal keys
-                    if '_sa_instance_state' in salary_data:
-                        salary_data.pop('_sa_instance_state', None)
-                        lineup['captain'] = salary_data
-            if lineup['util_1'] != None:
-                salary_array_query = db.session.query(Salary).filter(
-                    Salary.player_id == lineup['util_1'],
-                    Salary.contest_id == contest_id_value
-                        ).first()
-                if salary_array_query is not None:
-                    salary_data = salary_array_query.__dict__
-                    # Remove any internal keys
-                    if '_sa_instance_state' in salary_data:
-                        salary_data.pop('_sa_instance_state', None)
-                        lineup['utility'].append(salary_data)
-                        del lineup['util_1']
-            if lineup['util_2'] != None:
-                salary_array_query = db.session.query(Salary).filter(
-                    Salary.player_id == lineup['util_2'],
-                    Salary.contest_id == contest_id_value
-                        ).first()
-                if salary_array_query is not None:
-                    salary_data = salary_array_query.__dict__
-                    # Remove any internal keys
-                    if '_sa_instance_state' in salary_data:
-                        salary_data.pop('_sa_instance_state', None)
-                        lineup['utility'].append(salary_data)
-                        del lineup['util_2']
-            if lineup['util_3'] != None:
-                salary_array_query = db.session.query(Salary).filter(
-                    Salary.player_id == lineup['util_3'],
-                    Salary.contest_id == contest_id_value
-                        ).first()
-                if salary_array_query is not None:
-                    salary_data = salary_array_query.__dict__
-                    # Remove any internal keys
-                    if '_sa_instance_state' in salary_data:
-                        salary_data.pop('_sa_instance_state', None)
-                        lineup['utility'].append(salary_data)
-                        del lineup['util_3']
-            if lineup['util_4'] != None:
-                salary_array_query = db.session.query(Salary).filter(
-                    Salary.player_id == lineup['util_4'],
-                    Salary.contest_id == contest_id_value
-                        ).first()
-                if salary_array_query is not None:
-                    salary_data = salary_array_query.__dict__
-                    # Remove any internal keys
-                    if '_sa_instance_state' in salary_data:
-                        salary_data.pop('_sa_instance_state', None)
-                        lineup['utility'].append(salary_data)
-                        del lineup['util_4']
-            if lineup['util_5'] != None:
-                salary_array_query = db.session.query(Salary).filter(
-                    Salary.player_id == lineup['util_5'],
-                    Salary.contest_id == contest_id_value
-                        ).first()
-                if salary_array_query is not None:
-                    salary_data = salary_array_query.__dict__
-                    # Remove any internal keys
-                    if '_sa_instance_state' in salary_data:
-                        salary_data.pop('_sa_instance_state', None)
-                        lineup['utility'].append(salary_data)
-                        del lineup['util_5']
-        group_duplicate_obj_dict = {}
-        group_duplicate_obj_dict = find_duplicates_in_valid_group_entries(entry_obj_list)
-        print(group_duplicate_obj_dict)
+            if lineup is not None:    
+                #captain query
+                contest_id_value = lineup['contest_id']
+                lineup['utility'] = []
+                #add key utility which is array of objects
+                cpt = handle_lineup_groups(lineup['captain'], contest_id_value)
+                lineup['captain'] = cpt
+                # if lineup['captain'] != None:
+                #     salary_array_query = db.session.query(Salary).filter(
+                #         Salary.player_id == lineup['captain'],
+                #         Salary.contest_id == contest_id_value
+                #         ).first()
+                #     if salary_array_query is not None:
+                #         salary_data = salary_array_query.__dict__
+                #         # Remove any internal keys
+                #         if salary_data is not None:
+                #             if '_sa_instance_state' in salary_data:
+                #                 salary_data.pop('_sa_instance_state', None)
+                #                 lineup['captain'] = salary_data
+                l_1 = handle_lineup_groups(lineup['util_1'], contest_id_value)
+                l_2 = handle_lineup_groups(lineup['util_2'], contest_id_value)
+                l_3 = handle_lineup_groups(lineup['util_3'], contest_id_value)
+                l_4 = handle_lineup_groups(lineup['util_4'], contest_id_value)
+                l_5 = handle_lineup_groups(lineup['util_5'], contest_id_value)
+                lineup['utility'].append(l_1)
+                lineup['utility'].append(l_2)
+                lineup['utility'].append(l_3)
+                lineup['utility'].append(l_4)
+                lineup['utility'].append(l_5)
+                
+        # group_duplicate_obj_dict = {}
+        # group_duplicate_obj_dict = find_duplicates_in_valid_group_entries(entry_obj_list)
+        # print("line 722")
         try:
             data =  {
                 "message": "return message",
                 "email_list": email_list,
                 "entry_obj_list": entry_obj_list,
-                "group_duplicate_obj_dict": group_duplicate_obj_dict
+                # "group_duplicate_obj_dict": group_duplicate_obj_dict
                 }
             return data, 200
         except Exception as e:
