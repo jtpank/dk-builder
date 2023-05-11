@@ -40,7 +40,6 @@ class Groups extends React.Component {
                 }
             }
         }
-
         const totalCaptainArray = [...captainMap.entries()];
         totalCaptainArray.sort((a, b) => b[1] - a[1]);
         const captainData =

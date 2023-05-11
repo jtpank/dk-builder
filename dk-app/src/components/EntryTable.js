@@ -34,6 +34,7 @@ class EntryTable extends React.Component {
                 entryNumber={this.props.lineup._entry_id}
                 tableIndex={this.props.tableIndex}
                 ></EntryTableRowHeader>
+                {rows}
                 <EntryTableRowCaptain
                 playerDict={this.props.captainDict}
                 handleSelectCaptain={this.props.handleSelectCaptain}
@@ -42,7 +43,6 @@ class EntryTable extends React.Component {
                 captain={this.props.lineup._captain}
                 lineupIndex={this.props.lineupIndex}
                 ></EntryTableRowCaptain>
-                {rows}
                 <EntryTableRowFooter
                 captain={this.props.lineup._captain}
                 utilityArray={this.props.lineup._utility}
