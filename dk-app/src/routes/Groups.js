@@ -106,16 +106,16 @@ class Groups extends React.Component {
                 }
             }
         }
-        // Sort array by value of key-value pair
-        console.log(typeof(totalPlayerMap))
         // totalPlayerMap.sort((a, b) => Object.values(a)[0] - Object.values(b)[0]);
+        const totalPlayerArray = [...totalPlayerMap.entries()];
+        totalPlayerArray.sort((a, b) => b[1] - a[1]);
         const utilityData =
         {
-            labels: [...totalPlayerMap.keys()], 
+            labels: totalPlayerArray.map(item => item[0]), 
             datasets: [
             {
                 label: "Percent Exposed ",
-                data: [...totalPlayerMap.values()].map(val => ((val/(entries))*100.0)),
+                data: totalPlayerArray.map(item => item[1]).map(val => ((val/(entries))*100.0)),
             }
             ]
         }
