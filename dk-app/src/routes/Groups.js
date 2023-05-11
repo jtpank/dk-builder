@@ -40,13 +40,16 @@ class Groups extends React.Component {
                 }
             }
         }
+
+        const totalCaptainArray = [...captainMap.entries()];
+        totalCaptainArray.sort((a, b) => b[1] - a[1]);
         const captainData =
         {
-            labels: [...captainMap.keys()], 
+            labels: totalCaptainArray.map(item => item[0]), 
             datasets: [
             {
                 label: "Percent Exposed ",
-                data: [...captainMap.values()].map(val =>  ((val/(entries))*100.0)),
+                data: totalCaptainArray.map(item => item[1]).map(val =>  ((val/(entries))*100.0)),
             }
             ]
         }
